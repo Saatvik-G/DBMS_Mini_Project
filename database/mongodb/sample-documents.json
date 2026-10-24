@@ -1,0 +1,907 @@
+[
+  {
+    "_id": "6ad99eea00bfb97bd8703950",
+    "document_type": "Witness statements",
+    "title": "Formal Sworn Statement of Valet Supervisor Pooja Kulkarni",
+    "content": "On Friday evening at approximately 21:15, a man dressed in a navy blazer identical to hotel valet staff approached the key podium while our team was busy handling a wedding banquet arrival. He requested the key fob for the navy BMW 530d parked in bay B-2, claiming the guest was departing early. He did not show a standard valet token, but had a printed vehicle dispatch slip. He entered the vehicle and drove toward Residency Road exit without turning headlights on immediately.",
+    "summary": "Valet supervisor details suspect in counterfeit uniform obtaining BMW 530d key fob during banquet rush.",
+    "source_type": "Field Interview",
+    "source_name": "Recorded Audio Transcript - CID Squad A",
+    "created_at": "2026-10-01T05:28:10.890000",
+    "ingested_at": "2026-10-01T07:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-004"
+      },
+      {
+        "entity_type": "vehicle",
+        "entity_id": "VEH-001"
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-001"
+      }
+    ],
+    "tags": [
+      "valet theft",
+      "blue sedan",
+      "hotel security",
+      "bmw 530d",
+      "sworn statement"
+    ],
+    "metadata": {
+      "witness_credibility": "High",
+      "interviewing_officer": "OFF-001",
+      "audio_recording_ref": "REC-2026-0491.flac",
+      "sworn_oath": true
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703951",
+    "document_type": "Witness statements",
+    "title": "Deposition of Telecom Splicer Farhan Khan Regarding Manhole MH-44",
+    "content": "I was dispatched for routine scheduled cable grooming near Golf Course Road on Tuesday morning. When opening Manhole MH-44, I immediately noticed the safety seals were cut and two fiber tubes (Buffer Tubes 3 and 4) had their outer Kevlar jackets slit open. A yellow jumper patch cord was connected into an unapproved 1x2 splitter box zip-tied to the cable tray. This configuration is not authorized in OpticCore engineering topologies.",
+    "summary": "Technician describes unauthorized optical splitter tapped into core banking trunk in MH-44.",
+    "source_type": "Formal Filing",
+    "source_name": "OpticCore Infrastructure Incident Ticket #OC-9921",
+    "created_at": "2026-10-12T05:28:10.890000",
+    "ingested_at": "2026-10-12T09:28:10.890000",
+    "case_id": "CASE-2026-003",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-008"
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-004"
+      },
+      {
+        "entity_type": "evidence",
+        "entity_id": "EVD-008"
+      }
+    ],
+    "tags": [
+      "fiber optic",
+      "wiretap",
+      "telecom sabotage",
+      "optical splitter",
+      "manhole"
+    ],
+    "metadata": {
+      "technical_severity": "Critical",
+      "fiber_loss_db": 3.8,
+      "affected_circuits": [
+        "SWIFT-RTGS-PRI-01",
+        "BSE-DIRECT-FEED"
+      ]
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703952",
+    "document_type": "Witness statements",
+    "title": "Bank Branch Manager Testimony on Forged Cashier Drafts",
+    "content": "On Monday afternoon at 14:10, an unknown male presented two cashier checks purporting to be drawn on the corporate payroll account of Fintech Nexa Capital Solutions. The paper felt noticeably thinner than genuine RBI security stock, and upon running the MICR line through our scanner, the checksum failed. When I requested second-factor identification, the individual abandoned the vouchers and left through the MG Road lobby.",
+    "summary": "Bank manager details presentation of fraudulent paper drafts and suspect departure upon challenge.",
+    "source_type": "Field Interview",
+    "source_name": "MG Road Station General Diary Entry #412",
+    "created_at": "2026-10-16T05:28:10.890000",
+    "ingested_at": "2026-10-16T04:28:10.890000",
+    "case_id": "CASE-2026-005",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-011"
+      },
+      {
+        "entity_type": "evidence",
+        "entity_id": "EVD-013"
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-008"
+      }
+    ],
+    "tags": [
+      "counterfeit",
+      "bank fraud",
+      "cashier check",
+      "fintech nexa"
+    ],
+    "metadata": {
+      "voucher_amount_inr": 2850000,
+      "micr_fault_code": "CHK_SUM_FAIL_09"
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703953",
+    "document_type": "Investigation notes",
+    "title": "Lead Investigator Field Notes: Peenya Industrial Workshop Raid",
+    "content": "Entry executed at 06:15 with 8 officers from Major Crimes. Workshop bay was locked from outside with heavy padlock. Inside, identified stolen BMW 530d (Navy Blue, original plate KA-01-MJ-8821 removed, displaying counterfeit plate KA-04-XX-0000). Chassis stamping area on driver's side firewall was covered in metal shavings and hydrochloric acid solution. Discovered hardened steel alphanumeric punch dies in lockbox under press.",
+    "summary": "Detailed field observations during tactical entry and vehicle recovery in Peenya chop shop.",
+    "source_type": "Internal CID Log",
+    "source_name": "Officer Rajesh Sharma Diary Book 3",
+    "created_at": "2026-10-18T05:28:10.890000",
+    "ingested_at": "2026-10-18T03:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-002"
+      },
+      {
+        "entity_type": "vehicle",
+        "entity_id": "VEH-001"
+      },
+      {
+        "entity_type": "evidence",
+        "entity_id": "EVD-003"
+      }
+    ],
+    "tags": [
+      "raid notes",
+      "vin cloning",
+      "blue sedan",
+      "peenya",
+      "bmw"
+    ],
+    "metadata": {
+      "team_size": 8,
+      "tactical_breach_time_sec": 45,
+      "weapons_drawn": false
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703954",
+    "document_type": "Investigation notes",
+    "title": "Cyber Forensic Notes: AWS Cloud Audit & Compromised Secrets",
+    "content": "Extracted AWS CloudTrail logs indicate account 'admin-nhegde' invoked GetSecretValue for secret ARN 'arn:aws:secretsmanager:ap-south-1:treasury-signer-key' at 02:44 UTC. Request IP originated from residential broadband subnet registered to Yeshwanthpur. The API session token did not exhibit normal browser user-agent signatures, confirming automated script execution via python-boto3.",
+    "summary": "Technical analysis of unauthorized cloud credential harvesting and Python automated invocation.",
+    "source_type": "Digital Forensic Extraction",
+    "source_name": "Cybercrime Lab Case File CC-2026-90",
+    "created_at": "2026-10-07T05:28:10.890000",
+    "ingested_at": "2026-10-07T01:28:10.890000",
+    "case_id": "CASE-2026-002",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-006"
+      },
+      {
+        "entity_type": "organization",
+        "entity_id": "ORG-002"
+      }
+    ],
+    "tags": [
+      "aws cloudtrail",
+      "api intrusion",
+      "cyber forensics",
+      "insider threat"
+    ],
+    "metadata": {
+      "ip_origin": "103.212.44.81",
+      "boto3_version": "1.34.12",
+      "arn_accessed": "treasury-signer-key"
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703955",
+    "document_type": "Investigation notes",
+    "title": "Tactical Debrief: Koramangala Safehouse Search Warrant Execution",
+    "content": "Warrant #SW-2026-44 executed at Flat 4B, Silver Heights. Suspect Karan Varma was awake in living room. Seized three encrypted smartphones, Autel IM608 diagnostic tablet, blank RFID transponder cards, 12 blank European smart key fobs, and 340,000 INR in physical currency notes. Suspect claimed he was merely a software contractor.",
+    "summary": "Inventory and situational debrief following warrant execution at primary suspect safehouse.",
+    "source_type": "Internal CID Log",
+    "source_name": "CID Tactical Operations Summary Report",
+    "created_at": "2026-10-17T05:28:10.890000",
+    "ingested_at": "2026-10-17T04:28:10.890000",
+    "case_id": "CASE-2026-006",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-001"
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-007"
+      },
+      {
+        "entity_type": "device",
+        "entity_id": "DEV-001"
+      }
+    ],
+    "tags": [
+      "safehouse raid",
+      "autel tablet",
+      "key programmer",
+      "search warrant"
+    ],
+    "metadata": {
+      "currency_seized_inr": 340000,
+      "blank_fobs_count": 12,
+      "miranda_read": true
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703956",
+    "document_type": "Social media posts",
+    "title": "OSINT Telegram Channel Export: 'Bangalore Fast Auto Classifieds'",
+    "content": "Posted in private channel @BlrAutoDirect: 'Fresh arrival. 2023 BMW 5-Series M-Sport, Imperial Blue, 8000 km, no hypothecation. Clean papers with NOC ready for transfer outside state. Cash only, inspection at Peenya after 10 PM. DM @ShadowRider88 for price. Serious buyers only.'",
+    "summary": "Telegram listing advertising recently stolen blue sedan at steep discount for quick cash sale.",
+    "source_type": "Public OSINT",
+    "source_name": "Telegram Scrape Archive #TG-4019",
+    "created_at": "2026-10-10T05:28:10.890000",
+    "ingested_at": "2026-10-10T15:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "vehicle",
+        "entity_id": "VEH-001"
+      },
+      {
+        "entity_type": "person",
+        "entity_id": "PER-001"
+      }
+    ],
+    "tags": [
+      "telegram osint",
+      "blue sedan",
+      "black market",
+      "bmw 530d",
+      "underground sale"
+    ],
+    "metadata": {
+      "telegram_channel": "@BlrAutoDirect",
+      "message_id": 4812,
+      "member_count": 1420
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703957",
+    "document_type": "Social media posts",
+    "title": "Forum Post on Darknet Vehicle Electronics Forum 'OBD-Masters'",
+    "content": "User 'DevByte_Blr' posted: 'Need decrypted firmware dump for 2022+ BMW BDC3 immobilizer module. Have working CAN-bus trace from live car. Willing to exchange for patched Autel 908 software loader. Contact via Session ID: 05c9a102...'",
+    "summary": "Underground automotive forum query seeking immobilizer cryptographic bypass matching seized CAN traces.",
+    "source_type": "Public OSINT",
+    "source_name": "Tor Onion Crawl - Darknet Archive 2026",
+    "created_at": "2026-09-27T05:28:10.890000",
+    "ingested_at": "2026-09-30T05:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-003"
+      },
+      {
+        "entity_type": "device",
+        "entity_id": "DEV-007"
+      }
+    ],
+    "tags": [
+      "darknet forum",
+      "can-bus",
+      "immobilizer",
+      "devendra joshi"
+    ],
+    "metadata": {
+      "onion_domain": "obdmaster77xj29.onion",
+      "threat_actor_alias": "DevByte_Blr"
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703958",
+    "document_type": "Chat exports",
+    "title": "Decrypted Signal Messenger Export: Varma & Joshi Coordination",
+    "content": "[2026-10-02 18:30:11] Varma: Is the transponder emulator flashed for the 5-series?\n[2026-10-02 18:32:45] Joshi: Yes, loaded the rolling-code seed from the hotel garage sniffer. Keep the antenna within 1 meter of the door handle.\n[2026-10-02 18:33:10] Varma: Good. As soon as the valet parks it, I will walk up in uniform. Sameer has the Peenya bay cleared and false plates ready.\n[2026-10-02 18:35:00] Joshi: Make sure you kill the factory GPS antenna under the rear sharkfin immediately.",
+    "summary": "Explicit coordination chat detailing key cloning, disguise, and Peenya garage routing.",
+    "source_type": "Digital Forensic Extraction",
+    "source_name": "Seized iPhone 14 Pro Max (EVD-011) Forensic Extraction",
+    "created_at": "2026-10-02T05:28:10.890000",
+    "ingested_at": "2026-10-17T11:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-001"
+      },
+      {
+        "entity_type": "person",
+        "entity_id": "PER-003"
+      },
+      {
+        "entity_type": "person",
+        "entity_id": "PER-005"
+      }
+    ],
+    "tags": [
+      "signal chat",
+      "wiretap evidence",
+      "conspiracy",
+      "blue sedan",
+      "peenya"
+    ],
+    "metadata": {
+      "encryption_protocol": "Signal Double Ratchet",
+      "extraction_tool": "Cellebrite Premium 2026"
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703959",
+    "document_type": "Chat exports",
+    "title": "Slack Internal Channel Dump: Fintech Nexa IT Security Emergency",
+    "content": "[03:12] Sneha Sen: Alert: High priority treasury webhook returned 401 Unauthorized for Batch #4401.\n[03:14] Naveen Hegde: Looking into it. Probably an automated AWS secret rotation hiccup. Do not page leadership yet.\n[03:22] Sneha Sen: Wait, outbound wire of 14.8M INR just authorized with YubiKey #3. Naveen, did you initiate this?\n[03:25] Naveen Hegde: Checking logs right now... System is slow.\n[03:30] Dr. Meera Nambiar (CFO): What is happening on the core ledger? Freeze all outbound gateways immediately!",
+    "summary": "Internal incident chat showing unauthorized wire transfer and attempts to delay alerting.",
+    "source_type": "Digital Forensic Extraction",
+    "source_name": "Corporate Slack Workspace Archive - Nexa Capital",
+    "created_at": "2026-10-04T05:28:10.890000",
+    "ingested_at": "2026-10-04T23:28:10.890000",
+    "case_id": "CASE-2026-002",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-002"
+      },
+      {
+        "entity_type": "person",
+        "entity_id": "PER-006"
+      },
+      {
+        "entity_type": "person",
+        "entity_id": "PER-009"
+      }
+    ],
+    "tags": [
+      "slack export",
+      "incident response",
+      "embezzlement",
+      "fintech nexa"
+    ],
+    "metadata": {
+      "channel_name": "#sec-incident-treasury",
+      "messages_exported": 58
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd870395a",
+    "document_type": "Image metadata",
+    "title": "EXIF & Camera Telemetry: Valet Podium Surveillance Still",
+    "content": "Image Frame #88210 extracted from Grand Azure Hotel CCTV Camera CAM-04 (H.265 / 4K). Depicts individual in faux valet uniform holding blue sedan key fob. Lighting conditions: ambient fluorescent 4000K. Distance to target: 4.8 meters. Aspect ratio: 16:9. Color grading matches navy vehicle exterior reflection.",
+    "summary": "Technical image analysis of CCTV still frame capturing suspect at hotel valet stand.",
+    "source_type": "Sensor Log",
+    "source_name": "Hikvision NVR Telemetry Extractor",
+    "created_at": "2026-10-01T03:28:10.890000",
+    "ingested_at": "2026-10-01T19:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-001"
+      },
+      {
+        "entity_type": "device",
+        "entity_id": "DEV-006"
+      }
+    ],
+    "tags": [
+      "exif metadata",
+      "cctv still",
+      "blue sedan",
+      "grand azure"
+    ],
+    "metadata": {
+      "resolution": "3840x2160",
+      "shutter_speed": "1/100s",
+      "focal_length": "4.2mm",
+      "lux_level": 48.2
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd870395b",
+    "document_type": "Image metadata",
+    "title": "High-Resolution Forensic Macro Photography: Tampered Stamping Firewall",
+    "content": "Macro photographic series (Nikon D850 with 105mm f/2.8 Micro Nikkor) documenting VIN stamping striations on recovered BMW 530d. Original stamping 'WBA530D...' shows circular abrasive tool markings beneath secondary electro-engraved counterfeit digits 'KA04...'. Tool mark depth variation indicates non-factory manual strike.",
+    "summary": "Forensic laboratory macro photo report demonstrating physical VIN alteration marks.",
+    "source_type": "Internal CID Log",
+    "source_name": "Forensic Science Laboratory (FSL) Photo Log",
+    "created_at": "2026-10-19T05:28:10.890000",
+    "ingested_at": "2026-10-19T11:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "vehicle",
+        "entity_id": "VEH-001"
+      },
+      {
+        "entity_type": "evidence",
+        "entity_id": "EVD-003"
+      }
+    ],
+    "tags": [
+      "macro photography",
+      "vin tampering",
+      "tool marks",
+      "fsl"
+    ],
+    "metadata": {
+      "magnification": "5x",
+      "lighting": "Oblique LED Ra 98",
+      "iso": 100
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd870395c",
+    "document_type": "CCTV metadata",
+    "title": "Automated Number Plate Recognition (ANPR) Checkpoint Telemetry",
+    "content": "Nelamangala Highway ANPR Camera Cluster 3 logged trigger at 23:44:12 UTC. Vehicle class: Luxury Sedan. Color signature: Dark Blue / Navy. Recognized plate: KA-04-XX-0000 (Confidence 98.4%). Cross-reference against Vahan National Vehicle Registry returned 'Plate Allocated to Agricultural Tractor Trailer', immediately tripping stolen vehicle alarm.",
+    "summary": "ANPR automated detection of forged plate mounted on luxury blue sedan fleeing city.",
+    "source_type": "Surveillance",
+    "source_name": "NH-48 Intelligent Traffic Management System (ITMS)",
+    "created_at": "2026-10-11T05:28:10.890000",
+    "ingested_at": "2026-10-11T04:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-005"
+      },
+      {
+        "entity_type": "vehicle",
+        "entity_id": "VEH-001"
+      }
+    ],
+    "tags": [
+      "anpr log",
+      "highway cctv",
+      "blue sedan",
+      "forged plate",
+      "traffic hit"
+    ],
+    "metadata": {
+      "speed_kmph": 118,
+      "lane": "Outbound Express 2",
+      "anpr_ocr_confidence": 0.984
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd870395d",
+    "document_type": "CCTV metadata",
+    "title": "Basement Ramp Surveillance Metadata: Grand Azure Hotel",
+    "content": "Metadata extract from Milestone XProtect VMS: Camera CAM-07 (Underground Parking Ramp Outbound). Motion event duration: 18 seconds. Vehicle detected exiting without headlights. Secondary vehicle (Silver Toyota Innova KA-04-EQ-4019) followed 22 seconds later in trail position.",
+    "summary": "Security camera metadata verifying target sedan followed by silver convoy support vehicle.",
+    "source_type": "Surveillance",
+    "source_name": "Milestone VMS Video Server #2",
+    "created_at": "2026-10-01T02:28:10.890000",
+    "ingested_at": "2026-10-01T21:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "vehicle",
+        "entity_id": "VEH-001"
+      },
+      {
+        "entity_type": "vehicle",
+        "entity_id": "VEH-002"
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-001"
+      }
+    ],
+    "tags": [
+      "cctv log",
+      "parking garage",
+      "convoy trail",
+      "blue sedan"
+    ],
+    "metadata": {
+      "vms_event_id": "EVT-88192-RAMP",
+      "motion_trigger": true,
+      "framerate_fps": 30
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd870395e",
+    "document_type": "PDF reports",
+    "title": "Comprehensive Digital Forensic Examination Report: ThinkPad X1",
+    "content": "Forensic Examiner Sunita Rao, CID Cyber Lab. Evidence Item EVD-005: 1TB Samsung PM981 NVMe drive. File system analysis revealed unallocated clusters containing Python scripts titled 'vault_drainer.py'. The script reads API keys from memory dumps of the Chromium browser process. Timestamps match the execution window of the unauthorized corporate wire diversion.",
+    "summary": "Official lab report detailing discovery of custom automated exfiltration scripts on suspect workstation.",
+    "source_type": "Formal Filing",
+    "source_name": "Forensic Science Laboratory Report #FSL-CYBER-2026-112",
+    "created_at": "2026-10-10T05:28:10.890000",
+    "ingested_at": "2026-10-10T09:28:10.890000",
+    "case_id": "CASE-2026-002",
+    "related_entity_ids": [
+      {
+        "entity_type": "evidence",
+        "entity_id": "EVD-005"
+      },
+      {
+        "entity_type": "officer",
+        "entity_id": "OFF-004"
+      }
+    ],
+    "tags": [
+      "forensic report",
+      "cyber crime",
+      "python script",
+      "fsl",
+      "pdf document"
+    ],
+    "metadata": {
+      "pdf_pages": 24,
+      "examiner": "Sunita Rao",
+      "court_admissible": true,
+      "checksum": "SHA256:d8a2..."
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd870395f",
+    "document_type": "PDF reports",
+    "title": "Vehicle Chassis Metallurgical Inspection Certificate",
+    "content": "State Automotive Testing Lab report on recovered vehicle chassis. Micro-hardness tests and chemical etching around the vehicle identification number confirmed that original factory stamped characters were mechanically abraded using a pneumatic carbide burr. Residual stress patterns reveal remnants of original VIN ending in '...8821'.",
+    "summary": "Engineering metallurgy report confirming mechanical VIN erasure and original registration match.",
+    "source_type": "Formal Filing",
+    "source_name": "Automotive Research & Forensic Certification Agency (ARFCA)",
+    "created_at": "2026-10-20T05:28:10.890000",
+    "ingested_at": "2026-10-20T19:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "vehicle",
+        "entity_id": "VEH-001"
+      },
+      {
+        "entity_type": "evidence",
+        "entity_id": "EVD-003"
+      }
+    ],
+    "tags": [
+      "metallurgy",
+      "vin verification",
+      "blue sedan",
+      "forensic report"
+    ],
+    "metadata": {
+      "lab_certificate_no": "MET-2026-091",
+      "hardness_hrc": 42.5
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703960",
+    "document_type": "Email archives",
+    "title": "Inter-Departmental Security Alert: Suspected Insider Wire Diversion",
+    "content": "From: meera.nambiar@nexacapital.demo\nTo: rajesh.sharma@fusion.gov.in, ananya.roy@fusion.gov.in\nSubject: Urgent: Unauthorized Treasury Outflow - Account #908812\nDate: 2026-10-05 06:30 IST\n\nDear Officers Sharma and Roy,\nFollowing our preliminary internal audit this morning, our core banking ledger reflects a batch of four automated RTGS payments totaling 14,800,000 INR dispatched between 02:45 and 03:15 AM. These payments were authenticated with our executive hardware tokens while our offices were closed. We request immediate freeze orders on the beneficiary clearing routes.",
+    "summary": "Initial notification email from corporate CFO requesting emergency law enforcement freeze on stolen funds.",
+    "source_type": "Email Archive",
+    "source_name": "Official Corporate Mail Exporter - Nexa",
+    "created_at": "2026-10-05T05:28:10.890000",
+    "ingested_at": "2026-10-05T04:28:10.890000",
+    "case_id": "CASE-2026-002",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-002"
+      },
+      {
+        "entity_type": "organization",
+        "entity_id": "ORG-002"
+      }
+    ],
+    "tags": [
+      "email alert",
+      "cfo report",
+      "fintech nexa",
+      "wire fraud"
+    ],
+    "metadata": {
+      "email_headers_verified": true,
+      "dkim_status": "Pass",
+      "priority": "Urgent"
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703961",
+    "document_type": "Email archives",
+    "title": "Customs Cargo Discrepancy Notice: Freight Container BHLU-982104",
+    "content": "From: customs.superintendent@whitefieldicd.gov.in\nTo: vikram.malhotra@fusion.gov.in\nSubject: Detention of 40ft Export Container - M/s Blue Horizon Logistics\n\nContainer BHLU-982104 declared as 'Industrial Nylon Gaskets' was scanned via portal mobile gamma-ray scanner. High-density component silhouettes do not correspond to polymer gaskets. Non-intrusive imaging shows high-grade circuit boards, oscilloscopes, and unpopulated BGA chips. Physical seal placed under Section 110.",
+    "summary": "Customs superintendent email alerting field team to intercepted container of contraband microelectronics.",
+    "source_type": "Email Archive",
+    "source_name": "Whitefield Customs Gateway Mail Spool",
+    "created_at": "2026-10-09T05:28:10.890000",
+    "ingested_at": "2026-10-09T02:28:10.890000",
+    "case_id": "CASE-2026-004",
+    "related_entity_ids": [
+      {
+        "entity_type": "organization",
+        "entity_id": "ORG-003"
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-006"
+      }
+    ],
+    "tags": [
+      "customs alert",
+      "container detention",
+      "whitefield icd",
+      "microelectronics"
+    ],
+    "metadata": {
+      "container_id": "BHLU-982104",
+      "seal_intact": true,
+      "scanner_type": "Gamma Portal"
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703962",
+    "document_type": "JSON API responses",
+    "title": "National Vahan Vehicle Registry API Query: KA-01-MJ-8821",
+    "content": "{\"query_status\": \"SUCCESS\", \"registration_no\": \"KA-01-MJ-8821\", \"vehicle_class\": \"MOTOR CAR (LMV)\", \"maker\": \"BMW INDIA PVT LTD\", \"model\": \"530D M SPORT AUTO\", \"fuel_type\": \"DIESEL\", \"color\": \"IMPERIAL BLUE METALLIC\", \"chassis_no_masked\": \"WBA530D20MXXXXXX\", \"engine_no_masked\": \"B57D30XXXXXX\", \"registered_owner\": \"Singhania Classic Holdings\", \"status\": \"FLAGGED_STOLEN\", \"stolen_alert_date\": \"2026-10-01T22:30:00Z\", \"rto\": \"KA-01 KORAMANGALA\"}",
+    "summary": "Official national vehicle portal API payload confirming stolen vehicle status and original registration parameters.",
+    "source_type": "Sensor Log",
+    "source_name": "Vahan National Vehicle Database Gateway",
+    "created_at": "2026-10-01T04:28:10.890000",
+    "ingested_at": "2026-10-01T06:28:10.890000",
+    "case_id": "CASE-2026-001",
+    "related_entity_ids": [
+      {
+        "entity_type": "vehicle",
+        "entity_id": "VEH-001"
+      }
+    ],
+    "tags": [
+      "vahan api",
+      "rto record",
+      "blue sedan",
+      "stolen vehicle",
+      "json response"
+    ],
+    "metadata": {
+      "api_endpoint": "https://vahan.nic.in/api/v2/rc/verify",
+      "response_time_ms": 230,
+      "http_status": 200
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703963",
+    "document_type": "JSON API responses",
+    "title": "Blockchain Explorer Webhook: Tether (USDT) Flight Path",
+    "content": "{\"network\": \"TRON (TRC-20)\", \"transaction_hash\": \"7a8b9c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b\", \"block_number\": 68491024, \"from_address\": \"TQ8xMv... (Compromised Exchange Hot Wallet)\", \"to_address\": \"TY9zPq... (Unregistered Offshore Mixer)\", \"amount_usdt\": 178500.0, \"timestamp_utc\": \"2026-10-05T03:45:12Z\", \"fee_trx\": 14.2, \"confirmations\": 1420}",
+    "summary": "Automated cryptographic blockchain webhook showing laundering of embezzled fiat converted to USDT.",
+    "source_type": "Sensor Log",
+    "source_name": "TronScan Blockchain Monitoring Node",
+    "created_at": "2026-10-05T05:28:10.890000",
+    "ingested_at": "2026-10-05T09:28:10.890000",
+    "case_id": "CASE-2026-002",
+    "related_entity_ids": [
+      {
+        "entity_type": "device",
+        "entity_id": "DEV-008"
+      }
+    ],
+    "tags": [
+      "blockchain",
+      "usdt",
+      "crypto tracing",
+      "wire diversion",
+      "json webhook"
+    ],
+    "metadata": {
+      "blockchain": "TRON",
+      "asset": "USDT",
+      "mixer_detected": true
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703964",
+    "document_type": "Investigation notes",
+    "title": "Surveillance Log: Outer Ring Road Bellandur Flyover Stakeout",
+    "content": "Squad B maintained stationary surveillance near Bellandur flyover junction. Observed vehicle VEH-005 (Grey Verna) slowing down near cellular tower node at 01:30 AM. Passenger Devendra Joshi seen operating handheld directional antenna pointed at traffic control cabinet. Signal sequence switched to green on southbound lane simultaneously.",
+    "summary": "Observation log of traffic light RF tampering during late night convoy passage.",
+    "source_type": "Internal CID Log",
+    "source_name": "Night Reconnaissance Log #B-19",
+    "created_at": "2026-10-14T05:28:10.890000",
+    "ingested_at": "2026-10-14T07:28:10.890000",
+    "case_id": "CASE-2026-007",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-003"
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-009"
+      }
+    ],
+    "tags": [
+      "traffic tampering",
+      "stakeout",
+      "outer ring road"
+    ],
+    "metadata": {
+      "weather": "Clear",
+      "surveillance_mode": "Mobile Unmarked"
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703965",
+    "document_type": "Witness statements",
+    "title": "Statement of Scrapyard Custodian Harish Chandra on Peenya Deliveries",
+    "content": "I operate parts yard 14 in Peenya. Sameer Qureshi from Apex Auto has been coming to my yard for three years. Last month he asked if I had any damaged 2021-2023 BMW or Audi chassis plates cut from written-off insurance claims. I told him insurance total-loss vehicles must have their VINs de-registered with RTO and I could not sell bare plates without scrap paperwork. He offered triple cash price, but I declined.",
+    "summary": "Scrap dealer testifies to suspect attempting to purchase legitimate salvaged title plates for cloning.",
+    "source_type": "Field Interview",
+    "source_name": "Peenya Station Formal Deposition",
+    "created_at": "2026-10-07T05:28:10.890000",
+    "ingested_at": "2026-10-07T17:28:10.890000",
+    "case_id": "CASE-2026-008",
+    "related_entity_ids": [
+      {
+        "entity_type": "person",
+        "entity_id": "PER-010"
+      },
+      {
+        "entity_type": "person",
+        "entity_id": "PER-005"
+      }
+    ],
+    "tags": [
+      "salvage fraud",
+      "vin plates",
+      "scrapyard",
+      "peenya"
+    ],
+    "metadata": {
+      "recorded_by": "OFF-005",
+      "legal_counsel_present": false
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703966",
+    "document_type": "PDF reports",
+    "title": "Telecom Network Operational Audit: Vasanth Nagar Exchange Tapping Incident",
+    "content": "Engineering report prepared by OpticCore Network Operations Center. Physical inspection of Manhole MH-44 revealed a high-precision coupler causing 3.8 dB signal attenuation on core DWDM channel 44. Analysis of buffered packet headers indicates an attempt to mirror unencrypted inter-bank message streams prior to TLS encapsulation.",
+    "summary": "Technical network audit detailing the impact of physical optical fiber tapping.",
+    "source_type": "Formal Filing",
+    "source_name": "OpticCore Security Operations Center",
+    "created_at": "2026-10-14T05:28:10.890000",
+    "ingested_at": "2026-10-14T11:28:10.890000",
+    "case_id": "CASE-2026-003",
+    "related_entity_ids": [
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-004"
+      },
+      {
+        "entity_type": "organization",
+        "entity_id": "ORG-004"
+      }
+    ],
+    "tags": [
+      "telecom report",
+      "fiber tapping",
+      "dwdm",
+      "opticcore"
+    ],
+    "metadata": {
+      "attenuation_db": 3.8,
+      "dwdm_channel": 44,
+      "incident_classification": "Tier 1 Critical"
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703967",
+    "document_type": "Social media posts",
+    "title": "Twitter / X Sentiment Capture on Nighttime Outer Ring Road Bypass Races",
+    "content": "Tweet by user @BlrCitizen_Alert: 'Huge group of modified sports sedans speeding on ORR Bellandur flyover again at 2 AM. Looked like a blue BMW and a grey turbo Verna blowing through red lights that magically turned green right as they approached! @BlrCityPolice please look into this.'",
+    "summary": "Public social media report corroborating speed corridor and manipulated traffic lights.",
+    "source_type": "Public OSINT",
+    "source_name": "Twitter API Firehose Capture",
+    "created_at": "2026-09-24T05:28:10.890000",
+    "ingested_at": "2026-09-25T01:28:10.890000",
+    "case_id": "CASE-2026-007",
+    "related_entity_ids": [
+      {
+        "entity_type": "location",
+        "entity_id": "LOC-009"
+      }
+    ],
+    "tags": [
+      "twitter osint",
+      "citizen report",
+      "orr traffic",
+      "blue sedan"
+    ],
+    "metadata": {
+      "retweets": 48,
+      "likes": 210,
+      "geolocation_tagged": "Bellandur"
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703968",
+    "document_type": "JSON API responses",
+    "title": "Bank Wire Gateway Audit Log (JSON Extract)",
+    "content": "{\"gateway_id\": \"SWIFT_IND_01\", \"batch_reference\": \"BTCH-2026-4401\", \"transaction_count\": 4, \"total_value_inr\": 14800000.0, \"signoff_key_id\": \"YK5-8829104\", \"originating_ip\": \"103.212.44.81\", \"timestamp\": \"2026-10-05T03:12:44Z\", \"settlement_status\": \"SETTLED_PENDING_RECALL\"}",
+    "summary": "Raw JSON log from corporate banking gateway validating transaction batch metadata.",
+    "source_type": "Sensor Log",
+    "source_name": "Core Banking Gateway Audit Export",
+    "created_at": "2026-10-05T03:28:10.890000",
+    "ingested_at": "2026-10-05T14:28:10.890000",
+    "case_id": "CASE-2026-002",
+    "related_entity_ids": [
+      {
+        "entity_type": "device",
+        "entity_id": "DEV-003"
+      }
+    ],
+    "tags": [
+      "wire gateway",
+      "swift audit",
+      "fintech nexa",
+      "json payload"
+    ],
+    "metadata": {
+      "batch_id": "BTCH-2026-4401",
+      "settlement_rail": "RTGS"
+    },
+    "document_status": "Verified"
+  },
+  {
+    "_id": "6ad99eea00bfb97bd8703969",
+    "document_type": "Investigation notes",
+    "title": "Case Closure Summary & Regulatory Filing: Peenya Scrap Yard Audit",
+    "content": "Officer Arvind Patil. Completed comprehensive inspection of all licensed scrapyards in Peenya 2nd Stage. Total of 1,420 de-registered chassis records reconciled with state transport authority. Found 3 non-compliant unlogged commercial vehicle frames at premises of Harish Chandra; administrative penalty imposed under Karnataka Scrap Policy 2022. No criminal nexus established with active vehicle theft ring.",
+    "summary": "Formal administrative closure report for Peenya scrapyards regulatory audit.",
+    "source_type": "Internal CID Log",
+    "source_name": "CID Audit Book 2026 - Closed Case Log",
+    "created_at": "2026-10-07T05:28:10.890000",
+    "ingested_at": "2026-10-07T09:28:10.890000",
+    "case_id": "CASE-2026-008",
+    "related_entity_ids": [
+      {
+        "entity_type": "officer",
+        "entity_id": "OFF-005"
+      },
+      {
+        "entity_type": "person",
+        "entity_id": "PER-010"
+      }
+    ],
+    "tags": [
+      "case closure",
+      "audit summary",
+      "regulatory report",
+      "peenya"
+    ],
+    "metadata": {
+      "audit_score": "88/100",
+      "penalties_levied_inr": 25000
+    },
+    "document_status": "Verified"
+  }
+]
