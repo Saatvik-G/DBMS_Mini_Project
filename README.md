@@ -52,51 +52,107 @@ To address this without compromise, the platform implements a **Polyglot Persist
 
 ## 3. Quick Start & Execution Guide
 
-### Prerequisites
-- Python 3.11+ / 3.12+ / 3.13+
-- Node.js 18+ / 20+ / 22+ & npm
-- MongoDB (Running on `localhost:27017` or via Docker Compose)
-- PostgreSQL (Optional local service on port 5432; backend automatically falls back to SQLite `intelligence_fusion.db` for zero-friction evaluation).
+### 🚀 Primary Method: Presentation-Ready One-Command Startup
 
-### Option A: Running with Docker Compose
+For college presentations, academic evaluations, and viva demonstrations, run the **single root startup script**. It automatically validates system prerequisites, provisions the Python virtual environment, installs missing dependencies, inspects databases, starts the FastAPI backend and Next.js frontend, performs HTTP health checks, and opens the application in your browser.
+
+#### On Windows (PowerShell):
+```powershell
+.\start.ps1
+```
+
+#### On macOS / Linux (Bash):
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+---
+
+### Command-Line Arguments & Options
+
+Both `start.ps1` and `start.sh` support the following optional parameters:
+
+| Flag (PowerShell) | Flag (Bash) | Description |
+|-------------------|-------------|-------------|
+| *(none)* | *(none)* | Full stack launch: checks env, runs backend (:8000), frontend (:3000), and opens browser. |
+| `-Test` | `--test` | Runs the 10-test automated verification suite (`pytest`) and exits with standard exit code. |
+| `-NoBrowser` | `--no-browser` | Launches all services without automatically opening the default web browser. |
+| `-Seed` | `--seed` | Forces database re-seeding (`--force`) even if records already exist. |
+| `-FrontendMode vite` | `--frontend vite` | Launches frontend using Vite on port `5173` instead of Next.js on port `3000`. |
+| `-Help` | `--help` | Displays the help menu with all options and usage examples. |
+
+#### Example Usage:
+```powershell
+# Run the automated verification test suite
+.\start.ps1 -Test
+
+# Start in presentation mode without auto-opening a browser window
+.\start.ps1 -NoBrowser
+
+# Force re-seed database with fresh demonstration records
+.\start.ps1 -Seed
+
+# Run with Vite development server on port 5173
+.\start.ps1 -FrontendMode vite
+```
+
+---
+
+### Intelligent Startup & Safety Features
+
+1. **Zero-Friction Prerequisites:** Automatically verifies Python 3.11+, Node.js 18+, and npm. Creates `venv/` if missing and uses `venv/Scripts/python.exe` directly (no manual activation required).
+2. **Safe, Non-Destructive Seeding:** Checks existing record counts before touching data. If records already exist in SQL or MongoDB, seeding is safely skipped to avoid duplicate keys or data loss.
+3. **Automatic Polyglot Database Failover:**
+   - **SQL:** Inspects PostgreSQL on `localhost:5432`. If offline or not configured, falls back seamlessly to local SQLite (`intelligence_fusion.db`) with identical schema, indexes, and constraints.
+   - **MongoDB:** Probes `localhost:27017`. If MongoDB daemon is installed locally, automatically launches it in the background; if offline, API gracefully informs the client while SQL functionality operates unimpeded.
+4. **Live Port Conflict Detection & Health Probing:** Inspects ports 8000, 3000, and 5173. Loops with HTTP health check requests until `/health` and frontend HTTP 200 are verified before launching the browser.
+5. **Clean Process Lifecycle:** Pressing `Ctrl+C` cleanly shuts down all spawned backend and frontend child processes without leaving zombie ports or orphaned background tasks.
+
+---
+
+### Alternative: Running with Docker Compose
 ```bash
 # Start PostgreSQL, MongoDB, Backend, and Frontend containers simultaneously
 docker-compose up -d --build
 ```
 
-### Option B: Running Locally (Windows / macOS / Linux)
+---
 
-#### 1. Setup Backend & Seed Databases
+### Alternative: Manual Step-by-Step Startup
+
+If you prefer running services in dedicated manual terminal windows:
+
+#### Terminal 1 — Backend & Database Seeding
 ```powershell
-# Open terminal in project root
+# Activate virtual environment
 .\venv\Scripts\Activate.ps1
 
-# Install Python dependencies
+# Install dependencies (if needed)
 pip install -r backend/requirements.txt
 
-# Run repeatable database seed script (Seeds SQL entities and MongoDB documents)
+# Run safe database seed script
 $env:PYTHONPATH="backend"
 python backend/seed.py
 
-# Start the FastAPI backend server
+# Start FastAPI backend
 uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
-API Documentation will be live at: `http://127.0.0.1:8000/docs`
+- API Documentation is live at: `http://127.0.0.1:8000/docs`
 
-#### 2. Run Automated Test Suite
-```powershell
-$env:PYTHONPATH="backend"
-pytest backend/tests/test_api.py -v
-```
-*(All 10 tests will execute and pass 100%).*
-
-#### 3. Run Next.js Frontend
+#### Terminal 2 — Next.js Frontend
 ```powershell
 cd frontend
 npm install
 npm run dev
 ```
-The application interface will open at: `http://localhost:3000` (or Vite mode on port `http://localhost:5173` using `npm run dev:vite`).
+- Frontend UI is live at: `http://localhost:3000` (or `http://localhost:5173` with `npm run dev:vite`)
+
+#### Terminal 3 — Automated Test Suite
+```powershell
+$env:PYTHONPATH="backend"
+pytest backend/tests/test_api.py -v
+```
 
 ---
 

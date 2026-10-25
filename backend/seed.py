@@ -15,16 +15,7 @@ from app.core.security import get_password_hash
 def utc_now():
     return datetime.now(timezone.utc)
 
-def seed_database():
-    print("=" * 60)
-    print("Starting Intelligence Fusion Platform Data Seeding...")
-    print("=" * 60)
-
-    # Recreate SQL schema
-    Base.metadata.create_all(bind=engine)
-    db = SessionLocal()
-
-    # Clear existing SQL data cleanly in reverse dependency order
+def seed_sql_database(db):
     print("Clearing prior SQL demonstration records...")
     db.execute(evidence_locations.delete())
     db.execute(evidence_devices.delete())
@@ -451,16 +442,9 @@ def seed_database():
     db.commit()
     print("SQL Relational Database successfully populated.")
 
-    # 12. Seed 28 MongoDB Unstructured Investigation Documents
-    print("Connecting to MongoDB for Document Store Seeding...")
-    mdb = get_mongo_db()
-    if mdb is None:
-        print("Warning: MongoDB not available; skipping MongoDB seeding.")
-        return
-
-    doc_col = mdb["investigation_documents"]
+def seed_mongo_database(doc_col):
+    now = utc_now()
     doc_col.delete_many({}) # Clear existing documents for clean seed
-
     mongo_docs = [
         # Witness Statements
         {
@@ -876,10 +860,40 @@ def seed_database():
     doc_col.insert_many(mongo_docs)
     total_docs = doc_col.count_documents({})
     print(f"Successfully seeded {total_docs} investigation documents into MongoDB collection 'investigation_documents'.")
+
+def seed_database(force: bool = False):
+    print("=" * 60)
+    print("Starting Intelligence Fusion Platform Data Seeding...")
+    print("=" * 60)
+
+    # 1. SQL Database Seeding
+    Base.metadata.create_all(bind=engine)
+    db = SessionLocal()
+    sql_cases_count = db.query(Case).count()
+
+    if sql_cases_count > 0 and not force:
+        print(f"SQL database already contains {sql_cases_count} cases. Preserving existing data (use --force to overwrite).")
+    else:
+        seed_sql_database(db)
+
+    # 2. MongoDB Document Store Seeding
+    print("Connecting to MongoDB for Document Store Seeding...")
+    mdb = get_mongo_db()
+    if mdb is None:
+        print("Warning: MongoDB not available; skipping MongoDB seeding.")
+    else:
+        doc_col = mdb["investigation_documents"]
+        existing_docs = doc_col.count_documents({})
+        if existing_docs > 0 and not force:
+            print(f"MongoDB already contains {existing_docs} documents. Preserving existing data (use --force to overwrite).")
+        else:
+            seed_mongo_database(doc_col)
+
     print("=" * 60)
     print("Intelligence Fusion Platform Seed Complete!")
     print("Team: Saatvik Gupta (PES1UG24CS395) & Satyam Goyal (PES1UG24CS424)")
     print("=" * 60)
 
 if __name__ == "__main__":
-    seed_database()
+    force_arg = "--force" in sys.argv or "-f" in sys.argv
+    seed_database(force=force_arg)

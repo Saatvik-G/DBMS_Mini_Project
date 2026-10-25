@@ -24,3 +24,5 @@ frontend/out/
 *.log
 .DS_Store
 Thumbs.db
+.mongo_data/
+
