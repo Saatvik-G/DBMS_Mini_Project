@@ -4,7 +4,7 @@ import {
   Shield, LayoutDashboard, FolderKanban, Users, Building2,
   Car, Smartphone, MapPin, Archive, FileText, Search, Network,
   Clock, Database, Info, Menu, X, ChevronRight, RefreshCw,
-  CheckCircle2, AlertTriangle, UserCheck, ShieldAlert
+  CheckCircle2, AlertTriangle, UserCheck, ShieldAlert, LogOut
 } from 'lucide-react';
 import { ApiService } from '../services/api';
 
@@ -48,25 +48,28 @@ export const MainLayout: React.FC = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('fusion_auth_token');
+    localStorage.removeItem('fusion_officer');
+    navigate('/login');
+  };
+
   useEffect(() => {
     fetchHealth();
+    const token = localStorage.getItem('fusion_auth_token');
     const stored = localStorage.getItem('fusion_officer');
-    if (stored) {
-      try {
-        setOfficer(JSON.parse(stored));
-      } catch {}
-    } else {
-      const defaultOff = {
-        officer_id: 'OFF-001',
-        full_name: 'Insp. Rajesh Sharma',
-        badge_number: 'CID-001',
-        role: 'ADMIN',
-        unit: 'Special Cyber Crime Cell'
-      };
-      setOfficer(defaultOff);
-      localStorage.setItem('fusion_officer', JSON.stringify(defaultOff));
+    if (!token || !stored) {
+      navigate('/login');
+      return;
     }
-  }, []);
+    try {
+      setOfficer(JSON.parse(stored));
+    } catch {
+      localStorage.removeItem('fusion_auth_token');
+      localStorage.removeItem('fusion_officer');
+      navigate('/login');
+    }
+  }, [location.pathname]);
 
   // Close mobile drawer on route transition
   useEffect(() => {
@@ -348,14 +351,14 @@ export const MainLayout: React.FC = () => {
               </button>
             </div>
 
-            {/* Officer Badge */}
+            {/* Officer Badge & Logout Action */}
             <div className="flex items-center gap-2 pl-1 border-l border-[#1E2638]">
               <div className="w-7 h-7 rounded border border-amber-500/30 bg-amber-500/10 flex items-center justify-center text-amber-400 font-mono font-bold text-xs">
                 {officer?.role?.charAt(0) || 'A'}
               </div>
               <div className="text-left hidden xl:block">
                 <div className="text-xs font-semibold text-slate-200 leading-tight">
-                  {officer?.full_name || 'Inspector'}
+                  {officer?.full_name || 'Officer'}
                 </div>
                 <div className="text-[10px] text-slate-400 font-mono leading-none flex items-center gap-1 mt-0.5">
                   <span className="text-amber-400/90 font-bold">{officer?.role || 'ADMIN'}</span>
@@ -363,6 +366,14 @@ export const MainLayout: React.FC = () => {
                   <span>{officer?.badge_number || 'CID-001'}</span>
                 </div>
               </div>
+
+              <button
+                onClick={handleLogout}
+                title="Sign out of workstation"
+                className="p-1.5 ml-1 rounded text-slate-400 hover:text-red-400 hover:bg-[#161D2B] transition"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
         </header>

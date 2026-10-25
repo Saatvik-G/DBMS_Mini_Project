@@ -43,32 +43,34 @@ def seed_sql_database(db):
 
     # 1. Seed 5 Officers
     print("Seeding Officers...")
+    admin_pwd = get_password_hash("Admin@123")
+    inv_pwd = get_password_hash("Investigator@123")
     default_pwd = get_password_hash("password123")
     officers = [
         Officer(
-            officer_id="OFF-001", full_name="Inspector Rajesh Sharma", badge_number="B-4091",
-            department="Major Crimes Division", contact_email="rajesh.sharma@fusion.gov.in",
-            role="Lead Investigator", account_status="Active", hashed_password=default_pwd
+            officer_id="OFF-001", full_name="Administrator Rajesh Sharma", badge_number="CID-001",
+            department="Special Cyber & Intelligence Fusion Command", contact_email="admin@fusion.gov.in",
+            role="ADMIN", account_status="Active", hashed_password=admin_pwd
         ),
         Officer(
-            officer_id="OFF-002", full_name="Detective Ananya Roy", badge_number="B-5120",
-            department="Cyber Intelligence & Financial Crimes", contact_email="ananya.roy@fusion.gov.in",
-            role="Senior Cyber Analyst", account_status="Active", hashed_password=default_pwd
+            officer_id="OFF-002", full_name="Lead Inspector Ananya Roy", badge_number="CID-002",
+            department="Major Crimes & Cross-Border Investigations", contact_email="investigator@fusion.gov.in",
+            role="INVESTIGATOR", account_status="Active", hashed_password=inv_pwd
         ),
         Officer(
             officer_id="OFF-003", full_name="Officer Vikram Malhotra", badge_number="B-3829",
             department="Tactical Field Operations", contact_email="vikram.malhotra@fusion.gov.in",
-            role="Field Investigator", account_status="Active", hashed_password=default_pwd
+            role="INVESTIGATOR", account_status="Active", hashed_password=default_pwd
         ),
         Officer(
             officer_id="OFF-004", full_name="Forensic Specialist Sunita Rao", badge_number="B-6701",
             department="Digital & Physical Forensics Lab", contact_email="sunita.rao@fusion.gov.in",
-            role="Chief Forensic Examiner", account_status="Active", hashed_password=default_pwd
+            role="INVESTIGATOR", account_status="Active", hashed_password=default_pwd
         ),
         Officer(
             officer_id="OFF-005", full_name="Sergeant Arvind Patil", badge_number="B-2244",
             department="Evidence Control & Vault Management", contact_email="arvind.patil@fusion.gov.in",
-            role="Evidence Custodian", account_status="Active", hashed_password=default_pwd
+            role="INVESTIGATOR", account_status="Active", hashed_password=default_pwd
         ),
     ]
     db.add_all(officers)
@@ -277,7 +279,14 @@ def seed_sql_database(db):
         Evidence(evidence_id="EVD-012", title="Hikvision Surveillance NVR Hard Drive", evidence_type="Digital Media", description="Seagate SkyHawk 4TB surveillance hard disk from Grand Azure loading dock NVR.", collection_date=now - timedelta(days=20), case_id="CASE-2026-001", collected_by_officer_id="OFF-004", storage_reference="Digital Vault SAN - Disk #092", status="Logged in Secure Storage", notes="Contains footage of suspect wearing valet uniform entering vehicle."),
         Evidence(evidence_id="EVD-013", title="Counterfeit Bank Cashier Vouchers (Batch of 4)", evidence_type="Documentary", description="High-resolution printed bank vouchers on watermarked security bond paper.", collection_date=now - timedelta(days=6), case_id="CASE-2026-005", collected_by_officer_id="OFF-002", storage_reference="Document Vault Folder #2026-05", status="Logged in Secure Storage", notes="Microprinting flaws identified under forensic ultraviolet comparison."),
         Evidence(evidence_id="EVD-014", title="Shipping Manifest & Customs Declarations (BHLU-982104)", evidence_type="Documentary", description="Triplicate bills of lading and container cargo declaration manifests.", collection_date=now - timedelta(days=13), case_id="CASE-2026-004", collected_by_officer_id="OFF-003", storage_reference="Document Vault Folder #2026-04", status="Logged in Secure Storage", notes="Consignee company listed as fictitious overseas trading LLC."),
-        Evidence(evidence_id="EVD-015", title="Scrap Metal Logbook Ledger (Apex Auto 2024-2025)", evidence_type="Documentary", description="Physical handwritten register containing vehicle chassis dismantling receipts.", collection_date=now - timedelta(days=55), case_id="CASE-2026-008", collected_by_officer_id="OFF-005", storage_reference="Archive Storage Box #12", status="Archived", notes="Historical baseline reference for VIN stamping pattern matches.")
+        Evidence(evidence_id="EVD-015", title="Scrap Metal Logbook Ledger (Apex Auto 2024-2025)", evidence_type="Documentary", description="Physical handwritten register containing vehicle chassis dismantling receipts.", collection_date=now - timedelta(days=55), case_id="CASE-2026-008", collected_by_officer_id="OFF-005", storage_reference="Archive Storage Box #12", status="Archived", notes="Historical baseline reference for VIN stamping pattern matches."),
+        Evidence(evidence_id="EVD-016", title="SanDisk Extreme 256GB Hardware-Encrypted USB Drive", evidence_type="Digital Device", description="Encrypted flash drive containing BitLocker recovery keys and shell company bank routing credentials.", collection_date=now - timedelta(days=14), case_id="CASE-2026-002", collected_by_officer_id="OFF-002", storage_reference="Vault A / Bin 110", status="Under Technical Examination", notes="SHA-256: 7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069"),
+        Evidence(evidence_id="EVD-017", title="Counterfeit Consular Notarization Seal", evidence_type="Physical Tool", description="Brass relief stamp used to certify fraudulent transit manifests for stolen cargo containers.", collection_date=now - timedelta(days=7), case_id="CASE-2026-005", collected_by_officer_id="OFF-003", storage_reference="Vault B / Shelf 04", status="Logged in Secure Storage", notes="Seized during raiding of clandestine printing shop in Yeshwanthpur."),
+        Evidence(evidence_id="EVD-018", title="Samsung Galaxy S23 Ultra Burner Handset", evidence_type="Digital Device", description="Target device with ProtonMail and Signal sessions mapped to SIM ICCID #899144023910.", collection_date=now - timedelta(days=3), case_id="CASE-2026-001", collected_by_officer_id="OFF-001", storage_reference="Vault A / RF-Shield Bag 92", status="Under Technical Examination", notes="Forensic physical extraction completed; chat database recovered."),
+        Evidence(evidence_id="EVD-019", title="Thermal Drone Surveillance Flight Log (DR-09)", evidence_type="Digital Media", description="Telemetry log file recording thermal signatures and night movement at Peenya warehouse perimeter.", collection_date=now - timedelta(days=22), case_id="CASE-2026-007", collected_by_officer_id="OFF-004", storage_reference="Digital Vault SAN - Log #4401", status="Logged in Secure Storage", notes="Confirmed unauthorized vehicle departures at 03:15 AM."),
+        Evidence(evidence_id="EVD-020", title="Multi-Band Tactical Cellular Jammer Unit", evidence_type="Electronic Weaponry", description="High-power 8-antenna RF jammer configured to block 4G/5G, GPS L1/L2, and Wi-Fi tracking signals.", collection_date=now - timedelta(days=8), case_id="CASE-2026-003", collected_by_officer_id="OFF-003", storage_reference="Vault C / Explosive & RF Locker", status="Submitted to Lab for Analysis", notes="Recovered from utility vehicle roof compartment."),
+        Evidence(evidence_id="EVD-021", title="Port Klang Cargo Bill of Lading (MSCU-440192)", evidence_type="Documentary", description="Original ocean freight manifest for refrigerated container carrying disassembled luxury vehicle engines.", collection_date=now - timedelta(days=12), case_id="CASE-2026-004", collected_by_officer_id="OFF-002", storage_reference="Document Vault Folder #2026-04B", status="Logged in Secure Storage", notes="Cross-referenced with Interpol maritime alert #M-2026-099."),
+        Evidence(evidence_id="EVD-022", title="Counterfeit State Transport Transit Permits (Batch of 12)", evidence_type="Documentary", description="Security holograms and road transport toll clearance badges matching fraudulent freight convoy.", collection_date=now - timedelta(days=18), case_id="CASE-2026-008", collected_by_officer_id="OFF-005", storage_reference="Archive Storage Box #15", status="Archived", notes="UV examination confirmed forged state transport commissioner signature.")
     ]
     db.add_all(evidence_items)
     db.commit()
@@ -300,7 +309,16 @@ def seed_sql_database(db):
         EvidenceCustody(evidence_id="EVD-008", officer_id="OFF-005", event_type="Transferred", event_timestamp=now - timedelta(days=9, hours=1), notes="Deposited into climate-controlled forensic lockbox."),
 
         EvidenceCustody(evidence_id="EVD-011", officer_id="OFF-001", event_type="Collected", event_timestamp=now - timedelta(days=5, hours=3), notes="Handset removed from person of Karan Varma at time of arrest."),
-        EvidenceCustody(evidence_id="EVD-011", officer_id="OFF-004", event_type="Transferred", event_timestamp=now - timedelta(days=4), notes="Transferred to digital forensics lab for passcode bypass.")
+        EvidenceCustody(evidence_id="EVD-011", officer_id="OFF-004", event_type="Transferred", event_timestamp=now - timedelta(days=4), notes="Transferred to digital forensics lab for passcode bypass."),
+
+        EvidenceCustody(evidence_id="EVD-016", officer_id="OFF-002", event_type="Collected", event_timestamp=now - timedelta(days=14, hours=2), notes="Seized from server rack lockbox at Fintech Nexa headquarters."),
+        EvidenceCustody(evidence_id="EVD-016", officer_id="OFF-004", event_type="Checked Out for Analysis", event_timestamp=now - timedelta(days=13), notes="Transferred to lab for hardware-level NAND flash chip dump."),
+
+        EvidenceCustody(evidence_id="EVD-018", officer_id="OFF-001", event_type="Collected", event_timestamp=now - timedelta(days=3, hours=5), notes="Recovered from suspect waistband during detention."),
+        EvidenceCustody(evidence_id="EVD-018", officer_id="OFF-005", event_type="Transferred", event_timestamp=now - timedelta(days=3, hours=1), notes="Placed inside RF-shielded Faraday locker in Vault A."),
+
+        EvidenceCustody(evidence_id="EVD-020", officer_id="OFF-003", event_type="Collected", event_timestamp=now - timedelta(days=8, hours=4), notes="Dismantled from roof rack of intercepted contractor van."),
+        EvidenceCustody(evidence_id="EVD-020", officer_id="OFF-004", event_type="Checked Out for Analysis", event_timestamp=now - timedelta(days=7), notes="Submitted for RF spectrum analysis and jamming frequency sweep.")
     ]
     db.add_all(custody_events)
     db.commit()

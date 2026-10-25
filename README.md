@@ -175,29 +175,97 @@ pytest backend/tests/test_api.py -v
 
 ---
 
-## 5. Security & Default Credentials
+## 5. Security, Roles & Authentication Credentials
 
-| Role | Username / Badge | Password | Capabilities |
-|------|------------------|----------|--------------|
-| **ADMIN** | `admin` (`CID-001`) | `Admin@123` | Full administrative control, officer management, audit review |
-| **INVESTIGATOR** | `investigator` (`CID-002`) | `Investigator@123` | Operational case management, evidence logging, document ingestion |
+The platform enforces a strict, two-tier role-based access control (RBAC) security model. The frontend requires credential verification prior to accessing any protected views; entering protected URLs directly redirects unauthenticated visitors to the login page.
+
+| Role | Username / Badge | Password | Capabilities & Authorization Scope |
+|------|------------------|----------|-------------------------------------|
+| **ADMIN** | `admin` (`CID-001`) | `Admin@123` | Full administrative control, officer management, audit review, policy configuration |
+| **INVESTIGATOR** | `investigator` (`CID-002`) | `Investigator@123` | Operational case management, suspect linking, evidence custody logging, document ingestion |
+
+- **Password Hashing:** PBKDF2 HMAC SHA-256 with 100,000 iterations.
+- **Session Tokens:** Cryptographically signed JSON Web Tokens (JWT) using `HS256`.
+- **Session Termination:** Dedicated logout button in the header and sidebar that invalidates local session tokens and redirects to `/login`.
 
 ---
 
-## 6. Project Directory Structure
+## 6. Official Academic PDF Deliverables (docs/submission/)
+
+All 8 official evaluation deliverables have been compiled as publication-grade PDF documents in `docs/submission/`:
+
+| Deliverable | File Path | Topic & Rubric Component | Marks |
+| :--- | :--- | :--- | :---: |
+| **Doc 1: ER Diagram** | [`docs/submission/01_ER_Diagram.pdf`](docs/submission/01_ER_Diagram.pdf) | Complete conceptual & physical ER model, 11 entities, 11 junction tables | **2** |
+| **Doc 2: Schema & DDL** | [`docs/submission/02_Relational_Schema_and_DDL.pdf`](docs/submission/02_Relational_Schema_and_DDL.pdf) | PostgreSQL DDL, check constraints, indexes, 3NF/BCNF normalization proofs | **7** |
+| **Doc 3: SQL Operations** | [`docs/submission/03_SQL_Operations_and_Queries.pdf`](docs/submission/03_SQL_Operations_and_Queries.pdf) | DML CRUD, multi-table joins, subqueries, transaction rollback & savepoints | **8** |
+| **Doc 4: Advanced SQL** | [`docs/submission/04_Advanced_Database_Concepts.pdf`](docs/submission/04_Advanced_Database_Concepts.pdf) | Stored procedures, user functions, audit triggers, recursive CTE link graph | **6** |
+| **Doc 5: NoSQL & Integration** | [`docs/submission/05_NoSQL_and_Integration.pdf`](docs/submission/05_NoSQL_and_Integration.pdf) | MongoDB schema validation, weighted text search, aggregation pipelines | **12** |
+| **Doc 6: Project Report** | [`docs/submission/06_Project_Report.pdf`](docs/submission/06_Project_Report.pdf) | Master academic report: abstract, architecture, security, and verification | **4** |
+| **Doc 7: Rubric & Viva** | [`docs/submission/07_Rubric_Coverage_and_Viva.pdf`](docs/submission/07_Rubric_Coverage_and_Viva.pdf) | 14-component rubric compliance matrix, 5-min demo walkthrough, viva Q&A | **7** |
+| **Doc 8: Setup & API Guide** | [`docs/submission/08_Setup_API_and_Testing_Guide.pdf`](docs/submission/08_Setup_API_and_Testing_Guide.pdf) | Quick start, command reference, test suite execution, REST API directory | **4** |
+
+#### To regenerate all 8 PDFs from scratch:
+```powershell
+python scripts/generate_submission_pdfs.py
+```
+
+---
+
+## 7. Project Directory Structure
 
 ```
 DBMS Mini Project/
 ├── backend/                        # FastAPI Python Backend
 │   ├── app/
-│   │   ├── core/                  # Configuration & settings
+│   │   ├── core/                  # Configuration & PBKDF2/JWT security
 │   │   ├── db/                    # PostgreSQL & MongoDB connection managers
 │   │   ├── models/                # SQLAlchemy relational ORM models (22 tables)
 │   │   ├── routers/               # 16 REST API route controllers
 │   │   └── schemas/               # Pydantic data schemas
-│   ├── seed.py                    # Repeatable seeder script
+│   ├── seed.py                    # Repeatable seeder script (22 evidence, 8 cases, 15 people)
 │   └── tests/                     # Pytest automated test suite (10/10 passing)
 ├── database/
+│   ├── sql/                       # Relational PostgreSQL artifacts
+│   │   ├── schema.sql             # 22-table DDL with constraints & indexes
+│   │   ├── dml-examples.sql       # CRUD, JOINs, Savepoints & Rollback
+│   │   ├── advanced-queries.sql   # Complex JOINs, Subqueries, Window functions
+│   │   ├── advanced-concepts.sql  # Stored Procedure, Function, Trigger, CTE
+│   │   └── roles-and-grants.sql   # Database-level RBAC (ifp_admin, ifp_investigator)
+│   └── mongodb/                   # NoSQL MongoDB artifacts
+│       ├── collection-schema.json # JSON Schema validator
+│       ├── indexes.js             # Weighted text & compound indexes
+│       ├── rud-examples.js        # Aggregations, updates & text search
+│       ├── sample-documents.json  # 26 polymorphic investigation documents
+│       └── README.md              # Document design guide
+├── docs/                          # Comprehensive Academic Documentation
+│   ├── submission/                # 8 OFFICIAL ACADEMIC PDF DELIVERABLES
+│   │   ├── 01_ER_Diagram.pdf
+│   │   ├── 02_Relational_Schema_and_DDL.pdf
+│   │   ├── 03_SQL_Operations_and_Queries.pdf
+│   │   ├── 04_Advanced_Database_Concepts.pdf
+│   │   ├── 05_NoSQL_and_Integration.pdf
+│   │   ├── 06_Project_Report.pdf
+│   │   ├── 07_Rubric_Coverage_and_Viva.pdf
+│   │   └── 08_Setup_API_and_Testing_Guide.pdf
+│   ├── rubric-compliance.md       # 14-component compliance matrix (50/50 marks)
+│   ├── er-diagram.md              # Complete Mermaid ER diagram
+│   ├── database-design.md         # 3NF/BCNF normalization proofs & indexes
+│   ├── technology-justification.md# RDBMS vs NoSQL comparative analysis
+│   ├── authorization.md           # Application & Database RBAC specification
+│   ├── team-contributions.md      # Saatvik Gupta & Satyam Goyal attribution
+│   └── viva-preparation.md        # 5-min walkthrough script & 30 viva Q&As
+├── frontend/                      # Next.js 15+ / React 19 Frontend
+│   ├── app/                       # Next.js App Router entrypoints & layouts
+│   ├── src/views/                 # 16 complete intelligence modules
+│   └── package.json
+├── scripts/                       # Automation & Report Generation Scripts
+│   └── generate_submission_pdfs.py # ReportLab PDF generator for all 8 deliverables
+├── start.ps1                      # Windows presentation startup script
+├── start.sh                       # Linux / macOS presentation startup script
+├── docker-compose.yml             # Multi-container orchestration
+└── README.md                      # Project master readme
+```
 │   ├── sql/                       # Relational PostgreSQL artifacts
 │   │   ├── schema.sql             # 22-table DDL with constraints & indexes
 │   │   ├── dml-examples.sql       # CRUD, JOINs, Savepoints & Rollback
