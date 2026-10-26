@@ -87,33 +87,34 @@ export const MainLayout: React.FC = () => {
     {
       group: 'WORKSPACE',
       items: [
-        { name: 'Overview', path: '/', icon: LayoutDashboard },
-        { name: 'Cases Dossier', path: '/cases', icon: FolderKanban },
+        { name: 'Dashboard', path: '/', icon: LayoutDashboard },
+        { name: 'Cases', path: '/cases', icon: FolderKanban },
       ],
     },
     {
       group: 'ENTITIES',
       items: [
-        { name: 'People of Interest', path: '/people', icon: Users },
+        { name: 'People', path: '/people', icon: Users },
         { name: 'Organizations', path: '/organizations', icon: Building2 },
         { name: 'Vehicles', path: '/vehicles', icon: Car },
-        { name: 'Devices & Hardware', path: '/devices', icon: Smartphone },
+        { name: 'Devices', path: '/devices', icon: Smartphone },
         { name: 'Locations', path: '/locations', icon: MapPin },
       ],
     },
     {
-      group: 'INTELLIGENCE',
+      group: 'EVIDENCE AND INTELLIGENCE',
       items: [
         { name: 'Evidence & Custody', path: '/evidence', icon: Archive },
-        { name: 'Unstructured Docs', path: '/documents', icon: FileText, badge: 'NoSQL' },
+        { name: 'Investigation Documents', path: '/documents', icon: FileText, badge: 'NoSQL' },
         { name: 'Unified Search', path: '/search', icon: Search, badge: 'Cross-DB' },
-        { name: 'Link Analysis Graph', path: '/relationships', icon: Network },
-        { name: 'Timeline & Analytics', path: '/analytics', icon: Clock },
+        { name: 'Relationships', path: '/relationships', icon: Network },
+        { name: 'Timeline', path: '/analytics', icon: Clock },
       ],
     },
     {
-      group: 'SYSTEM',
+      group: 'ADMINISTRATION',
       items: [
+        { name: 'Users & Roles', path: '/users', icon: UserCheck, badge: officer?.role === 'ADMIN' ? 'Admin' : 'RBAC' },
         { name: 'DBMS Concepts Viva', path: '/dbms-concepts', icon: Database, badge: 'Core' },
         { name: 'About & Team', path: '/about', icon: Info },
       ],
@@ -123,22 +124,23 @@ export const MainLayout: React.FC = () => {
   // Derive breadcrumbs based on pathname
   const getBreadcrumb = () => {
     const p = location.pathname;
-    if (p === '/') return { section: 'WORKSPACE', title: 'Intelligence Overview' };
-    if (p.startsWith('/cases/')) return { section: 'WORKSPACE', title: 'Case Dossier Inspector' };
-    if (p === '/cases') return { section: 'WORKSPACE', title: 'Active Investigations' };
-    if (p === '/people') return { section: 'ENTITIES', title: 'Persons of Interest Registry' };
-    if (p === '/organizations') return { section: 'ENTITIES', title: 'Corporate & Front Entities' };
-    if (p === '/vehicles') return { section: 'ENTITIES', title: 'Target Vehicle Fleet' };
-    if (p === '/devices') return { section: 'ENTITIES', title: 'Seized Digital Hardware' };
-    if (p === '/locations') return { section: 'ENTITIES', title: 'Geographic Intelligence Sites' };
-    if (p === '/evidence') return { section: 'INTELLIGENCE', title: 'Evidence Vault & Custody Chain' };
-    if (p === '/documents') return { section: 'INTELLIGENCE', title: 'NoSQL Document Telemetry' };
-    if (p === '/search') return { section: 'INTELLIGENCE', title: 'Polyglot Federated Search' };
-    if (p === '/relationships') return { section: 'INTELLIGENCE', title: 'Multi-Hop Entity Link Graph' };
-    if (p === '/analytics') return { section: 'INTELLIGENCE', title: 'Chronological Forensics' };
-    if (p === '/dbms-concepts') return { section: 'SYSTEM', title: 'DBMS Concepts & Query Sandbox' };
-    if (p === '/about') return { section: 'SYSTEM', title: 'PES Academic Team & Attribution' };
-    return { section: 'CONSOLE', title: 'Forensic Workstation' };
+    if (p === '/') return { section: 'WORKSPACE', title: 'Dashboard' };
+    if (p.startsWith('/cases/')) return { section: 'WORKSPACE', title: 'Case Details' };
+    if (p === '/cases') return { section: 'WORKSPACE', title: 'Cases' };
+    if (p === '/people') return { section: 'ENTITIES', title: 'People' };
+    if (p === '/organizations') return { section: 'ENTITIES', title: 'Organizations' };
+    if (p === '/vehicles') return { section: 'ENTITIES', title: 'Vehicles' };
+    if (p === '/devices') return { section: 'ENTITIES', title: 'Devices' };
+    if (p === '/locations') return { section: 'ENTITIES', title: 'Locations' };
+    if (p === '/evidence') return { section: 'EVIDENCE & INTELLIGENCE', title: 'Evidence & Custody' };
+    if (p === '/documents') return { section: 'EVIDENCE & INTELLIGENCE', title: 'Investigation Documents' };
+    if (p === '/search') return { section: 'EVIDENCE & INTELLIGENCE', title: 'Unified Search' };
+    if (p === '/relationships') return { section: 'EVIDENCE & INTELLIGENCE', title: 'Relationships' };
+    if (p === '/analytics') return { section: 'EVIDENCE & INTELLIGENCE', title: 'Timeline' };
+    if (p === '/users') return { section: 'ADMINISTRATION', title: 'Users & Roles' };
+    if (p === '/dbms-concepts') return { section: 'ADMINISTRATION', title: 'DBMS Concepts' };
+    if (p === '/about') return { section: 'ADMINISTRATION', title: 'About & Team' };
+    return { section: 'CASE MANAGEMENT', title: 'Investigation Console' };
   };
 
   const breadcrumb = getBreadcrumb();

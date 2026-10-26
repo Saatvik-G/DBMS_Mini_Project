@@ -136,6 +136,8 @@ export const ApiService = {
     api.get<Officer[]>('/officers', { params }).then(res => res.data),
   getOfficer: (officerId: string) =>
     api.get(`/officers/${officerId}`).then(res => res.data),
+  createOfficer: (data: Partial<Officer> & { password: string }) =>
+    api.post<Officer>('/officers', data).then(res => res.data),
 
   // MongoDB Documents
   getDocuments: (params?: { search?: string; document_type?: string; source_type?: string; case_id?: string; tag?: string }) =>

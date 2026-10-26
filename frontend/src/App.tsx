@@ -16,6 +16,7 @@ import { RelationshipsPage } from './views/RelationshipsPage';
 import { AnalyticsPage } from './views/AnalyticsPage';
 import { DBMSConceptsPage } from './views/DBMSConceptsPage';
 import { AboutPage } from './views/AboutPage';
+import { UsersPage } from './views/UsersPage';
 import { LoginPage } from './views/LoginPage';
 
 export const App: React.FC = () => {
@@ -38,6 +39,7 @@ export const App: React.FC = () => {
           <Route path="search" element={<SearchPage />} />
           <Route path="relationships" element={<RelationshipsPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="users" element={<UsersPage />} />
           <Route path="dbms-concepts" element={<DBMSConceptsPage />} />
           <Route path="about" element={<AboutPage />} />
         </Route>
