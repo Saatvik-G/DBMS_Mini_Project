@@ -1,6 +1,11 @@
 import os
+from pathlib import Path
 from pydantic_settings import BaseSettings
 from typing import Optional
+
+# Compute absolute canonical project root and SQLite path
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+CANONICAL_SQLITE_PATH = (PROJECT_ROOT / "intelligence_fusion.db").as_posix()
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Intelligence Fusion Platform"
@@ -12,7 +17,7 @@ class Settings(BaseSettings):
     
     # SQL Database configuration (PostgreSQL primary with seamless SQLite fallback)
     DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/intelligence_fusion")
-    FALLBACK_SQLITE_URL: str = "sqlite:///./intelligence_fusion.db"
+    FALLBACK_SQLITE_URL: str = os.getenv("SQLITE_URL", f"sqlite:///{CANONICAL_SQLITE_PATH}")
     
     # MongoDB configuration
     MONGODB_URL: str = os.getenv("MONGODB_URL", "mongodb://localhost:27017")

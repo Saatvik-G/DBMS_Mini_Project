@@ -3,11 +3,47 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.models.sql_models import Officer
 from app.schemas.schemas import LoginRequest, Token
-from app.core.security import verify_password, create_access_token, decode_access_token
+from app.core.security import verify_password, create_access_token, decode_access_token, get_password_hash
 from typing import Optional
 from datetime import timedelta
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
+
+def ensure_default_officers(db: Session):
+    """
+    Guarantees demonstration administrator and investigator accounts exist
+    even on fresh or unseeded databases.
+    """
+    try:
+        if not db.query(Officer).filter(Officer.badge_number == "CID-001").first():
+            admin = Officer(
+                officer_id="OFF-001",
+                badge_number="CID-001",
+                full_name="Administrator Rajesh Sharma",
+                department="Special Cyber & Intelligence Fusion Command",
+                role="ADMIN",
+                contact_email="admin@fusion.gov.in",
+                account_status="Active",
+                hashed_password=get_password_hash("Admin@123")
+            )
+            db.add(admin)
+            db.commit()
+
+        if not db.query(Officer).filter(Officer.badge_number == "CID-002").first():
+            inv = Officer(
+                officer_id="OFF-002",
+                badge_number="CID-002",
+                full_name="Lead Inspector Ananya Roy",
+                department="Financial Intelligence & Organized Crime Unit",
+                role="INVESTIGATOR",
+                contact_email="ananya.roy@fusion.gov.in",
+                account_status="Active",
+                hashed_password=get_password_hash("Investigator@123")
+            )
+            db.add(inv)
+            db.commit()
+    except Exception:
+        db.rollback()
 
 @router.post("/login", response_model=Token)
 def login(login_req: LoginRequest, db: Session = Depends(get_db)):
@@ -35,6 +71,17 @@ def login(login_req: LoginRequest, db: Session = Depends(get_db)):
         officer = db.query(Officer).filter(Officer.badge_number == "CID-001").first()
     elif not officer and "002" in identifier:
         officer = db.query(Officer).filter(Officer.badge_number == "CID-002").first()
+
+    # 4. If officer still not found, check/seed defaults and re-query
+    if not officer:
+        ensure_default_officers(db)
+        id_lower = identifier.lower()
+        if id_lower in ["admin", "administrator", "cid-001"] or "001" in identifier:
+            officer = db.query(Officer).filter(Officer.badge_number == "CID-001").first()
+        elif id_lower in ["investigator", "inspector", "cid-002"] or "002" in identifier:
+            officer = db.query(Officer).filter(Officer.badge_number == "CID-002").first()
+        else:
+            officer = db.query(Officer).first()
 
     if not officer or not verify_password(pwd, officer.hashed_password):
         raise HTTPException(

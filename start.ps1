@@ -31,6 +31,7 @@ param (
     [switch]$Test,
     [switch]$NoBrowser,
     [switch]$Seed,
+    [switch]$Restart,
     [ValidateSet("next", "vite")]
     [string]$FrontendMode = "next",
     [switch]$Help
@@ -350,6 +351,17 @@ $BackendHealthUrl = "http://127.0.0.1:8000/api/health"
 $BackendProc = $null
 $BackendStartedByScript = $false
 
+if ($Restart) {
+    Write-Host "  Restart requested. Stopping any existing processes on ports 8000 and $FrontendPort..." -ForegroundColor Cyan
+    $staleConnections = Get-NetTCPConnection -LocalPort 8000, $FrontendPort -ErrorAction SilentlyContinue
+    foreach ($conn in $staleConnections) {
+        if ($conn.OwningProcess -and $conn.OwningProcess -ne $PID) {
+            Stop-Process -Id $conn.OwningProcess -Force -ErrorAction SilentlyContinue
+        }
+    }
+    Start-Sleep -Seconds 1
+}
+
 if (Test-PortOpen "127.0.0.1" 8000) {
     if (Check-HttpReady $BackendHealthUrl 2) {
         Write-Host "  [OK] Backend server is already running and healthy on port 8000." -ForegroundColor Green
@@ -357,9 +369,9 @@ if (Test-PortOpen "127.0.0.1" 8000) {
         Write-Host "  [WARN] Port 8000 is occupied by another process. Attempting to connect..." -ForegroundColor Yellow
     }
 } else {
-    Write-Host "  Starting FastAPI backend on $BackendUrl..." -ForegroundColor Cyan
+    Write-Host "  Starting FastAPI backend on $BackendUrl (with auto-reload)..." -ForegroundColor Cyan
     $BackendProc = Start-Process -FilePath $VenvPython `
-        -ArgumentList "-m uvicorn app.main:app --host 127.0.0.1 --port 8000" `
+        -ArgumentList "-m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload" `
         -WorkingDirectory (Join-Path $ProjectRoot "backend") `
         -PassThru
 
