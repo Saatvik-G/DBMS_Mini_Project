@@ -164,18 +164,18 @@ export const MainLayout: React.FC = () => {
         } ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
       >
         {/* Brand Header */}
-        <div className="h-14 flex items-center justify-between px-3.5 border-b border-[#1E2638] bg-[#0E1420]">
+        <div className="h-14 flex items-center justify-between px-3.5 border-b border-slate-800/90 bg-[#0A0F1D]">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="flex items-center justify-center w-8 h-8 rounded border border-amber-500/40 bg-amber-500/10 text-amber-400 flex-shrink-0">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/40 text-blue-400 flex-shrink-0">
               <Shield className="w-4 h-4" />
             </div>
             {!sidebarCollapsed && (
               <div className="min-w-0">
-                <div className="text-[13px] font-bold tracking-wider text-slate-100 uppercase truncate leading-tight">
+                <div className="text-xs font-bold tracking-wider text-white uppercase truncate leading-tight">
                   Intelligence Fusion
                 </div>
-                <div className="text-[9px] font-mono tracking-widest text-amber-400/90 uppercase font-semibold leading-none mt-0.5">
-                  INVESTIGATION PLATFORM
+                <div className="text-[10px] font-mono tracking-wider text-blue-400/90 font-medium leading-none mt-0.5">
+                  DBMS MINI PROJECT
                 </div>
               </div>
             )}
@@ -183,7 +183,7 @@ export const MainLayout: React.FC = () => {
 
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="hidden lg:flex items-center justify-center w-6 h-6 rounded text-slate-400 hover:text-slate-200 hover:bg-[#161D2B] transition"
+            className="hidden lg:flex items-center justify-center w-6 h-6 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 transition"
             title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             <ChevronRight className={`w-3.5 h-3.5 transform transition-transform ${sidebarCollapsed ? '' : 'rotate-180'}`} />
@@ -210,18 +210,18 @@ export const MainLayout: React.FC = () => {
                     key={item.path}
                     to={item.path}
                     title={sidebarCollapsed ? item.name : undefined}
-                    className={`flex items-center h-8 rounded text-xs transition-colors group ${
+                    className={`flex items-center h-8 rounded-lg text-xs transition-colors group ${
                       sidebarCollapsed ? 'justify-center px-0' : 'justify-between px-2.5'
                     } ${
                       isActive
-                        ? 'bg-[#151D2C] text-amber-300 font-medium border-l-2 border-amber-500'
-                        : 'text-slate-400 hover:bg-[#111724] hover:text-slate-200'
+                        ? 'bg-blue-600/20 text-blue-300 font-semibold border-l-2 border-blue-500'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <Icon
                         className={`w-4 h-4 flex-shrink-0 transition-colors ${
-                          isActive ? 'text-amber-400' : 'text-slate-500 group-hover:text-slate-300'
+                          isActive ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-300'
                         }`}
                       />
                       {!sidebarCollapsed && (
@@ -236,7 +236,7 @@ export const MainLayout: React.FC = () => {
                             ? 'bg-emerald-950/70 text-emerald-400 border border-emerald-800/40'
                             : item.badge === 'Cross-DB'
                             ? 'bg-purple-950/70 text-purple-400 border border-purple-800/40'
-                            : 'bg-amber-950/70 text-amber-400 border border-amber-800/40'
+                            : 'bg-blue-950/70 text-blue-300 border border-blue-800/40'
                         }`}
                       >
                         {item.badge}
@@ -352,16 +352,16 @@ export const MainLayout: React.FC = () => {
             </div>
 
             {/* Officer Badge & Logout Action */}
-            <div className="flex items-center gap-2 pl-1 border-l border-[#1E2638]">
-              <div className="w-7 h-7 rounded border border-amber-500/30 bg-amber-500/10 flex items-center justify-center text-amber-400 font-mono font-bold text-xs">
-                {officer?.role?.charAt(0) || 'A'}
+            <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
+              <div className="w-7 h-7 rounded-full bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-300 font-mono font-bold text-xs">
+                {officer?.role?.charAt(0) || 'O'}
               </div>
               <div className="text-left hidden xl:block">
                 <div className="text-xs font-semibold text-slate-200 leading-tight">
                   {officer?.full_name || 'Officer'}
                 </div>
                 <div className="text-[10px] text-slate-400 font-mono leading-none flex items-center gap-1 mt-0.5">
-                  <span className="text-amber-400/90 font-bold">{officer?.role || 'ADMIN'}</span>
+                  <span className="text-blue-400 font-medium">{officer?.role || 'INVESTIGATOR'}</span>
                   <span>•</span>
                   <span>{officer?.badge_number || 'CID-001'}</span>
                 </div>
@@ -370,7 +370,7 @@ export const MainLayout: React.FC = () => {
               <button
                 onClick={handleLogout}
                 title="Sign out of workstation"
-                className="p-1.5 ml-1 rounded text-slate-400 hover:text-red-400 hover:bg-[#161D2B] transition"
+                className="p-1.5 ml-1 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition"
               >
                 <LogOut className="w-3.5 h-3.5" />
               </button>

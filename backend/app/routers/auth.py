@@ -11,7 +11,8 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 @router.post("/login", response_model=Token)
 def login(login_req: LoginRequest, db: Session = Depends(get_db)):
-    identifier = login_req.badge_number.strip()
+    identifier = login_req.badge_number.strip() if login_req.badge_number else ""
+    pwd = login_req.password.strip() if login_req.password else ""
     
     # 1. Match directly on badge_number, officer_id, contact_email, or full_name
     officer = db.query(Officer).filter(
@@ -23,16 +24,19 @@ def login(login_req: LoginRequest, db: Session = Depends(get_db)):
 
     # 2. Match role aliases (admin / investigator)
     if not officer:
-        if identifier.lower() in ["admin", "administrator", "sysadmin"]:
-            officer = db.query(Officer).filter(Officer.role == "ADMIN").first()
-            if not officer:
-                officer = db.query(Officer).filter(Officer.badge_number == "CID-001").first()
-        elif identifier.lower() in ["investigator", "lead", "inspector"]:
-            officer = db.query(Officer).filter(Officer.role == "INVESTIGATOR").first()
-            if not officer:
-                officer = db.query(Officer).filter(Officer.badge_number == "CID-002").first()
+        id_lower = identifier.lower()
+        if id_lower in ["admin", "administrator", "sysadmin", "root"]:
+            officer = db.query(Officer).filter((Officer.role == "ADMIN") | (Officer.badge_number == "CID-001")).first()
+        elif id_lower in ["investigator", "lead", "inspector", "user"]:
+            officer = db.query(Officer).filter((Officer.role == "INVESTIGATOR") | (Officer.badge_number == "CID-002")).first()
 
-    if not officer or not verify_password(login_req.password, officer.hashed_password):
+    # 3. If identifier is CID-001 or CID-002 explicitly
+    if not officer and "001" in identifier:
+        officer = db.query(Officer).filter(Officer.badge_number == "CID-001").first()
+    elif not officer and "002" in identifier:
+        officer = db.query(Officer).filter(Officer.badge_number == "CID-002").first()
+
+    if not officer or not verify_password(pwd, officer.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid badge identifier, username, or password"
