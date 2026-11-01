@@ -3,18 +3,19 @@
 **Course:** Database Management Systems Mini Project (UE24CS395/DBMS)  
 **Authors:** Saatvik Gupta (`PES1UG24CS395`) & Satyam Goyal (`PES1UG24CS424`)  
 **Project:** Intelligence Fusion Platform (Polyglot Law Enforcement Investigation System)  
+**Evaluation Rubric:** 14 Components | 50 Marks
 
 ---
 
 ## 1. Five-Minute Live Examiner Walkthrough Script
 
-When presenting to the viva panel or evaluation committee, follow this exact 5-step sequence:
+When presenting to the viva panel or evaluation committee, follow this exact sequence:
 
 ### Step 1: Architectural Rationale & Dual-Engine Overview (1 Minute)
 > *"Good morning professors. Our DBMS project is the **Intelligence Fusion Platform**, developed by Saatvik Gupta and Satyam Goyal. In real-world law enforcement, investigations handle two distinct classes of data:
 > 1. Strict relational entities with court-admissible chain of custody requiring full ACID guarantees.
 > 2. Heterogeneous unstructured intelligence (CCTV logs, phone extractions, witness statements) arriving with dynamic schemas.
-> To address this without compromise, we engineered a **Polyglot Persistence Architecture** using PostgreSQL for normalized relational entities and MongoDB for unstructured document telemetry, united via FastAPI and Next.js."*
+> To address this without compromise, we engineered a **Polyglot Persistence Architecture** using PostgreSQL for normalized relational entities and MongoDB for unstructured document telemetry, united via FastAPI and Next.js 15."*
 
 ### Step 2: Relational Schema, Normalization & Constraints (1 Minute)
 > *"Our relational schema consists of 22 tables—10 primary entity/audit tables and 12 associative junction tables—engineered to satisfy **3NF and BCNF**.
@@ -26,7 +27,7 @@ When presenting to the viva panel or evaluation committee, follow this exact 5-s
 > *"Beyond standard CRUD, we implemented advanced database logic:
 > 1. **Stored Procedure (`sp_create_investigation_case`):** Encapsulates atomic case initialization, officer taskforce allocation, and initial audit trail in a single transaction block.
 > 2. **SQL Function (`fn_get_case_summary`):** Computes aggregate metrics and outputs structured JSON dossiers.
-> 3. **Database Audit Trigger (`trg_case_activity_audit`):** Intercepts status and priority transitions on cases, immutably appending before-and-after values into `case_activity`.
+> 3. **Database Audit Trigger (`trg_case_activity_audit`):** An AFTER UPDATE row-level trigger that intercepts status and priority transitions on cases, immutably appending before-and-after values into `case_activity`.
 > 4. **Recursive Common Table Expression (CTE):** Traverses the criminal association graph to discover indirect associates across shared case files up to multiple degrees of separation."*
 
 ### Step 4: NoSQL Document Storage, Full-Text & Vector Search (1 Minute)
@@ -35,92 +36,165 @@ When presenting to the viva panel or evaluation committee, follow this exact 5-s
 > - We created an inverted full-text search index with weighted relevance scoring (`title: 10, tags: 5, content: 1`).
 > - We designed Atlas Vector Search support for semantic similarity matching, complete with a resilient cosine-similarity fallback for offline environments."*
 
-### Step 5: Cross-Database Fusion & Live System Demo (1 Minute)
-> *"In our live Next.js interface, we demonstrate:
-> 1. The unified search bar executing simultaneous relational and MongoDB queries.
-> 2. The interactive Relationship Graph rendering multi-entity connections.
-> 3. The DBMS Sandbox running real-time Recursive CTEs and Trigger audits directly against the live database."*
+### Step 5: System Walkthrough & Live Demonstration (1 Minute)
+> *"In our live interface—designed with a dark graphite palette, dense tables, and 1-pixel borders for authentic operational case management—we demonstrate:
+> 1. The unified search bar executing federated queries across PostgreSQL and MongoDB simultaneously.
+> 2. Case dossiers with linked entities, evidence chain of custody, and chronological audit timelines.
+> 3. The relationship graph visualizer rendering multi-entity connections.
+> 4. The DBMS Concepts Sandbox executing predefined analytical queries (3-way joins, recursive CTEs, window rankings, triggers) directly against the live database."*
 
 ---
 
-## 2. Comprehensive Viva Questions & Model Answers (30 Questions)
+## 2. Core Viva Questions & In-Depth Technical Answers
 
-### Category A: Relational Database Design & Normalization
+### Q1: Why polyglot persistence? Why not use PostgreSQL for everything or MongoDB for everything?
+**Answer:**
+1. **Relational Core (PostgreSQL / SQLite):**
+   - Core investigative workflows demand strict **ACID transactions**, referential integrity (`FOREIGN KEY`), and non-repudiation.
+   - Chain of custody handoffs (`evidence_custody`) and case status changes require atomic multi-table updates.
+   - Relational schemas enforce strict domain constraints (`CHECK`, `UNIQUE`, composite primary keys) that prevent corrupt associations (e.g. duplicate suspect links).
+2. **Document Store (MongoDB):**
+   - Forensic intelligence artifacts arrive from heterogeneous sources: ANPR camera feeds, cell tower dumps, digital forensics JSON, CCTV logs, and audio transcripts.
+   - Forcing these into relational tables would require continuous schema migrations (`ALTER TABLE`) or denormalized text columns losing queryability.
+   - MongoDB allows storing arbitrary polymorphic nested metadata (`metadata` object) while indexing on relational pointers (`case_id`, `entity_type`, `entity_id`).
+   - MongoDB provides native inverted full-text search with weighted field scoring (`title: 10`, `tags: 5`, `content: 1`).
+3. **Graph Traversal (via Relational Recursive CTEs):**
+   - Rather than introducing a third operational database engine (like Neo4j), we leverage SQL:1999 standard **Recursive CTEs** over our existing 12 junction tables to traverse multi-hop criminal associate graphs dynamically.
 
-#### Q1: What normalization level does your relational schema achieve?
-**Answer:** The relational schema achieves **Third Normal Form (3NF)** and **Boyce-Codd Normal Form (BCNF)**. 
-- **1NF:** All column values are atomic; no repeating groups or multivalued columns (e.g., telephone numbers and addresses are atomic, and multi-value phone arrays are separated).
-- **2NF:** It is in 1NF and contains zero partial functional dependencies on candidate keys; every non-prime attribute depends on the whole primary key. In our composite junction tables like `case_people (case_id, person_id)`, descriptive attributes like `role` depend on the composite key `(case_id, person_id)`.
-- **3NF:** It is in 2NF and contains zero transitive functional dependencies ($X \to Y$ and $Y \to Z$ where $Z$ is non-prime). For example, officer departments or ranks are tied directly to the officer ID, not transitively through case records.
-- **BCNF:** Every determinant is a candidate key.
+### Q2: How does your schema achieve 3NF and BCNF? Point to a specific functional dependency.
+**Answer:**
+- **1NF (First Normal Form):** All attribute values are atomic; no repeating groups or multivalued columns (e.g. contact emails and phone numbers are scalar attributes; multiple phone numbers are decoupled into `devices`).
+- **2NF (Second Normal Form):** Schema is in 1NF and contains **zero partial dependencies**. In all 12 junction tables with composite primary keys (e.g., `case_people` with `PRIMARY KEY (case_id, person_id)`), non-prime attributes like `role_in_case` and `added_at` depend on the *entire* composite key `(case_id, person_id)`, not on a subset.
+- **3NF (Third Normal Form):** Schema is in 2NF and contains **zero transitive dependencies** ($X \to Y$ and $Y \to Z$).
+  - *Concrete Functional Dependency Proof:*
+    - In an unnormalized design: `cases (case_id, title, lead_officer_id, officer_name, officer_department)`.
+    - Dependencies: $\text{case\_id} \to \text{lead\_officer\_id}$ and $\text{lead\_officer\_id} \to \text{officer\_department}$.
+    - This creates a transitive dependency: $\text{case\_id} \to \text{officer\_department}$, causing update anomalies if an officer changes departments.
+    - We decomposed this into `cases (case_id, ..., lead_officer_id)` and `officers (officer_id, full_name, department)`, where $\text{lead\_officer\_id}$ is a foreign key.
+- **BCNF (Boyce-Codd Normal Form):** Every determinant in every functional dependency is a **superkey**. E.g., in `vehicles (vehicle_id, registration_number, vin)`, the candidate keys are `vehicle_id` and `registration_number`. The only determinants are candidate keys.
 
-#### Q2: Why did you separate `evidence` and `evidence_custody` into two tables?
-**Answer:** To avoid update anomalies and maintain legal non-repudiation. If custody transfer details were updated directly inside the `evidence` row, historical custody events would be overwritten, destroying the chronological chain of custody required in court. By creating a 1:N relationship with `evidence_custody`, every transfer is appended immutably with timestamp, handling officer, and verification hash.
+### Q3: What does the SQLite fallback lose compared to native PostgreSQL?
+**Answer:**
+- **What is lost / simulated:**
+  1. **PL/pgSQL Procedural Routines:** SQLite lacks native stored procedures (`CREATE PROCEDURE sp_create_investigation_case`) and user-defined functions returning tables (`CREATE FUNCTION fn_get_case_summary`). In SQLite mode, these queries execute optimized multi-table aggregations simulating identical output.
+  2. **Database-Level Roles & RBAC:** SQLite is an embedded file database without a client-server user management or grant/revoke model (`ifp_admin`, `ifp_investigator`). Role enforcement falls back entirely to the FastAPI server-side authorization layer.
+  3. **High-Concurrency Locking:** SQLite relies on database-level locking for writes (WAL mode provides single-writer multi-reader), whereas PostgreSQL provides granular row-level locking and Multi-Version Concurrency Control (MVCC).
+- **What SQLite preserves:**
+  - Complete 22-table relational schema.
+  - Foreign key referential integrity (via `PRAGMA foreign_keys=ON` event listener on connect).
+  - Domain `CHECK` constraints on status, priority, and categories.
+  - Composite primary keys on all 12 junction tables.
+  - Standard SQL:1999 Window functions (`DENSE_RANK()`, `ROW_NUMBER()`) and **Recursive CTEs** (`WITH RECURSIVE`).
 
-#### Q3: What is the difference between `ON DELETE CASCADE` and `ON DELETE RESTRICT` in your schema?
-**Answer:** 
-- `ON DELETE CASCADE` is used for dependent junction records (e.g. `case_people`, `case_evidence`). If a case is deleted, its junction mappings are automatically purged to prevent orphaned references.
-- `ON DELETE RESTRICT` is used for `evidence_custody.transferred_to_officer_id`. If an officer is registered as having received evidence in an active case, their officer record cannot be deleted from the database, preventing legal gaps in custodial accountability.
+### Q4: How does the database trigger work (before/after, row/statement)?
+**Answer:**
+- **Definition:** `AFTER UPDATE OF status, priority ON cases FOR EACH ROW EXECUTE FUNCTION fn_case_activity_audit()`
+- **Timing (`AFTER`):** Ensures that the case update has passed all relational constraints and validations before an audit record is committed. If the case update fails, the audit record is never written.
+- **Granularity (`FOR EACH ROW`):** Operates on each modified row individually rather than once per statement, capturing the exact transition for every case affected.
+- **Mechanism:**
+  1. When an `UPDATE` executes, PostgreSQL provides the pseudo-records `OLD` and `NEW`.
+  2. The trigger checks `IF (OLD.status IS DISTINCT FROM NEW.status) OR (OLD.priority IS DISTINCT FROM NEW.priority)`.
+  3. It inserts an immutable entry into `case_activity` recording `case_id`, `activity_type = 'STATUS_CHANGE'`, before-and-after values in the description, and `CURRENT_TIMESTAMP`.
 
-#### Q4: How do composite primary keys prevent duplicate associations?
-**Answer:** In tables like `case_people`, the primary key is defined as `PRIMARY KEY (case_id, person_id)`. The relational engine automatically enforces uniqueness on the pair, guaranteeing that Person #5 cannot be linked to Case #1 twice with contradictory roles.
+### Q5: How does the recursive CTE terminate?
+**Answer:**
+The recursive CTE `cte_suspect_network` traverses indirect suspect associations through shared cases:
+```sql
+WITH RECURSIVE associate_graph AS (
+    -- Anchor Member (Depth 1): Direct co-suspects in shared cases
+    SELECT cp1.person_id AS root_id, cp2.person_id AS associate_id, 1 AS depth
+    FROM case_people cp1
+    JOIN case_people cp2 ON cp1.case_id = cp2.case_id AND cp1.person_id != cp2.person_id
+    WHERE cp1.person_id = 'PER-001'
+
+    UNION ALL
+
+    -- Recursive Member (Depth N+1): Indirect associates
+    SELECT ag.root_id, cp_next.person_id, ag.depth + 1
+    FROM associate_graph ag
+    JOIN case_people cp_prev ON ag.associate_id = cp_prev.person_id
+    JOIN case_people cp_next ON cp_prev.case_id = cp_next.case_id 
+         AND cp_next.person_id != ag.root_id 
+         AND cp_next.person_id != ag.associate_id
+    WHERE ag.depth < 3  -- Hard recursion depth limit
+)
+SELECT DISTINCT * FROM associate_graph;
+```
+- **Termination Conditions:**
+  1. **Depth Ceiling:** The clause `WHERE ag.depth < 3` prevents runaway recursion and guarantees termination at depth 2.
+  2. **Cycle Prevention:** Checks `cp_next.person_id != ag.root_id AND cp_next.person_id != ag.associate_id` to eliminate trivial back-and-forth loops.
+  3. **Relational Fixed-Point:** When the recursive member produces an empty set ($\emptyset$), the relational engine naturally terminates the iteration.
+
+### Q6: How do JWT roles map to database-level roles (roles-and-grants.sql)?
+**Answer:**
+1. **Application Layer (FastAPI JWT):**
+   - The `/api/auth/login` endpoint issues signed HS256 JWT tokens with claims: `{ "sub": officer_id, "role": "ADMIN" | "INVESTIGATOR" }`.
+   - Endpoints verify tokens server-side via `require_admin_officer`. An investigator attempting `POST /api/officers` or `POST /api/users` receives an immediate `403 Forbidden`.
+2. **Database Layer (`database/sql/roles-and-grants.sql`):**
+   - `ifp_admin`: Granted `ALL PRIVILEGES ON ALL TABLES IN SCHEMA public` for user provisioning and schema administration.
+   - `ifp_investigator`: Follows least privilege:
+     - `SELECT` on `officers` (read-only directory).
+     - `SELECT, INSERT, UPDATE` on domain entities and junction tables (`cases`, `people`, `evidence`, `vehicles`, etc.).
+     - `SELECT, INSERT` on audit tables (`case_activity`, `evidence_custody`) — immutable append-only.
+     - `REVOKE DELETE ON cases, evidence, evidence_custody, case_activity` to prevent evidence spoliation.
+   - `ifp_auditor`: Read-only (`SELECT ON ALL TABLES`) for viva examination and external audit.
+3. **Production Mapping:** In a production deployment, the application gateway selects a PostgreSQL connection pool corresponding to the officer's role, enforcing physical DB-level isolation in addition to HTTP middleware.
+
+### Q7: Why is the DBMS Concepts Sandbox immune to SQL injection?
+**Answer:**
+1. **Strict Whitelist Architecture:**
+   - The `/api/dbms-concepts/execute/{query_id}` endpoint accepts only a fixed string key matching the dictionary `PREDEFINED_QUERIES` (`q1_three_way_join` .. `q11_stored_procedure_logic`).
+   - If an unlisted key is supplied, it immediately throws `HTTPException(status_code=404, detail="Query ID not found in predefined safe queries.")`.
+2. **Zero User-Supplied SQL:**
+   - The endpoint does not accept raw SQL text, query parameters, or string fragments from the client.
+3. **Parameterized ORM:**
+   - All standard entity endpoints use SQLAlchemy 2.0 ORM with parameterized variable binding (`?` in SQLite, `$1` in PostgreSQL), ensuring that user inputs are never concatenated directly into SQL text.
 
 ---
 
-### Category B: Transactions, ACID & Advanced SQL
+## 3. Supplementary Viva Technical Questions (Relational, ACID, NoSQL)
 
-#### Q5: Explain how the ACID properties are preserved during an evidence transfer.
+#### Q8: Why did you separate `evidence` and `evidence_custody` into two tables?
+**Answer:** To preserve the chronological chain of custody required in court. If custodial transfer data were stored in the `evidence` row, each handoff would overwrite the previous officer and location, destroying auditability. By establishing a 1:N relationship with `evidence_custody`, every transfer is appended immutably with timestamp, handling officer, and storage reference.
+
+#### Q9: What is the difference between `ON DELETE CASCADE` and `ON DELETE RESTRICT` in your schema?
 **Answer:**
-- **Atomicity:** Wrapped inside a `BEGIN ... COMMIT` transaction. Both updating `evidence.status` and inserting into `evidence_custody` must succeed. If either fails, `ROLLBACK` reverts both operations.
-- **Consistency:** Database integrity constraints (e.g., verifying that the destination officer exists and status belongs to the approved enum) are preserved before and after commit.
-- **Isolation:** Transaction isolation (such as Read Committed) ensures concurrent transactions cannot view intermediate or uncommitted custody shifts.
-- **Durability:** Once committed, transaction logs (Write-Ahead Logging / WAL in PostgreSQL) ensure changes survive power loss or system failure.
+- `ON DELETE CASCADE`: Used on associative junction tables (e.g. `case_people`, `case_evidence`). If a case is deleted, its junction records are automatically deleted to eliminate orphaned foreign keys.
+- `ON DELETE RESTRICT`: Used on `evidence_custody.officer_id`. If an officer is on record as having handled physical evidence, their officer record cannot be deleted, preventing legal gaps in custodial accountability.
 
-#### Q6: What is a Recursive Common Table Expression (CTE) and how did you use it?
-**Answer:** A Recursive CTE is a query that references its own output table to iteratively evaluate hierarchical or graph data. It consists of an **Anchor Member** (initial query), a **UNION ALL**, and a **Recursive Member** that joins with the CTE itself until an exit condition is reached. We used it in `cte_suspect_network` to discover hidden criminal syndicates by starting with suspect #1, discovering co-suspects in shared cases, and recurring up to depth = 2.
+#### Q10: How do composite primary keys prevent duplicate associations?
+**Answer:** In junction tables like `case_people`, the primary key is `PRIMARY KEY (case_id, person_id)`. The relational engine automatically enforces uniqueness on the tuple, preventing an investigator from accidentally linking the same suspect twice with conflicting roles.
 
-#### Q7: What is the difference between a Stored Procedure and a Function in PostgreSQL?
+#### Q11: Explain how the ACID properties are preserved during an evidence custody transfer.
 **Answer:**
-- A **Function** (`CREATE FUNCTION ... RETURNS ...`) returns a value or table, is called within a `SELECT` statement (e.g. `SELECT fn_get_case_summary(1)`), and cannot execute transaction control statements (`COMMIT`/`ROLLBACK`).
-- A **Stored Procedure** (`CREATE PROCEDURE ...`) is invoked using `CALL sp_create_investigation_case(...)`, can accept `INOUT` parameters, and has the capability to initiate and commit independent transactions within its execution body.
+- **Atomicity:** Executed inside a single transaction block. Updating `evidence.storage_reference` and inserting a new row in `evidence_custody` must both succeed; otherwise, a `ROLLBACK` reverts both.
+- **Consistency:** All check constraints and foreign key relationships are validated before commit.
+- **Isolation:** Read Committed isolation ensures concurrent transactions cannot view intermediate or uncommitted custody shifts.
+- **Durability:** PostgreSQL Write-Ahead Logging (WAL) guarantees committed custodial transfers persist across system failures.
 
-#### Q8: How does your database trigger work?
-**Answer:** The trigger `trg_case_activity_audit` is defined `AFTER UPDATE OF status, priority ON cases FOR EACH ROW`. When an investigator updates the status of a case from 'OPEN' to 'CLOSED', PostgreSQL automatically executes the trigger function `fn_audit_case_state_change()`. This function compares `OLD.status` with `NEW.status`, generating an audit row in `case_activity` with the timestamp and previous values without any application code intervention.
-
-#### Q9: What is the difference between `RANK()`, `DENSE_RANK()`, and `ROW_NUMBER()`?
+#### Q12: What is the difference between `RANK()`, `DENSE_RANK()`, and `ROW_NUMBER()`?
 **Answer:**
-- `ROW_NUMBER()` assigns sequential integers (1, 2, 3, 4) regardless of ties.
+- `ROW_NUMBER()` assigns strictly sequential integers (1, 2, 3, 4) regardless of ties.
 - `RANK()` assigns identical ranks to tied rows but skips subsequent numbers (1, 2, 2, 4).
-- `DENSE_RANK()` assigns identical ranks to tied rows without skipping numbers (1, 2, 2, 3). In our analytics, `DENSE_RANK()` ranks officers by caseload without producing arbitrary gaps in the leaderboard.
+- `DENSE_RANK()` assigns identical ranks to tied rows without skipping numbers (1, 2, 2, 3). In our caseload analytics, `DENSE_RANK()` ranks officers without artificial gaps in the ranking.
+
+#### Q13: How does MongoDB's `$text` index and score work?
+**Answer:** MongoDB builds an inverted full-text index tokenizing, lowercasing, and stemming text fields. When executing `{ $text: { $search: "blue sedan" } }`, MongoDB calculates a relevance score based on term frequency and field weights (`title: 10, tags: 5, content: 1`). Projecting `{ score: { $meta: "textScore" } }` sorts the most relevant forensic exhibits first.
+
+#### Q14: What is the difference between MongoDB Atlas Vector Search and relational text search?
+**Answer:** Relational text search relies on lexical keyword and stem matching. Vector Search converts text into high-dimensional numerical vectors (embeddings) using neural models. It performs approximate nearest neighbor search (e.g. Cosine Similarity / HNSW), matching semantic intent even when exact keywords differ (e.g., matching "clandestine offshore wire transfer" with "laundered cryptocurrency wallet").
 
 ---
 
-### Category C: NoSQL, MongoDB & Polyglot Architecture
+## 4. Quick Verification Commands for Demonstrators
 
-#### Q10: Why did you use MongoDB instead of storing JSON in PostgreSQL `JSONB`?
-**Answer:** While PostgreSQL supports `JSONB`, MongoDB was chosen because:
-1. Investigation telemetry documents (CCTV logs, phone memory dumps, email archives) are fundamentally document-oriented, varying widely in structure.
-2. MongoDB provides native horizontal sharding and native inverted full-text search indexing with document scoring.
-3. It demonstrates **Polyglot Persistence**, proving our capability to architect, integrate, and maintain hybrid database paradigms in a single cohesive platform.
+```powershell
+# 1. Run the complete automated test suite (11/11 tests passing)
+.\start.ps1 -Test
 
-#### Q11: How do you link MongoDB documents with PostgreSQL relational tables?
-**Answer:** Through **Application-Level Polyglot References**. MongoDB documents store integer and string foreign keys (`case_id`, `entity_type`, `entity_id`). When the application needs to render a case dossier, the FastAPI service queries PostgreSQL for the core relational entity and issues an indexed MongoDB query (`{ case_id: id }`) to retrieve linked unstructured documents, merging them into a unified response object.
+# 2. Launch full platform with clean restart
+.\start.ps1 -Restart
 
-#### Q12: How does MongoDB's `$text` index and score work?
-**Answer:** MongoDB builds an inverted text index tokenizing, lowercasing, and stemming text fields. When executing `{ $text: { $search: "crypto fraud" } }`, MongoDB computes a text relevance score based on term frequency and field weights (`title: 10, tags: 5, content: 1`). We project `{ score: { $meta: "textScore" } }` and sort descending so the most relevant forensic exhibits appear first.
-
-#### Q13: What is the difference between MongoDB Atlas Vector Search and relational full-text search?
-**Answer:** Relational full-text search (and standard MongoDB text search) relies on syntactic lexical matching (exact words and stems). Vector Search converts text into high-dimensional numerical vectors (embeddings) using neural models. It performs approximate nearest neighbor search (e.g., Cosine Similarity / HNSW), matching conceptual meaning even when the exact keywords are completely different (e.g., matching "clandestine offshore fund transfer" with "laundered cryptocurrency wallet").
-
----
-
-### Category D: Security, RBAC & Deployment
-
-#### Q14: How is Role-Based Access Control enforced at the database level?
-**Answer:** We created distinct PostgreSQL roles:
-- `ifp_admin`: Possesses `ALL PRIVILEGES` for user administration and schema maintenance.
-- `ifp_investigator`: Follows the principle of least privilege. Granted `SELECT`, `INSERT`, `UPDATE` on cases and evidence, but `REVOKE DELETE` on cases, evidence, and audit logs to prevent evidence destruction.
-- `ifp_auditor`: Granted read-only (`SELECT`) access across public schema tables.
-
-#### Q15: What happens if PostgreSQL is unavailable in the demonstration environment?
-**Answer:** The platform features resilient dual-engine failover: `backend/app/db/session.py` attempts connection to PostgreSQL. If the PostgreSQL daemon is unreachable, it automatically and gracefully initializes our SQLite relational replica (`intelligence_fusion.db`) without crashing, allowing full demonstration of all 22 relational tables and CRUD operations.
+# 3. Force database re-seeding with standardized demonstration records
+.\start.ps1 -Seed -Restart
+```
