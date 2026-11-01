@@ -14,7 +14,7 @@
 
 | # | Evaluation Component | Max Marks | Status | Primary Artifacts & Evidence Files |
 |---|----------------------|-----------|--------|------------------------------------|
-| **1** | **ER Diagram** | 2 | Verified Complete | `docs/er-diagram.md`, Mermaid ER diagram covering all 11 entities, 11 junction tables, and document references |
+| **1** | **ER Diagram** | 2 | Verified Complete | `docs/er-diagram.md`, Mermaid ER diagram covering all 10 entities, 12 junction tables, and document references |
 | **2** | **Relational Schema, Keys, Relationships, and Constraints** | 3 | Verified Complete | `database/sql/schema.sql`, PostgreSQL DDL with strict PKs, FKs, CHECKs, UNIQUE constraints, cascade behaviors |
 | **3** | **Data Integrity, Normalization, Constraints, and Indexes** | 4 | Verified Complete | `docs/database-design.md`, 3NF/BCNF normalization proofs, composite indexes, B-tree indexes, partial indexes in `database/sql/schema.sql` |
 | **4** | **Relational Database Implementation** | 5 | Verified Complete | PostgreSQL DDL in `database/sql/schema.sql`, verified models in `backend/app/models/sql_models.py`, live backend running on SQLite/PostgreSQL with 22 relational tables |
@@ -23,7 +23,7 @@
 | **7** | **NoSQL Database Implementation** | 5 | Verified Complete | `database/mongodb/collection-schema.json`, `database/mongodb/indexes.js`, `database/mongodb/rud-examples.js`, `database/mongodb/sample-documents.json`, live MongoDB at `localhost:27017` with 26 polymorphic docs, text search & vector fallback |
 | **8** | **Technology Justification & Analysis** | 3 | Verified Complete | `docs/technology-justification.md` (Detailed architectural trade-off analysis comparing RDBMS ACID vs Document Store flexible schema for intelligence fusion) |
 | **9** | **Authorization & Access Control** | 3 | Verified Complete | `docs/authorization.md`, `database/sql/roles-and-grants.sql` (PostgreSQL `ifp_admin` & `ifp_investigator` roles), API JWT / Role Middleware in `backend/app/routers/auth.py` |
-| **10** | **User Interface (Next.js with TypeScript)** | 5 | Verified Complete | `frontend/` (Next.js 14+ / React 19 App Router with TypeScript, Tailwind CSS, Lucide icons, Dark Navy palette, 14 complete interactive modules) |
+| **10** | **User Interface (Next.js with TypeScript)** | 5 | Verified Complete | `frontend/` (Next.js 15 / React 19 App Router with TypeScript, Tailwind CSS, Lucide icons, Dark Graphite/Slate palette, 14 complete interactive modules) |
 | **11** | **System Architecture & Integration** | 3 | Verified Complete | Polyglot data integration layer `backend/app/routers/search.py`, `relationships.py`, `dashboard.py`, and Docker Compose multi-container setup |
 | **12** | **Project Documentation & Repository Quality** | 3 | Verified Complete | `README.md`, `docs/`, clean root structure, `.env.example`, `.gitignore`, reproducibility scripts |
 | **13** | **Viva & Demonstration Preparation** | 3 | Verified Complete | `docs/viva-preparation.md` (30+ viva technical questions with answers, 5-minute interactive examiner walkthrough script) |

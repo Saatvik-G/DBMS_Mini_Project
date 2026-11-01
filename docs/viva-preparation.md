@@ -17,7 +17,7 @@ When presenting to the viva panel or evaluation committee, follow this exact 5-s
 > To address this without compromise, we engineered a **Polyglot Persistence Architecture** using PostgreSQL for normalized relational entities and MongoDB for unstructured document telemetry, united via FastAPI and Next.js."*
 
 ### Step 2: Relational Schema, Normalization & Constraints (1 Minute)
-> *"Our relational schema consists of 22 tables—11 primary entities and 11 bridge junction tables—engineered to satisfy **3NF and BCNF**.
+> *"Our relational schema consists of 22 tables—10 primary entity/audit tables and 12 associative junction tables—engineered to satisfy **3NF and BCNF**.
 > - Every Many-to-Many relationship (e.g. `case_people`, `evidence_devices`, `person_vehicles`) is decoupled using junction tables with composite primary keys.
 > - We enforce domain integrity through CHECK constraints on case status, priority, and clearance levels, with strict foreign key cascade rules (`ON DELETE CASCADE` for associations, `ON DELETE RESTRICT` for evidence custody handoffs).
 > - Our indexing strategy includes B-tree indexes on foreign keys and compound indexes on `(status, priority)` to eliminate full table scans during filtering."*

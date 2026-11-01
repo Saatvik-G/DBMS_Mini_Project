@@ -137,3 +137,11 @@ def update_officer(officer_id: str, off_in: OfficerUpdate, db: Session = Depends
     db.commit()
     db.refresh(o)
     return o
+
+# Alias router for /users (supporting both /api/officers and /api/users conventions)
+users_router = APIRouter(prefix="/users", tags=["Users"])
+users_router.add_api_route("", list_officers, methods=["GET"], response_model=List[OfficerOut])
+users_router.add_api_route("", create_officer, methods=["POST"], response_model=OfficerOut, status_code=status.HTTP_201_CREATED)
+users_router.add_api_route("/{officer_id}", get_officer, methods=["GET"])
+users_router.add_api_route("/{officer_id}", update_officer, methods=["PUT"], response_model=OfficerOut)
+

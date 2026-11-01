@@ -190,3 +190,56 @@ def test_dbms_concepts_demonstration():
         mongo_exec = client.post("/api/dbms-concepts/execute/q5_mongo_aggregation")
         assert mongo_exec.status_code == 200
         assert len(mongo_exec.json()["rows"]) > 0
+
+def test_server_side_rbac_enforcement():
+    # 1. Unauthenticated request to admin endpoint must return 401
+    new_officer_payload = {
+        "badge_number": "CID-TEST-88",
+        "full_name": "Test Officer Provisioning",
+        "department": "Cyber Crime",
+        "role": "INVESTIGATOR",
+        "contact_email": "test.officer88@fusion.gov.in",
+        "password": "Password@123"
+    }
+    unauth_res = client.post("/api/officers", json=new_officer_payload)
+    assert unauth_res.status_code == 401
+
+    # 2. Authenticate as INVESTIGATOR
+    inv_login = client.post("/api/auth/login", json={
+        "badge_number": "CID-002",
+        "password": "Investigator@123"
+    })
+    assert inv_login.status_code == 200
+    inv_token = inv_login.json()["access_token"]
+    inv_headers = {"Authorization": f"Bearer {inv_token}"}
+
+    # Investigator CAN read officer directory (read-only)
+    inv_read = client.get("/api/officers", headers=inv_headers)
+    assert inv_read.status_code == 200
+    assert len(inv_read.json()) >= 2
+
+    # Investigator is FORBIDDEN (403) from creating officers on /api/officers
+    inv_post_officers = client.post("/api/officers", json=new_officer_payload, headers=inv_headers)
+    assert inv_post_officers.status_code == 403
+    assert "ADMIN" in inv_post_officers.json()["detail"]
+
+    # Investigator is FORBIDDEN (403) from creating users on /api/users
+    inv_post_users = client.post("/api/users", json=new_officer_payload, headers=inv_headers)
+    assert inv_post_users.status_code == 403
+    assert "ADMIN" in inv_post_users.json()["detail"]
+
+    # 3. Authenticate as ADMIN
+    admin_login = client.post("/api/auth/login", json={
+        "badge_number": "CID-001",
+        "password": "Admin@123"
+    })
+    assert admin_login.status_code == 200
+    admin_token = admin_login.json()["access_token"]
+    admin_headers = {"Authorization": f"Bearer {admin_token}"}
+
+    # Admin IS PERMITTED (201) to provision new officers
+    admin_post = client.post("/api/officers", json=new_officer_payload, headers=admin_headers)
+    assert admin_post.status_code == 201
+    created_off = admin_post.json()
+    assert created_off["badge_number"] == "CID-TEST-88"
+

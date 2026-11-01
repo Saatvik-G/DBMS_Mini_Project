@@ -46,7 +46,7 @@ The **Intelligence Fusion Platform** solves this by establishing PostgreSQL as t
 ---
 
 ### 2. Objectives & Scope
-1. **Relational Modeling:** Design a normalized 3NF/BCNF schema with 11 primary tables and 11 Many-to-Many junction tables.
+1. **Relational Modeling:** Design a normalized 3NF/BCNF schema with 10 primary entity/audit tables and 12 Many-to-Many junction tables (22 tables total).
 2. **NoSQL Document Integration:** Store and index 9 distinct document formats in MongoDB with arbitrary nested JSON metadata.
 3. **Cross-Database Unified Search:** Execute federated queries returning categorized SQL entities and NoSQL documents.
 4. **Chronological Timelines:** Consolidate alleged incident dates, SQL case activities, evidence custody handoffs, and MongoDB document creation/ingestion timestamps.
@@ -68,7 +68,7 @@ The **Intelligence Fusion Platform** solves this by establishing PostgreSQL as t
 - **`evidence`**: PK `evidence_id`. Belongs to a case.
 - **`evidence_custody`**: PK `custody_event_id`. Sequential audit history.
 - **`case_activity`**: PK `activity_id`. Case milestones and notes.
-- **11 Junction Tables**: `case_people`, `case_organizations`, `case_vehicles`, `case_devices`, `case_locations`, `person_organizations`, `person_vehicles`, `person_devices`, `evidence_people`, `evidence_vehicles`, `evidence_devices`, `evidence_locations`.
+- **12 Junction Tables**: `case_people`, `case_organizations`, `case_vehicles`, `case_devices`, `case_locations`, `person_organizations`, `person_vehicles`, `person_devices`, `evidence_people`, `evidence_vehicles`, `evidence_devices`, `evidence_locations`.
 
 #### Document Collection (MongoDB)
 - **`investigation_documents`**: Collection in database `intelligence_fusion`.
