@@ -28,25 +28,25 @@ To address this without compromise, the platform implements a **Polyglot Persist
 
 ---
 
-## 2. 14-Component Evaluation Rubric Coverage (50 Marks)
+## 2. Official 14-Component Evaluation Matrix (50 Marks)
 
-| # | Evaluation Rubric Component | Max Marks | Implementation Evidence & Verified Artifacts |
-|:---:|:---|:---:|:---|
-| **1** | **ER Diagram** | 2 | [`docs/er-diagram.md`](docs/er-diagram.md) & [`docs/submission/01_ER_Diagram.pdf`](docs/submission/01_ER_Diagram.pdf) — Complete Mermaid ER diagram with all 10 core entities, 12 junction tables, cardinality notation, and MongoDB polyglot links. |
-| **2** | **Relational Schema, Keys & Constraints** | 3 | [`database/sql/schema.sql`](database/sql/schema.sql) & [`backend/app/models/sql_models.py`](backend/app/models/sql_models.py) — DDL with domain PKs (`CASE-XXX`, `PER-XXX`), foreign keys, CHECK constraints (status, priority, category), UNIQUE constraints, and ON DELETE cascade/restrict rules. |
-| **3** | **Data Integrity, Normalization & Indexes** | 4 | [`docs/database-design.md`](docs/database-design.md) & [`docs/submission/02_Relational_Schema_and_DDL.pdf`](docs/submission/02_Relational_Schema_and_DDL.pdf) — Formal 1NF, 2NF, 3NF, and BCNF normalization proofs; B-tree, temporal, and composite indexing strategies. |
-| **4** | **Relational Database Implementation** | 5 | PostgreSQL production schema (`database/sql/schema.sql`) and SQLAlchemy 2.0 models with automatic SQLite failover (`backend/app/db/session.py`) maintaining foreign key pragmas and integrity. |
-| **5** | **DML Operations** | 5 | [`database/sql/dml-examples.sql`](database/sql/dml-examples.sql) & [`docs/submission/03_SQL_Operations_and_Queries.pdf`](docs/submission/03_SQL_Operations_and_Queries.pdf) — CRUD operations, multi-table joins, nested queries, and transaction rollback with SAVEPOINTs. |
-| **6** | **Advanced SQL** | 6 | [`database/sql/advanced-concepts.sql`](database/sql/advanced-concepts.sql) & [`docs/submission/04_Advanced_Database_Concepts.pdf`](docs/submission/04_Advanced_Database_Concepts.pdf) — Stored Procedure (`sp_create_investigation_case`), Function (`fn_get_case_summary`), Audit Trigger (`trg_case_activity_audit`), Window Ranking (`DENSE_RANK()`), and Recursive CTE suspect graph traversal. |
-| **7** | **NoSQL Database Implementation** | 5 | [`database/mongodb/`](database/mongodb/) & [`docs/submission/05_NoSQL_and_Integration.pdf`](docs/submission/05_NoSQL_and_Integration.pdf) — JSON Schema validator (`collection-schema.json`), weighted text and compound indexes (`indexes.js`), aggregation pipelines, and 26 sample polymorphic documents. |
-| **8** | **Technology Justification & Analysis** | 3 | [`docs/technology-justification.md`](docs/technology-justification.md) — Architectural trade-off analysis comparing RDBMS ACID guarantees vs NoSQL dynamic schema flexibility, query latency benchmarks, and CAP theorem classification. |
-| **9** | **Authorization & Access Control** | 3 | [`docs/authorization.md`](docs/authorization.md) & [`database/sql/roles-and-grants.sql`](database/sql/roles-and-grants.sql) — Dual-tier RBAC: PostgreSQL roles (`ifp_admin`, `ifp_investigator`, `ifp_auditor`) + server-side JWT authentication with ADMIN vs INVESTIGATOR route protection. |
-| **10** | **User Interface (Next.js with TypeScript)** | 5 | [`frontend/`](frontend/) & [`docs/submission/06_Project_Report.pdf`](docs/submission/06_Project_Report.pdf) — Responsive forensic workstation in dark graphite/slate, TypeScript type safety, case dossier inspector, evidence vault, interactive link analysis graph, and live DBMS concepts sandbox. |
-| **11** | **System Architecture & Integration** | 3 | Unified REST gateway (`FastAPI`), polyglot data federation (`backend/app/routers/search.py`), and multi-service Docker Compose orchestration (`docker-compose.yml`). |
-| **12** | **Project Documentation & Repository Quality** | 3 | Detailed technical specifications, synchronized DDL/models, reproducible seed scripts (`backend/seed.py`), and 8 publication-grade submission PDFs. |
-| **13** | **Viva & Demonstration Preparation** | 3 | [`docs/viva-preparation.md`](docs/viva-preparation.md) & [`docs/submission/07_Rubric_Coverage_and_Viva.pdf`](docs/submission/07_Rubric_Coverage_and_Viva.pdf) — 5-minute live demo walkthrough script and 30 examiner questions with answers. |
-| **14** | **Team Contributions** | Mandatory | [`docs/team-contributions.md`](docs/team-contributions.md) — Equal 50/50 division of responsibilities across design, engineering, testing, and documentation between Saatvik Gupta and Satyam Goyal. |
-| **TOTAL** | **Comprehensive DBMS Evaluation** | **50 / 50** | **Fully Implemented, Verified, and Tested** |
+| # | Official Evaluation Component | Max Marks | Status | Primary Artifact & Submission Deliverable |
+|:---:|:---|:---:|:---:|:---|
+| **1** | **ER diagram** | 2 | Complete | [`docs/submission/01_ER_Diagram.pdf`](docs/submission/01_ER_Diagram.pdf) & [`docs/er-diagram.md`](docs/er-diagram.md) — 22 tables (10 entities + 12 junction tables) with cardinalities and keys. |
+| **2** | **Relational schema with keys, relationships, and constraints** | 3 | Complete | [`docs/submission/02_Relational_Schema.pdf`](docs/submission/02_Relational_Schema.pdf) & [`docs/database-design.md`](docs/database-design.md) — Relation table with PKs, FKs, CHECKs, UNIQUEs, and 1NF/2NF/3NF/BCNF proofs. |
+| **3** | **SQL database implementation - DDL with constraints** | 4 | Complete | [`docs/submission/03_SQL_DDL_Implementation.pdf`](docs/submission/03_SQL_DDL_Implementation.pdf) & [`database/sql/schema.sql`](database/sql/schema.sql) — 22-table DDL, CASCADE/RESTRICT rules, and 17 performance indexes. |
+| **4** | **NoSQL/Vector database creation** | 4 | Complete | [`docs/submission/04_NoSQL_Vector_Database_Creation.pdf`](docs/submission/04_NoSQL_Vector_Database_Creation.pdf) & [`database/mongodb/`](database/mongodb/) — Collection `$jsonSchema`, 64-dim vector design, text/compound indexes, 26 seeded docs. |
+| **5** | **Technology justification** | 1 | Complete | [`docs/submission/05_Technology_Justification.pdf`](docs/submission/05_Technology_Justification.pdf) & [`docs/technology-justification.md`](docs/technology-justification.md) — Architectural rationale: PostgreSQL ACID vs MongoDB polymorphism. |
+| **6** | **DML operations** | 4 | Complete | [`docs/submission/06_DML_Operations.pdf`](docs/submission/06_DML_Operations.pdf) & [`database/sql/dml-examples.sql`](database/sql/dml-examples.sql) — CRUD statements with outputs, plus transaction with COMMIT, ROLLBACK and SAVEPOINT. |
+| **7** | **Nested/correlated/recursive queries, JOIN SQL queries** | 4 | Complete | [`docs/submission/07_Queries_Nested_Correlated_Recursive_Joins.pdf`](docs/submission/07_Queries_Nested_Correlated_Recursive_Joins.pdf) & [`database/sql/advanced-queries.sql`](database/sql/advanced-queries.sql) — Multi-table JOINs, nested, correlated, and recursive CTEs with output. |
+| **8** | **Advanced SQL concepts: procedure/function, trigger, CTE** | 6 | Complete | [`docs/submission/08_Advanced_SQL_Procedure_Function_Trigger_CTE.pdf`](docs/submission/08_Advanced_SQL_Procedure_Function_Trigger_CTE.pdf) & [`database/sql/advanced-concepts.sql`](database/sql/advanced-concepts.sql) — Stored Procedure, Function, Audit Trigger, and CTE. |
+| **9** | **NoSQL/Vector feature, RUD** | 7 | Complete | [`docs/submission/09_NoSQL_Vector_Features_and_RUD.pdf`](docs/submission/09_NoSQL_Vector_Features_and_RUD.pdf) & [`scripts/test_vector_search.py`](scripts/test_vector_search.py) — 64-dim cosine vector search (`/api/search/semantic`), text search, and aggregations. |
+| **10** | **Next.js interface** | 3 | Complete | [`frontend/`](frontend/) — Professional dark graphite case-management workstation in Next.js 15 App Router & TypeScript (18/18 static pages generated). |
+| **11** | **Backend/API and database integration** | 2 | Complete | [`backend/app/`](backend/app/) — FastAPI asynchronous gateway, cross-database federated search, interactive Swagger docs (`/docs`), robust error handling. |
+| **12** | **Authentication (frontend + 2 roles + DB-level RBAC)** | 4 | Complete | [`docs/submission/10_Authentication_and_RBAC.pdf`](docs/submission/10_Authentication_and_RBAC.pdf) & [`scripts/demonstrate_db_rbac.py`](scripts/demonstrate_db_rbac.py) — JWT login, route protection, 403 checks, and PostgreSQL roles (`ifp_admin`, `ifp_investigator`). |
+| **13** | **Documentation, Git/GitHub** | 2 | Complete | [`README.md`](README.md), [`.gitignore`](.gitignore), clean repository root, clear setup instructions, and verified startup scripts. |
+| **14** | **Originality, individual contribution, modification/viva** | 4 | Complete | [`docs/submission/11_Project_Report.pdf`](docs/submission/11_Project_Report.pdf), [`docs/modifications.md`](docs/modifications.md), [`docs/viva-preparation.md`](docs/viva-preparation.md), [`docs/team-contributions.md`](docs/team-contributions.md). |
+| **TOTAL** | **Official Evaluation Matrix** | **50** | **Complete** | **All 14 components backed by executable code, verified outputs, and dedicated PDF deliverables.** |
 
 ---
 
@@ -151,20 +151,24 @@ The platform enforces role-based access control (RBAC) both at the database leve
 
 ## 5. Official Academic PDF Deliverables (`docs/submission/`)
 
-The repository includes 8 publication-grade academic PDF deliverables in `docs/submission/` matching the 14 rubric components:
+The repository includes 11 publication-grade academic PDF deliverables in `docs/submission/` mapping directly onto the official evaluation matrix:
 
-| Deliverable | File Path | Topic & Rubric Component |
-|:---|:---|:---|
-| **Doc 1: ER Diagram** | [`docs/submission/01_ER_Diagram.pdf`](docs/submission/01_ER_Diagram.pdf) | Entity-Relationship model, 10 entities, 12 junction tables, cardinality |
-| **Doc 2: Schema & DDL** | [`docs/submission/02_Relational_Schema_and_DDL.pdf`](docs/submission/02_Relational_Schema_and_DDL.pdf) | DDL, check constraints, indexes, 3NF/BCNF normalization proofs |
-| **Doc 3: SQL Operations** | [`docs/submission/03_SQL_Operations_and_Queries.pdf`](docs/submission/03_SQL_Operations_and_Queries.pdf) | DML CRUD, multi-table joins, subqueries, transaction rollback & savepoints |
-| **Doc 4: Advanced SQL** | [`docs/submission/04_Advanced_Database_Concepts.pdf`](docs/submission/04_Advanced_Database_Concepts.pdf) | Stored procedures, user functions, audit triggers, recursive CTE link graph |
-| **Doc 5: NoSQL & Integration** | [`docs/submission/05_NoSQL_and_Integration.pdf`](docs/submission/05_NoSQL_and_Integration.pdf) | MongoDB schema validation, weighted text search, aggregation pipelines |
-| **Doc 6: Project Report** | [`docs/submission/06_Project_Report.pdf`](docs/submission/06_Project_Report.pdf) | Comprehensive report: abstract, architecture, security, and UI design |
-| **Doc 7: Rubric & Viva** | [`docs/submission/07_Rubric_Coverage_and_Viva.pdf`](docs/submission/07_Rubric_Coverage_and_Viva.pdf) | 14-component rubric compliance matrix, 5-min demo walkthrough, viva Q&A |
-| **Doc 8: Setup & API Guide** | [`docs/submission/08_Setup_API_and_Testing_Guide.pdf`](docs/submission/08_Setup_API_and_Testing_Guide.pdf) | Startup guide, CLI command reference, test suite execution, REST endpoints |
+| Deliverable | File Path | Topic & Official Matrix Component | Marks |
+|:---|:---|:---|:---:|
+| **Doc 1: ER Diagram** | [`docs/submission/01_ER_Diagram.pdf`](docs/submission/01_ER_Diagram.pdf) | Entity-Relationship model, 10 entities, 12 junction tables, cardinalities | 2 |
+| **Doc 2: Relational Schema** | [`docs/submission/02_Relational_Schema.pdf`](docs/submission/02_Relational_Schema.pdf) | Schema table per relation, keys, constraints, normalization proofs | 3 |
+| **Doc 3: SQL DDL** | [`docs/submission/03_SQL_DDL_Implementation.pdf`](docs/submission/03_SQL_DDL_Implementation.pdf) | DDL with constraints, cascade rules, and 17 performance indexes | 4 |
+| **Doc 4: NoSQL & Vector DB** | [`docs/submission/04_NoSQL_Vector_Database_Creation.pdf`](docs/submission/04_NoSQL_Vector_Database_Creation.pdf) | MongoDB schema validation, 64-dim vector design, text/compound indexes | 4 |
+| **Doc 5: Tech Justification** | [`docs/submission/05_Technology_Justification.pdf`](docs/submission/05_Technology_Justification.pdf) | Architectural trade-offs: PostgreSQL ACID vs MongoDB polymorphism | 1 |
+| **Doc 6: DML Operations** | [`docs/submission/06_DML_Operations.pdf`](docs/submission/06_DML_Operations.pdf) | CRUD statements with outputs, transaction rollback & savepoint demo | 4 |
+| **Doc 7: Advanced Queries** | [`docs/submission/07_Queries_Nested_Correlated_Recursive_Joins.pdf`](docs/submission/07_Queries_Nested_Correlated_Recursive_Joins.pdf) | Multi-table joins, nested subqueries, correlated subqueries, recursive CTE | 4 |
+| **Doc 8: Advanced SQL** | [`docs/submission/08_Advanced_SQL_Procedure_Function_Trigger_CTE.pdf`](docs/submission/08_Advanced_SQL_Procedure_Function_Trigger_CTE.pdf) | Stored procedure, user function, audit trigger, and recursive CTE | 6 |
+| **Doc 9: Vector Search & RUD**| [`docs/submission/09_NoSQL_Vector_Features_and_RUD.pdf`](docs/submission/09_NoSQL_Vector_Features_and_RUD.pdf) | 64-dim vector cosine similarity search, MongoDB CRUD, aggregations | 7 |
+| **Doc 10: Auth & RBAC** | [`docs/submission/10_Authentication_and_RBAC.pdf`](docs/submission/10_Authentication_and_RBAC.pdf) | JWT auth flow, 403 route protection, and PostgreSQL role privileges | 4 |
+| **Doc 11: Project Report** | [`docs/submission/11_Project_Report.pdf`](docs/submission/11_Project_Report.pdf) | Comprehensive report: Next.js UI, backend integration, Git/contributions | 11 |
+| **TOTAL** | **Comprehensive Academic Submission** | **All 14 Official Evaluation Components Covered** | **50** |
 
-#### To regenerate all 8 PDFs from scratch:
+#### To regenerate all 11 PDFs from scratch:
 ```powershell
 python scripts/generate_submission_pdfs.py
 ```
