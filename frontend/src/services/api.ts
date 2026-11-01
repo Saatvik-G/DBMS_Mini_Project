@@ -151,9 +151,11 @@ export const ApiService = {
   deleteDocument: (documentId: string) =>
     api.delete(`/documents/${documentId}`).then(res => res.data),
 
-  // Unified Search
+  // Unified & Semantic Search
   unifiedSearch: (q: string, category: string = 'all', caseId?: string): Promise<UnifiedSearchResponse> =>
     api.get('/search', { params: { q, category, case_id: caseId } }).then(res => res.data),
+  searchSemantic: (q: string, limit: number = 10, minScore: number = 0.01) =>
+    api.get('/search/semantic', { params: { q, limit, min_score: minScore } }).then(res => res.data),
 
   // Relationship Graph
   getRelationships: (entityType: string, entityId: string): Promise<RelationshipGraphResponse> =>

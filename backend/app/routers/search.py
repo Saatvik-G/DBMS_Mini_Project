@@ -1,11 +1,14 @@
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_
+import json
+import os
 from typing import Optional, List
 from app.db.session import get_db, ACTIVE_SQL_ENGINE
 from app.db.mongo import get_mongo_db
 from app.models.sql_models import Case, Person, Organization, Vehicle, Device, Location, Evidence
 from app.schemas.schemas import UnifiedSearchResponse, SearchResultItem
+from app.core.vector import generate_embedding, cosine_similarity, EMBEDDING_DIM
 
 router = APIRouter(prefix="/search", tags=["Unified Search"])
 
@@ -222,3 +225,80 @@ def search_unified(
         sql_results=sql_results,
         mongo_results=mongo_results
     )
+
+@router.get("/semantic")
+def search_semantic(
+    q: str = Query(..., min_length=1, description="Natural language semantic search query"),
+    limit: int = Query(10, ge=1, le=50),
+    min_score: float = Query(0.01, ge=-1.0, le=1.0)
+):
+    """
+    Executes Vector Semantic Similarity Search across unstructured documents.
+    Generates a 64-dimensional dense vector for the query and computes
+    cosine similarity scores against document embedding vectors.
+    """
+    # Normalize defaults if called directly in Python tests
+    actual_limit = limit.default if hasattr(limit, "default") else limit
+    actual_min_score = min_score.default if hasattr(min_score, "default") else min_score
+
+    query_term = q.strip()
+    query_vec = generate_embedding(query_term)
+
+    # 1. Fetch documents from MongoDB or local sample fallback
+    raw_docs = []
+    mdb = get_mongo_db()
+    if mdb is not None:
+        try:
+            raw_docs = list(mdb["investigation_documents"].find(
+                {}, 
+                {"title": 1, "document_type": 1, "summary": 1, "content": 1, "case_id": 1, "source_name": 1, "tags": 1, "embedding": 1}
+            ))
+        except Exception:
+            raw_docs = []
+
+    if not raw_docs:
+        # Fallback to sample-documents.json
+        sample_path = os.path.join(os.path.dirname(__file__), "..", "..", "..", "database", "mongodb", "sample-documents.json")
+        if os.path.exists(sample_path):
+            try:
+                with open(sample_path, "r", encoding="utf-8") as f:
+                    raw_docs = json.load(f)
+            except Exception:
+                raw_docs = []
+
+    # 2. Score documents using cosine similarity
+    scored_results = []
+    for d in raw_docs:
+        doc_vec = d.get("embedding")
+        if not doc_vec:
+            full_text = f"{d.get('title', '')} {d.get('summary', '')} {d.get('content', '')} {' '.join(d.get('tags', []))}"
+            doc_vec = generate_embedding(full_text)
+
+        sim = cosine_similarity(query_vec, doc_vec)
+        if sim >= actual_min_score:
+            doc_id = str(d.get("_id", d.get("title", "doc")))
+            scored_results.append({
+                "id": doc_id,
+                "score": round(sim, 4),
+                "similarity_percent": f"{max(0, int(sim * 100))}%",
+                "title": d.get("title", "Untitled Document"),
+                "document_type": d.get("document_type", "General"),
+                "summary": d.get("summary") or (d.get("content", "")[:180] + "..."),
+                "case_id": d.get("case_id"),
+                "source_name": d.get("source_name", "Forensic Repository"),
+                "tags": d.get("tags", [])
+            })
+
+    # Sort descending by similarity score
+    scored_results.sort(key=lambda x: x["score"], reverse=True)
+    top_matches = scored_results[:actual_limit]
+
+    return {
+        "query": query_term,
+        "search_mode": "Vector Cosine Similarity",
+        "vector_dimensions": EMBEDDING_DIM,
+        "total_documents_scanned": len(raw_docs),
+        "total_matches": len(scored_results),
+        "results": top_matches
+    }
+

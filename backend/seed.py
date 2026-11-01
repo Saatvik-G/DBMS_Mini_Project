@@ -11,6 +11,7 @@ from app.models.sql_models import (
     evidence_people, evidence_vehicles, evidence_devices, evidence_locations
 )
 from app.core.security import get_password_hash
+from app.core.vector import generate_embedding
 
 def utc_now():
     return datetime.now(timezone.utc)
@@ -874,6 +875,10 @@ def seed_mongo_database(doc_col):
             "document_status": "Verified"
         }
     ]
+
+    for d in mongo_docs:
+        full_text = f"{d.get('title', '')} {d.get('summary', '')} {d.get('content', '')} {' '.join(d.get('tags', []))}"
+        d["embedding"] = generate_embedding(full_text)
 
     doc_col.insert_many(mongo_docs)
     total_docs = doc_col.count_documents({})

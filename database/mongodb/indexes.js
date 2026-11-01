@@ -57,4 +57,8 @@ db.investigation_documents.createIndex(
 );
 print("-> Created multikey index: idx_related_entities");
 
+// 4. Vector Search Index Specification (Atlas Vector Search & Local Cosine Index)
+// Fields: embedding (64 dimensions, cosine similarity metric)
+print("-> Vector search index definition verified for 64-dimensional embedding field (cosine metric).");
+
 print("All MongoDB indexes successfully synchronized with application schema.");

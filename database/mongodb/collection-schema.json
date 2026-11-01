@@ -64,6 +64,11 @@
         "type": ["string", "null"],
         "description": "Verification state (Verified, Pending Authentication, Classified, Unverified)"
       },
+      "embedding": {
+        "type": "array",
+        "items": { "type": "number" },
+        "description": "64-dimensional dense semantic embedding vector for vector similarity search"
+      },
       "created_at": {
         "description": "Timestamp when document was acquired or recorded (ISO string or BSON Date)"
       },

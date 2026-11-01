@@ -152,6 +152,19 @@ def test_unified_cross_database_search():
         # MongoDB results should include documents
         assert any(item["category"] == "document" for item in data["mongo_results"])
 
+def test_semantic_vector_search():
+    # Test vector cosine similarity search across unstructured documents
+    res = client.get("/api/search/semantic?q=stolen+blue+bmw+sedan")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["vector_dimensions"] == 64
+    assert data["total_documents_scanned"] >= 20
+    assert len(data["results"]) > 0
+    top_hit = data["results"][0]
+    assert "score" in top_hit
+    assert "similarity_percent" in top_hit
+    assert "title" in top_hit
+
 def test_case_timeline():
     timeline_res = client.get("/api/cases/CASE-2026-001/timeline")
     assert timeline_res.status_code == 200
@@ -193,12 +206,14 @@ def test_dbms_concepts_demonstration():
 
 def test_server_side_rbac_enforcement():
     # 1. Unauthenticated request to admin endpoint must return 401
+    import time
+    rand_suffix = str(int(time.time() * 1000) % 1000000)
     new_officer_payload = {
-        "badge_number": "CID-TEST-88",
+        "badge_number": f"CID-T-{rand_suffix}",
         "full_name": "Test Officer Provisioning",
         "department": "Cyber Crime",
         "role": "INVESTIGATOR",
-        "contact_email": "test.officer88@fusion.gov.in",
+        "contact_email": f"test.officer{rand_suffix}@fusion.gov.in",
         "password": "Password@123"
     }
     unauth_res = client.post("/api/officers", json=new_officer_payload)
@@ -241,5 +256,5 @@ def test_server_side_rbac_enforcement():
     admin_post = client.post("/api/officers", json=new_officer_payload, headers=admin_headers)
     assert admin_post.status_code == 201
     created_off = admin_post.json()
-    assert created_off["badge_number"] == "CID-TEST-88"
+    assert created_off["badge_number"] == f"CID-T-{rand_suffix}"
 
