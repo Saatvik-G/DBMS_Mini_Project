@@ -17,6 +17,8 @@ dist-ssr/
 frontend/.next/
 frontend/out/
 *.local
+*.tsbuildinfo
+frontend/*.tsbuildinfo
 
 # Editor & System
 .vscode/

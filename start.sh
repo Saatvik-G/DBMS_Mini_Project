@@ -13,6 +13,7 @@ cd "$PROJECT_ROOT"
 TEST_MODE=false
 NO_BROWSER=false
 FORCE_SEED=false
+RESTART_SERVICES=false
 FRONTEND_MODE="next"
 
 # Parse CLI arguments
@@ -21,6 +22,7 @@ while [[ "$#" -gt 0 ]]; do
         -t|--test) TEST_MODE=true; shift ;;
         -n|--no-browser) NO_BROWSER=true; shift ;;
         -s|--seed) FORCE_SEED=true; shift ;;
+        -r|--restart) RESTART_SERVICES=true; shift ;;
         -f|--frontend) FRONTEND_MODE="$2"; shift 2 ;;
         -h|--help)
             echo "========================================================================"
@@ -32,6 +34,7 @@ while [[ "$#" -gt 0 ]]; do
             echo "  -t, --test              Run automated test suite (pytest) and exit"
             echo "  -n, --no-browser        Launch without opening browser automatically"
             echo "  -s, --seed              Force database re-seeding"
+            echo "  -r, --restart           Stop any existing processes on ports 8000 & 3000 first"
             echo "  -f, --frontend <mode>   Frontend server: 'next' (port 3000) or 'vite' (port 5173)"
             echo "  -h, --help              Show this help message"
             echo "========================================================================"
@@ -186,6 +189,14 @@ fi
 # 7. Start Services
 echo ""
 echo "[6/6] Launching backend and frontend services..."
+
+if [ "$RESTART_SERVICES" = true ]; then
+    echo "  Restart requested. Clearing any processes on port 8000 and 3000..."
+    fuser -k 8000/tcp 2>/dev/null || lsof -ti:8000 | xargs kill -9 2>/dev/null || true
+    fuser -k 3000/tcp 2>/dev/null || lsof -ti:3000 | xargs kill -9 2>/dev/null || true
+    fuser -k 5173/tcp 2>/dev/null || lsof -ti:5173 | xargs kill -9 2>/dev/null || true
+    sleep 1
+fi
 
 BACKEND_PID=""
 FRONTEND_PID=""

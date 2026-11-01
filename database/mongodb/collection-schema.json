@@ -1,83 +1,74 @@
 {
   "$jsonSchema": {
     "bsonType": "object",
-    "required": ["case_id", "title", "doc_type", "classification", "created_at"],
+    "required": ["title", "document_type", "content", "created_at"],
     "properties": {
       "_id": {
-        "bsonType": "objectId",
-        "description": "Unique MongoDB primary key identifier"
+        "description": "Unique MongoDB primary key identifier (ObjectId or hex string)"
       },
       "case_id": {
-        "bsonType": "int",
-        "description": "Relational foreign key referencing PostgreSQL cases(id)"
+        "type": ["string", "null"],
+        "description": "Relational foreign key string referencing cases.case_id (e.g. CASE-2026-001)"
       },
-      "entity_type": {
-        "enum": ["PERSON", "ORGANIZATION", "VEHICLE", "DEVICE", "LOCATION", "EVIDENCE", "CASE", null],
-        "description": "Polymorphic reference to a relational entity type"
-      },
-      "entity_id": {
-        "bsonType": ["int", "null"],
-        "description": "Foreign key integer ID of the referenced relational entity"
+      "document_type": {
+        "type": "string",
+        "description": "Document category determining dynamic payload structure (e.g. Witness statements, CCTV metadata, PDF reports, Email archives)"
       },
       "title": {
-        "bsonType": "string",
+        "type": "string",
         "minLength": 3,
-        "maxLength": 200,
+        "maxLength": 250,
         "description": "Descriptive title of the intelligence document"
       },
-      "doc_type": {
-        "enum": [
-          "WITNESS_STATEMENT",
-          "FORENSIC_REPORT",
-          "CCTV_LOG",
-          "PHONE_EXTRACTION",
-          "SURVEILLANCE_NOTE",
-          "CHAT_TRANSCRIPT",
-          "FINANCIAL_AUDIT",
-          "EMAIL_RECORD",
-          "SOCIAL_MEDIA_ARCHIVE",
-          "BALLISTICS_ANALYSIS"
-        ],
-        "description": "Document category determining dynamic payload structure"
+      "content": {
+        "type": "string",
+        "description": "Full-text textual narrative, statement, transcript, or raw dump"
       },
-      "classification": {
-        "enum": ["UNCLASSIFIED", "CONFIDENTIAL", "SECRET", "TOP_SECRET"],
-        "description": "Security classification clearance requirement"
+      "summary": {
+        "type": ["string", "null"],
+        "description": "Executive summary of the intelligence item"
       },
-      "author_officer_id": {
-        "bsonType": ["int", "null"],
-        "description": "Relational foreign key referencing PostgreSQL officers(id)"
+      "source_type": {
+        "type": ["string", "null"],
+        "description": "Operational origin (Field Interview, Formal Filing, Sensor Telemetry, OSINT, Technical Intercept)"
       },
-      "content_text": {
-        "bsonType": "string",
-        "description": "Full-text unformatted textual narrative, statement, or extraction"
+      "source_name": {
+        "type": ["string", "null"],
+        "description": "Specific reporting device, agent, station, or agency log reference"
+      },
+      "related_entity_ids": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["entity_type", "entity_id"],
+          "properties": {
+            "entity_type": { "type": "string" },
+            "entity_id": { "type": "string" }
+          }
+        },
+        "description": "Polymorphic references to relational entities (person, vehicle, device, location, officer)"
       },
       "tags": {
-        "bsonType": "array",
+        "type": "array",
         "items": {
-          "bsonType": "string"
+          "type": "string"
         },
-        "description": "Keywords and indexing tags for rapid filtering"
+        "description": "Keywords and indexing tags for rapid filtering and text search"
       },
       "metadata": {
-        "bsonType": "object",
-        "description": "Flexible polymorphic JSON payload storing document-specific fields (e.g. camera IDs, phone IMEIs, wallet addresses, GPS logs)",
+        "type": "object",
+        "description": "Polymorphic key-value payload storing domain-specific attributes (audio refs, camera IDs, EXIF, packet hashes)",
         "additionalProperties": true
       },
-      "vector_embedding": {
-        "bsonType": "array",
-        "items": {
-          "bsonType": "double"
-        },
-        "description": "Dense vector embedding for Atlas Vector Search semantic similarity"
+      "document_status": {
+        "type": ["string", "null"],
+        "description": "Verification state (Verified, Pending Authentication, Classified, Unverified)"
       },
       "created_at": {
-        "bsonType": "date",
-        "description": "Timestamp when document was acquired or ingested"
+        "description": "Timestamp when document was acquired or recorded (ISO string or BSON Date)"
       },
-      "updated_at": {
-        "bsonType": "date",
-        "description": "Timestamp of latest amendment"
+      "ingested_at": {
+        "description": "Timestamp when document was ingested into the MongoDB repository"
       }
     }
   }

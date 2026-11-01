@@ -214,7 +214,7 @@ def build_pdf_1_er_diagram(st):
 
     story.append(Paragraph("3. Associative Many-to-Many Bridge Tables", st['h1']))
     story.append(Paragraph(
-        "To satisfy <b>Boyce-Codd Normal Form (BCNF)</b> and eliminate repeating groups, 11 dedicated associative junction tables enforce referential constraints with composite primary keys and cascading rules:",
+        "To satisfy <b>Boyce-Codd Normal Form (BCNF)</b> and eliminate repeating groups, 12 dedicated associative junction tables enforce referential constraints with composite primary keys and cascading rules:",
         st['body']
     ))
     junctions_data = [
@@ -227,6 +227,10 @@ def build_pdf_1_er_diagram(st):
         [Paragraph("person_organizations", st['cell']), Paragraph("(person_id, organization_id)", st['cell']), Paragraph("ON DELETE CASCADE", st['cell']), Paragraph("Position: Director, Beneficiary, Courier", st['cell'])],
         [Paragraph("person_vehicles", st['cell']), Paragraph("(person_id, vehicle_id)", st['cell']), Paragraph("ON DELETE CASCADE", st['cell']), Paragraph("Association: Owner, Registered Driver, Renter", st['cell'])],
         [Paragraph("person_devices", st['cell']), Paragraph("(person_id, device_id)", st['cell']), Paragraph("ON DELETE CASCADE", st['cell']), Paragraph("Association: Primary User, Contact List", st['cell'])],
+        [Paragraph("evidence_people", st['cell']), Paragraph("(evidence_id, person_id)", st['cell']), Paragraph("ON DELETE CASCADE", st['cell']), Paragraph("Association: Seized From, Attributed Person", st['cell'])],
+        [Paragraph("evidence_vehicles", st['cell']), Paragraph("(evidence_id, vehicle_id)", st['cell']), Paragraph("ON DELETE CASCADE", st['cell']), Paragraph("Association: Recovered In / Transport Asset", st['cell'])],
+        [Paragraph("evidence_devices", st['cell']), Paragraph("(evidence_id, device_id)", st['cell']), Paragraph("ON DELETE CASCADE", st['cell']), Paragraph("Association: Digital Media Extraction Source", st['cell'])],
+        [Paragraph("evidence_locations", st['cell']), Paragraph("(evidence_id, location_id)", st['cell']), Paragraph("ON DELETE CASCADE", st['cell']), Paragraph("Association: Recovery / Chain of Custody Site", st['cell'])],
     ]
     t2 = Table(junctions_data, colWidths=[100, 110, 134, 160])
     t2.setStyle(TableStyle([
@@ -545,7 +549,7 @@ def build_pdf_7_rubric_coverage(st):
     story.append(Paragraph("1. Complete 14-Component Evaluation Rubric Matrix (50 Marks)", st['h1']))
     rubric_rows = [
         [Paragraph("#", st['cell_bold']), Paragraph("Evaluation Criterion", st['cell_bold']), Paragraph("Marks", st['cell_bold']), Paragraph("Evidence & Implementation Files", st['cell_bold']), Paragraph("Verification", st['cell_bold'])],
-        [Paragraph("1", st['cell']), Paragraph("ER Diagram", st['cell']), Paragraph("2", st['cell']), Paragraph("docs/er-diagram.md, 11 entities, 11 junctions", st['cell']), Paragraph("Verified Complete", st['cell'])],
+        [Paragraph("1", st['cell']), Paragraph("ER Diagram", st['cell']), Paragraph("2", st['cell']), Paragraph("docs/er-diagram.md, 10 entities, 12 junctions (22 total)", st['cell']), Paragraph("Verified Complete", st['cell'])],
         [Paragraph("2", st['cell']), Paragraph("Relational Schema & Keys", st['cell']), Paragraph("3", st['cell']), Paragraph("database/sql/schema.sql, strict PK/FK/CHECKs", st['cell']), Paragraph("Verified Complete", st['cell'])],
         [Paragraph("3", st['cell']), Paragraph("Data Integrity & Normalization", st['cell']), Paragraph("4", st['cell']), Paragraph("docs/database-design.md, 3NF/BCNF proofs", st['cell']), Paragraph("Verified Complete", st['cell'])],
         [Paragraph("4", st['cell']), Paragraph("Relational Implementation", st['cell']), Paragraph("5", st['cell']), Paragraph("PostgreSQL DDL & SQLAlchemy 22 models", st['cell']), Paragraph("Verified Complete", st['cell'])],
@@ -574,7 +578,7 @@ def build_pdf_7_rubric_coverage(st):
         ("Q1: Why did you choose a Polyglot Persistence architecture instead of putting everything into PostgreSQL?",
          "Relational SQL guarantees strict ACID constraints, foreign key cascades, and mathematical normalization required for evidentiary custody and legal admissibility. Conversely, MongoDB handles heterogeneous surveillance telemetry (CCTV logs, audio transcripts, sensor dumps) whose schema changes constantly, without requiring disruptive DDL migrations."),
         ("Q2: How does your schema achieve Boyce-Codd Normal Form (BCNF)?",
-         "Every relation is in 3NF and every determinant is a superkey. Many-to-many associations (such as suspects linked to multiple cases and vehicles) are isolated into 11 junction bridge tables with composite primary keys, eliminating partial and transitive functional dependencies."),
+         "Every relation is in 3NF and every determinant is a superkey. Many-to-many associations (such as suspects linked to multiple cases and vehicles) are isolated into 12 junction bridge tables with composite primary keys, eliminating partial and transitive functional dependencies."),
         ("Q3: How does the Recursive CTE function in your investigative link analysis?",
          "It uses an anchor query selecting the initial suspect, then recursively executes union joins across the person_organizations and case_people bridge tables to discover multi-hop criminal associates up to 5 degrees of depth, terminating when no new associates are discovered."),
         ("Q4: How is evidence chain of custody cryptographically verified?",
@@ -602,10 +606,12 @@ def build_pdf_8_setup_guide(st):
     ))
     cmd_box = """# On Windows (PowerShell):
 .\\start.ps1
+.\\start.ps1 -Restart   # Kill stale ports and clean restart
 
 # On macOS / Linux (Bash):
 chmod +x start.sh
 ./start.sh
+./start.sh -r          # Kill stale ports and clean restart
 
 # Run Automated Verification Tests (Pytest):
 .\\start.ps1 -Test"""

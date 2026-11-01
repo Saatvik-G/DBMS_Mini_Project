@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Header, status
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from datetime import datetime, timezone
@@ -6,9 +6,32 @@ from typing import Optional, List
 from app.db.session import get_db
 from app.models.sql_models import Officer, Case, EvidenceCustody
 from app.schemas.schemas import OfficerCreate, OfficerUpdate, OfficerOut
-from app.core.security import get_password_hash
+from app.core.security import get_password_hash, decode_access_token
 
 router = APIRouter(prefix="/officers", tags=["Officers"])
+
+def require_admin_officer(authorization: Optional[str] = Header(None), db: Session = Depends(get_db)) -> Officer:
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authentication required. Please provide a valid Bearer token."
+        )
+    token = authorization.split(" ")[1]
+    payload = decode_access_token(token)
+    if not payload or "sub" not in payload:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Session token expired or invalid."
+        )
+    officer = db.query(Officer).filter(Officer.officer_id == payload["sub"]).first()
+    if not officer:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Officer not found.")
+    if officer.role != "ADMIN":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden: Officer provisioning and credential management requires ADMIN clearance."
+        )
+    return officer
 
 def utc_now():
     return datetime.now(timezone.utc)
@@ -34,7 +57,11 @@ def list_officers(
     return query.order_by(Officer.officer_id.asc()).offset(skip).limit(limit).all()
 
 @router.post("", response_model=OfficerOut, status_code=status.HTTP_201_CREATED)
-def create_officer(off_in: OfficerCreate, db: Session = Depends(get_db)):
+def create_officer(
+    off_in: OfficerCreate, 
+    current_admin: Officer = Depends(require_admin_officer),
+    db: Session = Depends(get_db)
+):
     oid = off_in.officer_id or generate_officer_id(db)
     if db.query(Officer).filter(Officer.officer_id == oid).first():
         raise HTTPException(status_code=400, detail=f"Officer ID '{oid}' already exists.")

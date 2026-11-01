@@ -44,7 +44,7 @@ export const DBMSConceptsPage: React.FC = () => {
     {
       title: '1. Relational Modeling & Normalization (1NF to BCNF)',
       badge: 'Relational Design',
-      desc: 'The relational database is decomposed into 11 primary entity tables and 11 bridge junction tables to eliminate functional and transitive dependencies.',
+      desc: 'The relational database is decomposed into 10 primary entity tables and 12 bridge junction tables to eliminate functional and transitive dependencies.',
       points: [
         '1NF: All attributes are atomic (no arrays or comma-delimited values inside SQL columns).',
         '2NF: Every non-key attribute is fully functionally dependent on the entire primary key.',

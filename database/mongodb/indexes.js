@@ -1,6 +1,6 @@
 // ============================================================================
 // INTELLIGENCE FUSION PLATFORM — MONGODB INDEXES CONFIGURATION
-// Target: MongoDB 6.0+ / 7.0+
+// Target: MongoDB 6.0+ / 7.0+ / 8.0+
 // Authors: Saatvik Gupta (PES1UG24CS395) & Satyam Goyal (PES1UG24CS424)
 // Subject: Database Management Systems (DBMS Mini Project)
 // ============================================================================
@@ -8,70 +8,53 @@
 // Switch to target database
 db = db.getSiblingDB("intelligence_fusion");
 
-print("Creating indexes on 'investigation_documents' collection...");
+print("Configuring production indexes on 'investigation_documents' collection...");
 
-// 1. Full-Text Search Index across title, textual narrative, and tags
+// 1. Full-Text Search Index across title, narrative content, summary, and tags
 db.investigation_documents.createIndex(
   {
     title: "text",
-    content_text: "text",
+    content: "text",
+    summary: "text",
     tags: "text"
   },
   {
     weights: {
       title: 10,
       tags: 5,
-      content_text: 1
+      summary: 3,
+      content: 1
     },
-    name: "idx_text_search_doc_content",
+    name: "doc_fulltext_index",
     default_language: "english"
   }
 );
-print("-> Created text index: idx_text_search_doc_content");
+print("-> Created text index: doc_fulltext_index (title, content, summary, tags)");
 
-// 2. Compound Index for Case Dossier filtering
+// 2. Single-field & Compound Indexes for Case Dossier filtering and joins
 db.investigation_documents.createIndex(
-  { case_id: 1, doc_type: 1, created_at: -1 },
-  { name: "idx_case_doctype_created" }
+  { case_id: 1, created_at: -1 },
+  { name: "idx_case_id_created" }
 );
-print("-> Created compound index: idx_case_doctype_created");
+print("-> Created compound index: idx_case_id_created");
 
-// 3. Polymorphic Relational Entity Reference Index
 db.investigation_documents.createIndex(
-  { entity_type: 1, entity_id: 1 },
-  { name: "idx_entity_polymorphic_ref" }
+  { document_type: 1 },
+  { name: "idx_doc_type" }
 );
-print("-> Created compound index: idx_entity_polymorphic_ref");
+print("-> Created index: idx_doc_type");
 
-// 4. Security Classification & Date Index
 db.investigation_documents.createIndex(
-  { classification: 1, created_at: -1 },
-  { name: "idx_classification_date" }
+  { source_type: 1 },
+  { name: "idx_source_type" }
 );
-print("-> Created index: idx_classification_date");
+print("-> Created index: idx_source_type");
 
-// 5. Atlas Vector Search Index Configuration (for MongoDB Atlas deployments)
-/*
-  To configure Vector Search in MongoDB Atlas UI or CLI:
-  {
-    "fields": [
-      {
-        "type": "vector",
-        "path": "vector_embedding",
-        "numDimensions": 384,
-        "similarity": "cosine"
-      },
-      {
-        "type": "filter",
-        "path": "classification"
-      },
-      {
-        "type": "filter",
-        "path": "case_id"
-      }
-    ]
-  }
-*/
+// 3. Multikey Index on polymorphic relational entity references
+db.investigation_documents.createIndex(
+  { "related_entity_ids.entity_type": 1, "related_entity_ids.entity_id": 1 },
+  { name: "idx_related_entities" }
+);
+print("-> Created multikey index: idx_related_entities");
 
-print("All MongoDB indexes successfully applied.");
-printjson(db.investigation_documents.getIndexes());
+print("All MongoDB indexes successfully synchronized with application schema.");

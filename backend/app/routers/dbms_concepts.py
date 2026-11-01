@@ -156,10 +156,10 @@ ORDER BY total_case_associations DESC;"""
     ca.activity_type,
     ca.title AS event_title,
     ca.description,
-    ca.created_at
+    ca.activity_timestamp
 FROM case_activity ca
 JOIN cases c ON ca.case_id = c.case_id
-ORDER BY ca.created_at DESC
+ORDER BY ca.activity_timestamp DESC
 LIMIT 10;"""
     },
     "q11_stored_procedure_logic": {

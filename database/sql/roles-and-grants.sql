@@ -59,8 +59,8 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO ifp_admin;
 -- CANNOT modify officers or user accounts.
 -- ============================================================================
 
--- Read-only on System Users & Officers
-GRANT SELECT ON users, officers TO ifp_investigator;
+-- Read-only on System Officers (Investigator cannot alter credentials)
+GRANT SELECT ON officers TO ifp_investigator;
 
 -- Read & Insert only on Audit Logs (Immutable append-only access)
 GRANT SELECT, INSERT ON case_activity, evidence_custody TO ifp_investigator;
@@ -79,7 +79,6 @@ GRANT SELECT, INSERT, UPDATE ON
     case_vehicles,
     case_devices,
     case_locations,
-    case_officers,
     evidence_people,
     evidence_vehicles,
     evidence_devices,
