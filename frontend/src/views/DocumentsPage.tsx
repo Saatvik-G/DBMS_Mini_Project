@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  FileText, Plus, Search, Filter, Trash2, Edit3, ExternalLink,
-  Code, AlertCircle, Database, CheckCircle2, Tag, Calendar
-} from 'lucide-react';
+import { Plus, Search, Filter, Trash2 } from 'lucide-react';
 import { ApiService } from '../services/api';
 import { InvestigationDocument, Case } from '../types';
 
@@ -72,7 +69,7 @@ export const DocumentsPage: React.FC = () => {
         parsedMeta = JSON.parse(metadataJson);
         setJsonError(null);
       } catch (err: any) {
-        setJsonError('Invalid JSON format in metadata field: ' + err.message);
+        setJsonError('Invalid JSON format: ' + err.message);
         return;
       }
     }
@@ -99,77 +96,75 @@ export const DocumentsPage: React.FC = () => {
       setTagsStr('');
       loadData();
     } catch (err: any) {
-      alert(err?.response?.data?.detail || 'Failed to ingest document into MongoDB.');
+      alert(err?.response?.data?.detail || 'Failed to ingest document.');
     }
   };
 
-  const viewDetail = async (id: string) => {
-    try {
-      const detail = await ApiService.getDocument(id);
-      setSelectedDoc(detail);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleDelete = async (id: string, e: React.MouseEvent) => {
+  const handleDelete = async (docId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!window.confirm('Permanently remove this unstructured document from MongoDB collection?')) return;
+    if (!window.confirm('Delete this intelligence document from MongoDB?')) return;
     try {
-      await ApiService.deleteDocument(id);
-      if (selectedDoc?.id === id) setSelectedDoc(null);
+      await ApiService.deleteDocument(docId);
+      if (selectedDoc?.id === docId) setSelectedDoc(null);
       loadData();
+    } catch (err: any) {
+      alert(err?.response?.data?.detail || 'Failed to delete document.');
+    }
+  };
+
+  const viewDetail = async (docId: string) => {
+    try {
+      const data = await ApiService.getDocument(docId);
+      setSelectedDoc(data);
     } catch (err) {
       console.error(err);
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1E2638] gap-3">
         <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-white tracking-tight m-0">Investigation Documents</h2>
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-800">
-              MongoDB NoSQL Collection: investigation_documents
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Polymorphic, schemaless documents including witness transcripts, chat exports, sensor JSON, and forensic reports.
+          <h1 className="text-lg font-semibold text-slate-100">Intelligence Documents (MongoDB)</h1>
+          <p className="text-xs text-slate-400">
+            Unstructured records, CCTV logs, interview transcripts, and digital dumps
           </p>
         </div>
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center gap-2 shadow-sm transition"
+          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 self-start sm:self-auto"
         >
-          <Plus className="w-4 h-4" />
-          <span>Ingest New Document</span>
+          <Plus className="w-3.5 h-3.5" />
+          <span>Upload Document</span>
         </button>
       </div>
 
       {/* Filter and Search */}
-      <div className="p-4 rounded-xl bg-[#0F172A] border border-slate-800 flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[220px]">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+      <div className="p-3 bg-[#0B0F17] border border-[#1E2638] rounded flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Full-text search in MongoDB (title, content, tags, sources)..."
+            placeholder="Full-text search in MongoDB (title, content, tags)..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+            className="w-full bg-[#0E1420] border border-[#1E2638] rounded pl-8 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-150"
           />
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400">Document Type:</span>
+        <div className="flex items-center gap-2 text-xs">
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <Filter className="w-3 h-3" />
+            <span>Type:</span>
+          </div>
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-emerald-500"
+            className="bg-[#0E1420] border border-[#1E2638] text-xs text-slate-200 rounded px-2.5 py-1 focus:outline-none focus:border-blue-500"
           >
-            <option value="All">All 9 Types</option>
+            <option value="All">All Types</option>
             {DOCUMENT_TYPES.map((t) => (
               <option key={t} value={t}>{t}</option>
             ))}
@@ -177,183 +172,180 @@ export const DocumentsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Documents Grid */}
-      {loading ? (
-        <div className="p-12 text-center text-slate-400 text-xs">Querying MongoDB cluster...</div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {docs.map((d) => (
-            <div
-              key={d.id}
-              onClick={() => viewDetail(d.id)}
-              className="p-4 rounded-xl bg-[#0F172A] border border-slate-800 hover:border-slate-700 cursor-pointer transition flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/40">
-                    {d.document_type}
-                  </span>
-                  {d.case_id && (
-                    <span className="text-[10px] font-mono text-blue-400 font-semibold">
-                      {d.case_id}
-                    </span>
-                  )}
-                </div>
-                <h4 className="font-semibold text-slate-100 text-sm group-hover:text-emerald-300 transition m-0">
-                  {d.title}
-                </h4>
-                <p className="text-[11px] text-slate-400 mt-1 line-clamp-3 leading-relaxed">
-                  {d.content}
-                </p>
+      {/* Main Grid: Table + Drawer */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Table */}
+        <div className="lg:col-span-2 bg-[#0B0F17] border border-[#1E2638] rounded overflow-hidden">
+          {loading ? (
+            <div className="p-8 text-center text-slate-400 text-xs">
+              <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+              Querying MongoDB collection...
+            </div>
+          ) : docs.length === 0 ? (
+            <div className="p-8 text-center text-slate-500 text-xs">No documents found.</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-[#1E2638] bg-[#0E1420] text-slate-400 text-[11px]">
+                    <th className="py-2.5 px-3">Type</th>
+                    <th className="py-2.5 px-3">Title</th>
+                    <th className="py-2.5 px-3">Case ID</th>
+                    <th className="py-2.5 px-3">Source</th>
+                    <th className="py-2.5 px-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#161D2B]">
+                  {docs.map((d) => (
+                    <tr
+                      key={d.id}
+                      onClick={() => viewDetail(d.id)}
+                      className={`hover:bg-[#141C2B] cursor-pointer transition-colors duration-150 ${
+                        selectedDoc?.id === d.id ? 'bg-[#141C2B]' : ''
+                      }`}
+                    >
+                      <td className="py-2.5 px-3 whitespace-nowrap font-mono text-[10px] text-slate-400">
+                        {d.document_type}
+                      </td>
+                      <td className="py-2.5 px-3 max-w-xs">
+                        <div className="font-medium text-slate-200 truncate">{d.title}</div>
+                        <div className="text-[11px] text-slate-500 truncate">{d.summary}</div>
+                      </td>
+                      <td className="py-2.5 px-3 font-mono text-blue-400 whitespace-nowrap">
+                        {d.case_id || '—'}
+                      </td>
+                      <td className="py-2.5 px-3 text-slate-400 truncate max-w-[120px]">
+                        {d.source_name}
+                      </td>
+                      <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                        <button
+                          onClick={(e) => handleDelete(d.id, e)}
+                          className="text-slate-500 hover:text-red-400 p-1 transition-colors duration-150"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
 
-                {d.tags && d.tags.length > 0 && (
-                  <div className="flex items-center gap-1 flex-wrap mt-2.5">
-                    {d.tags.slice(0, 3).map((t) => (
-                      <span key={t} className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-slate-400">
-                        #{t}
-                      </span>
-                    ))}
+        {/* Selected Document Detail Panel */}
+        <div className="bg-[#0B0F17] border border-[#1E2638] rounded p-4 space-y-3">
+          {selectedDoc ? (
+            <>
+              <div className="pb-2 border-b border-[#1E2638]">
+                <span className="font-mono text-[10px] text-slate-400 uppercase">{selectedDoc.document_type}</span>
+                <h2 className="text-sm font-semibold text-slate-100 mt-0.5">{selectedDoc.title}</h2>
+                <div className="text-[11px] text-slate-400 mt-0.5">
+                  Source: {selectedDoc.source_name} ({selectedDoc.source_type})
+                </div>
+              </div>
+
+              <div className="space-y-2 text-xs">
+                {selectedDoc.case_id && (
+                  <div>
+                    <span className="text-slate-500 text-[11px] block">Case:</span>
+                    <span className="font-mono text-blue-400">{selectedDoc.case_id}</span>
+                  </div>
+                )}
+
+                <div>
+                  <span className="text-slate-500 text-[11px] block">Content:</span>
+                  <p className="text-slate-300 text-xs bg-[#0E1420] p-2.5 rounded border border-[#1E2638] max-h-48 overflow-y-auto whitespace-pre-wrap font-sans leading-relaxed m-0">
+                    {selectedDoc.content}
+                  </p>
+                </div>
+
+                {selectedDoc.tags && selectedDoc.tags.length > 0 && (
+                  <div>
+                    <span className="text-slate-500 text-[11px] block mb-1">Tags:</span>
+                    <div className="flex gap-1 flex-wrap">
+                      {selectedDoc.tags.map((t: string) => (
+                        <span key={t} className="px-1.5 py-0.2 rounded bg-[#0E1420] text-slate-400 border border-[#1E2638] font-mono text-[10px]">
+                          #{t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {selectedDoc.metadata && Object.keys(selectedDoc.metadata).length > 0 && (
+                  <div>
+                    <span className="text-slate-500 text-[11px] block mb-1">Raw Document Metadata (JSON):</span>
+                    <pre className="p-2 bg-[#070A0F] font-mono text-[10px] text-blue-300 border border-[#1E2638] rounded overflow-x-auto max-h-36 m-0">
+                      {JSON.stringify(selectedDoc.metadata, null, 2)}
+                    </pre>
                   </div>
                 )}
               </div>
-
-              <div className="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-500">
-                <span className="truncate max-w-[170px]">Source: {d.source_name}</span>
-                <button onClick={(e) => handleDelete(d.id, e)} className="p-1 hover:text-red-400">
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
+            </>
+          ) : (
+            <div className="p-8 text-center text-slate-500 text-xs">
+              Select a document to inspect full content and JSON metadata.
             </div>
-          ))}
+          )}
         </div>
-      )}
-
-      {/* Document Detail Drawer */}
-      {selectedDoc && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#0F172A] border border-slate-800 rounded-xl w-full max-w-2xl p-6 shadow-2xl max-h-[85vh] overflow-y-auto">
-            <div className="flex justify-between items-start mb-3">
-              <div>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
-                  {selectedDoc.document_type}
-                </span>
-                <h3 className="text-base font-bold text-white m-0 mt-1">{selectedDoc.title}</h3>
-                <div className="text-[11px] text-slate-400 mt-0.5">
-                  Source: <span className="text-slate-200">{selectedDoc.source_name}</span> ({selectedDoc.source_type})
-                </div>
-              </div>
-              <button onClick={() => setSelectedDoc(null)} className="text-slate-400 hover:text-white text-xs">
-                ✕ Close
-              </button>
-            </div>
-
-            <div className="space-y-4 text-xs text-slate-300 border-t border-slate-800 pt-3">
-              {/* SQL Cross-Database Resolution */}
-              {selectedDoc.case_detail && (
-                <div className="p-3 rounded-lg bg-blue-950/40 border border-blue-900/60 text-xs">
-                  <div className="font-semibold text-blue-300 mb-1 flex items-center gap-1.5">
-                    <Database className="w-3.5 h-3.5" />
-                    Resolved SQL Relational Case Context (Foreign Key Reference)
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="font-mono text-blue-400 font-bold">{selectedDoc.case_detail.case_id}</span>: {selectedDoc.case_detail.title}
-                    </div>
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-blue-900 text-blue-200">
-                      {selectedDoc.case_detail.status}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Document Content */}
-              <div>
-                <span className="text-slate-500 font-medium block mb-1">Document Content Body:</span>
-                <div className="p-3.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-200 leading-relaxed font-sans whitespace-pre-wrap">
-                  {selectedDoc.content}
-                </div>
-              </div>
-
-              {/* Dynamic Nested JSON Metadata */}
-              <div>
-                <span className="text-slate-500 font-medium block mb-1 flex items-center gap-1.5">
-                  <Code className="w-3.5 h-3.5 text-emerald-400" />
-                  Flexible Nested JSON Metadata (MongoDB Polymorphic Schema):
-                </span>
-                <pre className="p-3 rounded-lg bg-slate-950 border border-slate-800 text-[11px] font-mono text-emerald-400 overflow-x-auto m-0">
-                  {JSON.stringify(selectedDoc.metadata, null, 2)}
-                </pre>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 text-[11px] text-slate-400 pt-2 border-t border-slate-800">
-                <div>
-                  <span className="text-slate-500">Document Timestamp:</span>{' '}
-                  {selectedDoc.created_at ? new Date(selectedDoc.created_at).toLocaleString() : 'N/A'}
-                </div>
-                <div>
-                  <span className="text-slate-500">System Ingestion Time:</span>{' '}
-                  {selectedDoc.ingested_at ? new Date(selectedDoc.ingested_at).toLocaleString() : 'N/A'}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
 
       {/* Ingest Document Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#0F172A] border border-slate-800 rounded-xl w-full max-w-lg p-6 shadow-2xl max-h-[88vh] overflow-y-auto">
-            <h3 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
-              <FileText className="w-4 h-4 text-emerald-400" />
-              Ingest Document into MongoDB Store
-            </h3>
-            <p className="text-xs text-slate-400 mb-4">
-              Add polymorphic document with arbitrary nested JSON metadata and optional SQL foreign keys.
-            </p>
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+          <div className="bg-[#0B0F17] border border-[#1E2638] rounded w-full max-w-lg p-5 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-2 border-b border-[#1E2638]">
+              <h2 className="text-sm font-semibold text-slate-100">Upload Document</h2>
+              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-200 text-xs">
+                Close
+              </button>
+            </div>
 
             {jsonError && (
-              <div className="p-2.5 mb-3 rounded bg-red-950/60 border border-red-800 text-red-200 text-xs">
+              <div className="p-2.5 rounded bg-red-950/40 border border-red-800 text-red-300 text-xs">
                 {jsonError}
               </div>
             )}
 
-            <form onSubmit={handleCreateDocument} className="space-y-3">
+            <form onSubmit={handleCreateDocument} className="space-y-3 text-xs">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Document Title *</label>
+                <label className="block text-slate-300 mb-1">Title</label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Valet Key Drop Transcript"
+                  placeholder="e.g. CCTV Surveillance Log - Terminal B"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Document Type *</label>
+                  <label className="block text-slate-300 mb-1">Document Type</label>
                   <select
                     value={docType}
                     onChange={(e) => setDocType(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500"
                   >
                     {DOCUMENT_TYPES.map((t) => (
                       <option key={t} value={t}>{t}</option>
                     ))}
                   </select>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Related SQL Case</label>
+                  <label className="block text-slate-300 mb-1">Related Case</label>
                   <select
                     value={caseId}
                     onChange={(e) => setCaseId(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500 font-mono text-[11px]"
                   >
-                    <option value="">-- Optional: Link Case --</option>
+                    <option value="">-- None (Standalone) --</option>
                     {cases.map((c) => (
-                      <option key={c.case_id} value={c.case_id}>{c.case_id} ({c.title.substring(0, 20)}...)</option>
+                      <option key={c.case_id} value={c.case_id}>{c.case_id}</option>
                     ))}
                   </select>
                 </div>
@@ -361,69 +353,75 @@ export const DocumentsPage: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Source Type</label>
-                  <select
-                    value={sourceType}
-                    onChange={(e) => setSourceType(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
-                  >
-                    <option value="Field Interview">Field Interview</option>
-                    <option value="Digital Forensic Extraction">Digital Forensic Extraction</option>
-                    <option value="Public OSINT">Public OSINT</option>
-                    <option value="Sensor Log">Sensor Log</option>
-                    <option value="Surveillance">Surveillance</option>
-                    <option value="Formal Filing">Formal Filing</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Source Name / Reference *</label>
+                  <label className="block text-slate-300 mb-1">Source Name</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. CCTV Camera 4, Telegram Feed"
+                    placeholder="e.g. Traffic Cam Station 14"
                     value={sourceName}
                     onChange={(e) => setSourceName(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 mb-1">Source Type</label>
+                  <input
+                    type="text"
+                    value={sourceType}
+                    onChange={(e) => setSourceType(e.target.value)}
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Tags (Comma-separated)</label>
-                <input
-                  type="text"
-                  placeholder="e.g. blue sedan, key cloning, valet"
-                  value={tagsStr}
-                  onChange={(e) => setTagsStr(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Content Body *</label>
+                <label className="block text-slate-300 mb-1">Content</label>
                 <textarea
-                  rows={3}
                   required
-                  placeholder="Enter full text content, transcript, or log snippet..."
+                  rows={4}
+                  placeholder="Document body, extraction notes, transcript..."
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Nested JSON Metadata (Valid JSON)</label>
+                <label className="block text-slate-300 mb-1">Tags (comma-separated)</label>
+                <input
+                  type="text"
+                  placeholder="surveillance, cctv, suspect, wiretap"
+                  value={tagsStr}
+                  onChange={(e) => setTagsStr(e.target.value)}
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-300 mb-1">Polymorphic Metadata (JSON)</label>
                 <textarea
                   rows={3}
                   value={metadataJson}
                   onChange={(e) => setMetadataJson(e.target.value)}
-                  className="w-full bg-slate-950 font-mono border border-slate-700 rounded-lg p-2 text-xs text-emerald-400"
+                  className="w-full bg-[#070A0F] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 font-mono text-[11px] focus:outline-none focus:border-blue-500"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="px-3 py-1.5 border border-slate-700 text-xs rounded text-slate-300">Cancel</button>
-                <button type="submit" className="px-4 py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded">Save to MongoDB</button>
+              <div className="flex justify-end gap-2 pt-2 border-t border-[#1E2638]">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-3 py-1.5 bg-[#0E1420] hover:bg-[#141C2B] border border-[#1E2638] text-slate-300 rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded font-medium"
+                >
+                  Save Document
+                </button>
               </div>
             </form>
           </div>

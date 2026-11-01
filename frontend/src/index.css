@@ -2,17 +2,21 @@
 
 @layer base {
   :root {
-    --bg-main: #070A0F;
-    --bg-panel: #0B0F17;
-    --bg-card: #0E1420;
-    --bg-card-hover: #131A29;
-    --border-color: #1E2638;
+    --bg-base: #070A0F;
+    --bg-surface: #0B0F17;
+    --bg-panel: #0E1420;
+    --bg-panel-hover: #141C2B;
+    --border: #1E2638;
     --border-subtle: #161D2B;
     --text-primary: #E2E8F0;
     --text-muted: #8B95A5;
-    --accent-amber: #F59E0B;
-    --accent-emerald: #10B981;
-    --accent-rose: #EF4444;
+    --text-dim: #64748B;
+    --accent: #3B82F6;
+    --accent-bg: rgba(59, 130, 246, 0.12);
+    --accent-border: rgba(59, 130, 246, 0.35);
+    --status-success: #10B981;
+    --status-warning: #F59E0B;
+    --status-danger: #EF4444;
   }
 
   html, body {
@@ -35,9 +39,15 @@
   code, pre, .font-mono {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
+
+  /* Focus visible accessibility outline */
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible {
+    outline: 1px solid #3B82F6;
+    outline-offset: 1px;
+  }
 }
 
-/* Custom forensic scrollbars */
+/* Subtle scrollbars */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;

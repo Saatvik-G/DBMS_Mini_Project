@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Archive, Plus, Search, Filter, ShieldCheck, Clock,
-  ArrowRightLeft, AlertCircle, Trash2, ChevronRight, User, FolderKanban
-} from 'lucide-react';
+import { Plus, Search, Filter, Trash2, ArrowRightLeft } from 'lucide-react';
 import { ApiService } from '../services/api';
 import { Evidence, Officer, Case } from '../types';
 
@@ -100,392 +97,381 @@ export const EvidencePage: React.FC = () => {
     if (!selectedItem || !custodyOfficerId) return;
     try {
       await ApiService.addCustodyEvent(selectedItem.evidence_id, {
-        officer_id: custodyOfficerId,
         event_type: custodyEventType,
-        notes: custodyNotes || undefined
+        officer_id: custodyOfficerId,
+        notes: custodyNotes
       });
       setIsCustodyModalOpen(false);
       setCustodyNotes('');
-      // Reload selected item to show updated history
       viewDetail(selectedItem.evidence_id);
       loadData();
     } catch (err: any) {
-      alert(err?.response?.data?.detail || 'Failed to record custody event.');
+      alert(err?.response?.data?.detail || 'Failed to record custody transfer.');
     }
   };
 
-  const handleDelete = async (eid: string, e: React.MouseEvent) => {
+  const handleDeleteEvidence = async (eid: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!window.confirm(`Delete evidence item ${eid}? This will permanently remove its chain of custody history.`)) return;
+    if (!window.confirm(`Delete evidence item ${eid}? Custody history will be archived.`)) return;
     try {
       await ApiService.deleteEvidence(eid);
       if (selectedItem?.evidence_id === eid) setSelectedItem(null);
       loadData();
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      alert(err?.response?.data?.detail || 'Failed to delete evidence item.');
     }
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1E2638] gap-3">
         <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-white tracking-tight m-0">Evidence & Chain of Custody</h2>
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-800">
-              Relational: evidence & evidence_custody
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Physical tools, digital forensics, and documentary items with strict chronological transfer audits.
+          <h1 className="text-lg font-semibold text-slate-100">Evidence & Chain of Custody</h1>
+          <p className="text-xs text-slate-400">
+            Physical and digital artifacts with SHA-256 verification and transfer logs
           </p>
         </div>
 
         <button
           onClick={() => setIsCreateModalOpen(true)}
-          className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center gap-2 shadow-sm transition"
+          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 self-start sm:self-auto"
         >
-          <Plus className="w-4 h-4" />
-          <span>Log Evidence Item</span>
+          <Plus className="w-3.5 h-3.5" />
+          <span>Register Evidence</span>
         </button>
       </div>
 
-      {/* Disclaimers & Info */}
-      <div className="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-        <span className="flex items-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          Academic Prototype tracking custody events — demonstrates 1:N subtable audit patterns in relational design.
-        </span>
-        <span className="font-mono text-emerald-400">PRAGMA foreign_keys = ON</span>
-      </div>
-
-      {/* Filters */}
-      <div className="p-4 rounded-xl bg-[#0F172A] border border-slate-800 flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[220px]">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+      {/* Search & Filters */}
+      <div className="p-3 bg-[#0B0F17] border border-[#1E2638] rounded flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search evidence by title, ID, or storage reference..."
+            placeholder="Search by evidence ID, title, storage ref..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+            className="w-full bg-[#0E1420] border border-[#1E2638] rounded pl-8 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-150"
           />
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400">Type:</span>
+        <div className="flex items-center gap-2 text-xs">
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <Filter className="w-3 h-3" />
+            <span>Type:</span>
+          </div>
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-emerald-500"
+            className="bg-[#0E1420] border border-[#1E2638] text-xs text-slate-200 rounded px-2.5 py-1 focus:outline-none focus:border-blue-500"
           >
             <option value="All">All Types</option>
             <option value="Digital Hardware">Digital Hardware</option>
-            <option value="Digital Forensics">Digital Forensics</option>
-            <option value="Physical Tool">Physical Tool</option>
-            <option value="Physical Vehicle">Physical Vehicle</option>
-            <option value="Telecommunications Hardware">Telecommunications Hardware</option>
-            <option value="Documentary">Documentary</option>
+            <option value="Document">Document</option>
+            <option value="Physical Contraband">Physical Contraband</option>
+            <option value="Forensic Extraction">Forensic Extraction</option>
           </select>
         </div>
       </div>
 
-      {/* Evidence Table */}
-      {loading ? (
-        <div className="p-12 text-center text-slate-400 text-xs">Loading evidence repository...</div>
-      ) : (
-        <div className="bg-[#0F172A] border border-slate-800 rounded-xl overflow-hidden shadow-sm">
-          <table className="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr className="border-b border-slate-800 bg-slate-900/60 text-slate-400 text-[11px] font-semibold uppercase tracking-wider">
-                <th className="py-3 px-4">Evidence ID</th>
-                <th className="py-3 px-4">Item Title & Type</th>
-                <th className="py-3 px-4">Associated Case</th>
-                <th className="py-3 px-4">Vault Location</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/80">
-              {evidenceList.map((e) => (
-                <tr
-                  key={e.evidence_id}
-                  onClick={() => viewDetail(e.evidence_id)}
-                  className="hover:bg-slate-800/40 cursor-pointer transition group"
-                >
-                  <td className="py-3.5 px-4 font-mono font-bold text-emerald-400 whitespace-nowrap">
-                    {e.evidence_id}
-                  </td>
-                  <td className="py-3.5 px-4 max-w-xs">
-                    <div className="font-semibold text-slate-100 group-hover:text-emerald-300 transition truncate">
-                      {e.title}
-                    </div>
-                    <div className="text-[11px] text-slate-400 mt-0.5 font-mono">{e.evidence_type}</div>
-                  </td>
-                  <td className="py-3.5 px-4 whitespace-nowrap">
-                    <span className="font-mono text-blue-400">{e.case_id}</span>
-                  </td>
-                  <td className="py-3.5 px-4 whitespace-nowrap text-slate-300 font-mono text-[11px]">
-                    {e.storage_reference}
-                  </td>
-                  <td className="py-3.5 px-4 whitespace-nowrap">
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700">
-                      {e.status}
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={(ev) => handleDelete(e.evidence_id, ev)}
-                        className="p-1 text-slate-500 hover:text-red-400 transition"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                      <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-emerald-400 transition" />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {/* Main Grid: Evidence Table + Detail Drawer */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Evidence Table */}
+        <div className="lg:col-span-2 bg-[#0B0F17] border border-[#1E2638] rounded overflow-hidden">
+          {loading ? (
+            <div className="p-8 text-center text-slate-400 text-xs">
+              <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+              Loading evidence...
+            </div>
+          ) : evidenceList.length === 0 ? (
+            <div className="p-8 text-center text-slate-400 text-xs">No evidence records found.</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-[#1E2638] bg-[#0E1420] text-slate-400 text-[11px]">
+                    <th className="py-2.5 px-3">Evidence ID</th>
+                    <th className="py-2.5 px-3">Item Title & Type</th>
+                    <th className="py-2.5 px-3">Case</th>
+                    <th className="py-2.5 px-3">Storage Ref</th>
+                    <th className="py-2.5 px-3">Status</th>
+                    <th className="py-2.5 px-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#161D2B]">
+                  {evidenceList.map((ev) => (
+                    <tr
+                      key={ev.evidence_id}
+                      onClick={() => viewDetail(ev.evidence_id)}
+                      className={`hover:bg-[#141C2B] cursor-pointer transition-colors duration-150 ${
+                        selectedItem?.evidence_id === ev.evidence_id ? 'bg-[#141C2B]' : ''
+                      }`}
+                    >
+                      <td className="py-2.5 px-3 font-mono font-medium text-blue-400 whitespace-nowrap">
+                        {ev.evidence_id}
+                      </td>
+                      <td className="py-2.5 px-3 max-w-xs">
+                        <div className="font-medium text-slate-200 truncate">{ev.title}</div>
+                        <div className="text-[11px] text-slate-500">{ev.evidence_type}</div>
+                      </td>
+                      <td className="py-2.5 px-3 font-mono text-slate-400 whitespace-nowrap">
+                        {ev.case_id}
+                      </td>
+                      <td className="py-2.5 px-3 text-slate-300 font-mono text-[11px] whitespace-nowrap">
+                        {ev.storage_reference}
+                      </td>
+                      <td className="py-2.5 px-3 whitespace-nowrap text-[11px] text-slate-300">
+                        {ev.status}
+                      </td>
+                      <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                        <button
+                          onClick={(e) => handleDeleteEvidence(ev.evidence_id, e)}
+                          className="text-slate-500 hover:text-red-400 p-1 transition-colors duration-150"
+                          title="Delete item"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
-      )}
 
-      {/* Custody Drawer / Detail Modal */}
-      {selectedItem && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#0F172A] border border-slate-800 rounded-xl w-full max-w-2xl p-6 shadow-2xl max-h-[85vh] overflow-y-auto">
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <span className="font-mono text-emerald-400 text-xs font-bold">{selectedItem.evidence_id}</span>
-                <h3 className="text-base font-bold text-white m-0">{selectedItem.title}</h3>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">
-                    {selectedItem.evidence_type}
-                  </span>
-                  <span className="text-xs text-blue-400 font-mono">
-                    Case: {selectedItem.case_id}
-                  </span>
+        {/* Selected Item Detail Panel */}
+        <div className="bg-[#0B0F17] border border-[#1E2638] rounded p-4 space-y-3">
+          {selectedItem ? (
+            <>
+              <div className="flex items-center justify-between pb-2 border-b border-[#1E2638]">
+                <div>
+                  <span className="font-mono text-xs text-blue-400 font-medium">{selectedItem.evidence_id}</span>
+                  <div className="text-sm font-semibold text-slate-100">{selectedItem.title}</div>
                 </div>
-              </div>
-              <button onClick={() => setSelectedItem(null)} className="text-slate-400 hover:text-white text-xs">
-                ✕ Close
-              </button>
-            </div>
-
-            <div className="p-3.5 rounded-lg bg-slate-900 border border-slate-800 text-xs space-y-1 text-slate-300 mb-4">
-              <p className="m-0 leading-relaxed">{selectedItem.description}</p>
-              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80 text-[11px] text-slate-400">
-                <div><span className="text-slate-500 font-medium">Storage Location:</span> {selectedItem.storage_reference}</div>
-                <div><span className="text-slate-500 font-medium">Logged Status:</span> {selectedItem.status}</div>
-                <div><span className="text-slate-500 font-medium">Collected By:</span> {selectedItem.collected_by_name || 'Officer'}</div>
-                <div><span className="text-slate-500 font-medium">Collection Date:</span> {selectedItem.collection_date ? new Date(selectedItem.collection_date).toLocaleDateString() : 'N/A'}</div>
-              </div>
-            </div>
-
-            {/* Chain of Custody History Sub-Table */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                  <ArrowRightLeft className="w-3.5 h-3.5 text-emerald-400" />
-                  Sequential Chain of Custody Audit Log (evidence_custody)
-                </h4>
                 <button
                   onClick={() => setIsCustodyModalOpen(true)}
-                  className="px-2.5 py-1 rounded bg-purple-600 hover:bg-purple-500 text-white text-[11px] font-medium flex items-center gap-1 transition"
+                  className="px-2.5 py-1 bg-[#0E1420] hover:bg-[#141C2B] border border-[#1E2638] rounded text-xs text-slate-200 flex items-center gap-1 transition-colors duration-150"
                 >
-                  <Plus className="w-3 h-3" />
-                  <span>Transfer / Audit Action</span>
+                  <ArrowRightLeft className="w-3 h-3 text-blue-400" />
+                  <span>Transfer</span>
                 </button>
               </div>
 
-              {(!selectedItem.custody_history || selectedItem.custody_history.length === 0) ? (
-                <p className="text-xs text-slate-500 italic">No custody transfer events recorded.</p>
-              ) : (
-                <div className="border border-slate-800 rounded-lg overflow-hidden">
-                  <table className="w-full text-left text-xs border-collapse">
-                    <thead className="bg-slate-900 text-slate-400 text-[10px] uppercase font-semibold">
-                      <tr className="border-b border-slate-800">
-                        <th className="py-2 px-3">Timestamp</th>
-                        <th className="py-2 px-3">Event Action</th>
-                        <th className="py-2 px-3">Handling Officer</th>
-                        <th className="py-2 px-3">Operational Notes</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-800/80 text-[11px]">
-                      {selectedItem.custody_history.map((cust) => (
-                        <tr key={cust.custody_event_id} className="hover:bg-slate-900/40">
-                          <td className="py-2 px-3 font-mono text-slate-400 whitespace-nowrap">
-                            {new Date(cust.event_timestamp).toLocaleString()}
-                          </td>
-                          <td className="py-2 px-3 font-medium text-emerald-400">
-                            {cust.event_type}
-                          </td>
-                          <td className="py-2 px-3 text-slate-300">
-                            {cust.officer_name || 'Investigator'}
-                          </td>
-                          <td className="py-2 px-3 text-slate-400">
-                            {cust.notes || '-'}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              <div className="space-y-2 text-xs">
+                <div>
+                  <span className="text-slate-500 text-[11px] block">Case:</span>
+                  <span className="font-mono text-slate-200">{selectedItem.case_id}</span>
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+                <div>
+                  <span className="text-slate-500 text-[11px] block">Type & Storage:</span>
+                  <span className="text-slate-200">{selectedItem.evidence_type} • {selectedItem.storage_reference}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 text-[11px] block">Storage Reference:</span>
+                  <span className="font-mono text-slate-300">{selectedItem.storage_reference}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 text-[11px] block">Description:</span>
+                  <p className="text-slate-300 text-xs m-0 leading-relaxed">{selectedItem.description || 'No description provided.'}</p>
+                </div>
+                {selectedItem.notes && (
+                  <div>
+                    <span className="text-slate-500 text-[11px] block">Investigative Notes:</span>
+                    <p className="text-slate-400 text-xs m-0">{selectedItem.notes}</p>
+                  </div>
+                )}
+              </div>
 
-      {/* Create Evidence Modal */}
+              {/* Custody Log */}
+              <div className="pt-2 border-t border-[#1E2638] space-y-2">
+                <div className="text-xs font-medium text-slate-200">Custody Audit Trail</div>
+                {(!selectedItem.custody_history || selectedItem.custody_history.length === 0) ? (
+                  <div className="text-slate-500 text-xs">No transfer history recorded.</div>
+                ) : (
+                  <div className="space-y-2 max-h-56 overflow-y-auto">
+                    {selectedItem.custody_history.map((log: any) => (
+                      <div key={log.custody_event_id || log.custody_id} className="p-2 bg-[#0E1420] border border-[#1E2638] rounded text-xs">
+                        <div className="flex justify-between text-[11px] text-slate-500 mb-0.5">
+                          <span className="font-medium text-slate-300">{log.event_type}</span>
+                          <span className="font-mono">{new Date(log.event_timestamp).toLocaleDateString()}</span>
+                        </div>
+                        <div className="text-slate-400 text-[11px]">Officer: {log.officer_name || log.officer_id}</div>
+                        {log.notes && <p className="text-slate-400 text-[11px] m-0 mt-0.5">{log.notes}</p>}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="p-8 text-center text-slate-500 text-xs">
+              Select an evidence item from the table to inspect details and custody history.
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Register Evidence Modal */}
       {isCreateModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#0F172A] border border-slate-800 rounded-xl w-full max-w-md p-6 shadow-2xl">
-            <h3 className="text-sm font-bold text-white mb-3">Log Evidence Record</h3>
-            <form onSubmit={handleCreate} className="space-y-3">
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+          <div className="bg-[#0B0F17] border border-[#1E2638] rounded w-full max-w-md p-5 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-[#1E2638]">
+              <h2 className="text-sm font-semibold text-slate-100">Register Evidence</h2>
+              <button onClick={() => setIsCreateModalOpen(false)} className="text-slate-400 hover:text-slate-200 text-xs">
+                Close
+              </button>
+            </div>
+
+            <form onSubmit={handleCreate} className="space-y-3 text-xs">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Item Title *</label>
+                <label className="block text-slate-300 mb-1">Item Title</label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Cloned Transponder Smart Key"
+                  placeholder="e.g. Encrypted SSD Drive (Seagate 2TB)"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Evidence Type</label>
+                  <label className="block text-slate-300 mb-1">Associated Case</label>
+                  <select
+                    value={caseId}
+                    onChange={(e) => setCaseId(e.target.value)}
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500 font-mono text-[11px]"
+                  >
+                    {cases.map((c) => (
+                      <option key={c.case_id} value={c.case_id}>{c.case_id}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 mb-1">Evidence Type</label>
                   <select
                     value={etype}
                     onChange={(e) => setEtype(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500"
                   >
                     <option value="Digital Hardware">Digital Hardware</option>
-                    <option value="Digital Forensics">Digital Forensics</option>
-                    <option value="Physical Tool">Physical Tool</option>
-                    <option value="Physical Vehicle">Physical Vehicle</option>
-                    <option value="Telecommunications Hardware">Telecommunications Hardware</option>
-                    <option value="Documentary">Documentary</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Associated Case *</label>
-                  <select
-                    required
-                    value={caseId}
-                    onChange={(e) => setCaseId(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
-                  >
-                    {cases.map((c) => (
-                      <option key={c.case_id} value={c.case_id}>{c.case_id} - {c.title.substring(0, 20)}...</option>
-                    ))}
+                    <option value="Document">Document</option>
+                    <option value="Physical Contraband">Physical Contraband</option>
+                    <option value="Forensic Extraction">Forensic Extraction</option>
                   </select>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Storage Reference *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Vault A / Bin 101"
-                    value={storageRef}
-                    onChange={(e) => setStorageRef(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Collecting Officer</label>
-                  <select
-                    value={officerId}
-                    onChange={(e) => setOfficerId(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
-                  >
-                    {officers.map((o) => (
-                      <option key={o.officer_id} value={o.officer_id}>{o.full_name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Description *</label>
-                <textarea
-                  rows={2}
+                <label className="block text-slate-300 mb-1">Storage Reference</label>
+                <input
+                  type="text"
                   required
-                  placeholder="Seizure details, condition..."
-                  value={desc}
-                  onChange={(e) => setDesc(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                  value={storageRef}
+                  onChange={(e) => setStorageRef(e.target.value)}
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
-                <button type="button" onClick={() => setIsCreateModalOpen(false)} className="px-3 py-1.5 border border-slate-700 text-xs rounded text-slate-300">Cancel</button>
-                <button type="submit" className="px-4 py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded">Log Item</button>
+
+              <div>
+                <label className="block text-slate-300 mb-1">Description</label>
+                <textarea
+                  rows={2}
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-[#1E2638]">
+                <button
+                  type="button"
+                  onClick={() => setIsCreateModalOpen(false)}
+                  className="px-3 py-1.5 bg-[#0E1420] hover:bg-[#141C2B] border border-[#1E2638] text-slate-300 rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded font-medium"
+                >
+                  Register
+                </button>
               </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* Log Custody Event Modal */}
+      {/* Custody Transfer Modal */}
       {isCustodyModalOpen && selectedItem && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#0F172A] border border-slate-800 rounded-xl w-full max-w-md p-6 shadow-2xl">
-            <h3 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
-              <ArrowRightLeft className="w-4 h-4 text-purple-400" />
-              Log Chain of Custody Transfer
-            </h3>
-            <p className="text-xs text-slate-400 mb-4">
-              Item: {selectedItem.evidence_id} — {selectedItem.title}
-            </p>
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+          <div className="bg-[#0B0F17] border border-[#1E2638] rounded w-full max-w-md p-5 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-[#1E2638]">
+              <h2 className="text-sm font-semibold text-slate-100">Log Custody Transfer</h2>
+              <button onClick={() => setIsCustodyModalOpen(false)} className="text-slate-400 hover:text-slate-200 text-xs">
+                Close
+              </button>
+            </div>
 
-            <form onSubmit={handleAddCustodyEvent} className="space-y-3">
+            <form onSubmit={handleAddCustodyEvent} className="space-y-3 text-xs">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Custody Action Event *</label>
+                <label className="block text-slate-300 mb-1">Transfer Action</label>
                 <select
                   value={custodyEventType}
                   onChange={(e) => setCustodyEventType(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500"
                 >
-                  <option value="Transferred">Transferred</option>
                   <option value="Checked Out for Analysis">Checked Out for Analysis</option>
                   <option value="Returned to Secure Storage">Returned to Secure Storage</option>
-                  <option value="Submitted to Lab for Analysis">Submitted to Lab for Analysis</option>
-                  <option value="Court Presentation">Court Presentation</option>
+                  <option value="Transferred to Forensics Lab">Transferred to Forensics Lab</option>
+                  <option value="Presented in Court Exhibit">Presented in Court Exhibit</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Handling Officer *</label>
+                <label className="block text-slate-300 mb-1">Responsible Officer</label>
                 <select
                   value={custodyOfficerId}
                   onChange={(e) => setCustodyOfficerId(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500"
                 >
                   {officers.map((o) => (
-                    <option key={o.officer_id} value={o.officer_id}>{o.full_name} ({o.role})</option>
+                    <option key={o.officer_id} value={o.officer_id}>
+                      {o.full_name} ({o.badge_number})
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Procedure Notes</label>
+                <label className="block text-slate-300 mb-1">Transfer Notes</label>
                 <textarea
                   rows={2}
-                  placeholder="Reason for checkout / laboratory testing reference..."
                   value={custodyNotes}
                   onChange={(e) => setCustodyNotes(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                  placeholder="Reason for transfer, lab docket number, or destination..."
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
-                <button type="button" onClick={() => setIsCustodyModalOpen(false)} className="px-3 py-1.5 border border-slate-700 text-xs rounded text-slate-300">Cancel</button>
-                <button type="submit" className="px-4 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded">Record Custody Event</button>
+              <div className="flex justify-end gap-2 pt-2 border-t border-[#1E2638]">
+                <button
+                  type="button"
+                  onClick={() => setIsCustodyModalOpen(false)}
+                  className="px-3 py-1.5 bg-[#0E1420] hover:bg-[#141C2B] border border-[#1E2638] text-slate-300 rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded font-medium"
+                >
+                  Record Transfer
+                </button>
               </div>
             </form>
           </div>

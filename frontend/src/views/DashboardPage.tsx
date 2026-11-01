@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  FolderKanban, Users, Building2, Car, Smartphone, MapPin, Archive,
-  FileText, Activity, Clock, Plus, ExternalLink, AlertTriangle,
-  ArrowUpRight, Network, Search, Database, ShieldAlert
-} from 'lucide-react';
+import { Plus, ArrowRight } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis } from 'recharts';
 import { ApiService } from '../services/api';
 import { DashboardStats } from '../types';
@@ -26,171 +22,161 @@ export const DashboardPage: React.FC = () => {
       setStats(data);
       setError(null);
     } catch (err: any) {
-      setError(err?.message || 'Failed to retrieve telemetry from backend API.');
+      setError(err?.message || 'Failed to load dashboard metrics from backend.');
     } finally {
       setLoading(false);
     }
   };
 
   const STATUS_COLORS: Record<string, string> = {
-    'Open': '#38BDF8',
+    'Open': '#3B82F6',
     'Under Investigation': '#F59E0B',
-    'On Hold': '#94A3B8',
+    'On Hold': '#64748B',
     'Closed': '#10B981',
   };
 
   const PRIORITY_COLORS: Record<string, string> = {
     'Low': '#64748B',
-    'Medium': '#38BDF8',
+    'Medium': '#3B82F6',
     'High': '#F59E0B',
     'Critical': '#EF4444',
   };
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[420px] text-slate-400">
-        <div className="w-7 h-7 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-        <p className="text-xs font-mono text-slate-400">Querying live SQL and MongoDB instances...</p>
+      <div className="flex flex-col items-center justify-center min-h-[300px] text-slate-400 text-xs">
+        <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mb-2" />
+        <span>Loading metrics...</span>
       </div>
     );
   }
 
   if (error || !stats) {
     return (
-      <div className="p-5 bg-[#120B0B] border border-red-900/40 rounded text-red-200">
-        <div className="flex items-center gap-2 mb-2">
-          <AlertTriangle className="w-4 h-4 text-red-400" />
-          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-red-300">
-            Telemetry Feed Disconnected
-          </h3>
-        </div>
-        <p className="text-xs text-red-400 font-mono">{error || 'Unable to load investigation metrics.'}</p>
+      <div className="p-4 bg-[#0E1420] border border-red-900/60 rounded text-xs text-red-300">
+        <div className="font-semibold text-red-200 mb-1">Failed to load data</div>
+        <p className="text-slate-400 mb-3">{error || 'Unable to connect to the backend API.'}</p>
         <button
           onClick={loadDashboard}
-          className="mt-3 px-3 py-1 bg-red-900/60 hover:bg-red-800 border border-red-700/60 rounded text-xs font-mono text-white transition"
+          className="px-2.5 py-1 bg-red-900/40 hover:bg-red-900/70 border border-red-800 rounded text-xs text-white transition-colors duration-150"
         >
-          Re-establish Connection
+          Retry
         </button>
       </div>
     );
   }
 
-  const telemetryMetrics = [
-    { label: 'Active Cases', value: stats.total_cases, sub: `${stats.open_cases} Open • ${stats.under_investigation_cases} In-Progress`, icon: FolderKanban, link: '/cases', badge: 'SQL' },
-    { label: 'Persons of Interest', value: stats.total_people, sub: 'Suspects, associates, victims', icon: Users, link: '/people', badge: 'SQL' },
-    { label: 'Evidence Items', value: stats.total_evidence, sub: 'Chain of custody tracked', icon: Archive, link: '/evidence', badge: 'SQL' },
-    { label: 'Intelligence Docs', value: stats.total_documents, sub: 'Polymorphic NoSQL records', icon: FileText, link: '/documents', badge: 'MongoDB' },
-    { label: 'Organizations', value: stats.total_organizations, sub: 'Corporate & shell entities', icon: Building2, link: '/organizations' },
-    { label: 'Vehicles', value: stats.total_vehicles, sub: 'Plates, VINs, surveillance', icon: Car, link: '/vehicles' },
-    { label: 'Hardware & Devices', value: stats.total_devices, sub: 'Phones, drives, crypto wallets', icon: Smartphone, link: '/devices' },
-    { label: 'Locations Tracked', value: stats.total_locations, sub: 'Scenes, depots, safehouses', icon: MapPin, link: '/locations' },
-  ];
-
   return (
     <div className="space-y-4 max-w-7xl mx-auto">
-      {/* Forensic Station Quick Header & Action Console */}
-      <div className="p-4 rounded-xl bg-[#0C1220] border border-slate-800/90 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-lg shadow-black/40">
-        <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-blue-950/70 text-blue-300 border border-blue-800/50 font-semibold">
-              OPERATIONAL
-            </span>
-            <span className="text-xs text-slate-400 font-mono">
-              Central Investigation Command
-            </span>
-          </div>
-          <h2 className="text-base font-bold text-slate-100 tracking-tight mt-1 mb-0.5">
-            Operational Intelligence Dashboard
-          </h2>
-          <p className="text-xs text-slate-400 m-0">
-            Real-time telemetry fusing 3NF relational investigation tables with MongoDB document store.
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1E2638] gap-3">
+        <div>
+          <h1 className="text-lg font-semibold text-slate-100">Overview</h1>
+          <p className="text-xs text-slate-400">
+            Case metrics, database records, and recent audit activity
           </p>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap flex-shrink-0">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => navigate('/cases')}
-            className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow transition flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition-colors duration-150 flex items-center gap-1.5"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>New Case</span>
           </button>
           <button
-            onClick={() => navigate('/documents')}
-            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-medium transition flex items-center gap-1.5"
+            onClick={() => navigate('/evidence')}
+            className="px-3 py-1.5 rounded bg-[#0B0F17] hover:bg-[#141C2B] border border-[#1E2638] text-slate-300 text-xs font-medium transition-colors duration-150"
           >
-            <FileText className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Ingest Doc</span>
-          </button>
-          <button
-            onClick={() => navigate('/relationships')}
-            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-medium transition flex items-center gap-1.5"
-          >
-            <Network className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Link Analysis</span>
+            Evidence Log
           </button>
         </div>
       </div>
 
-      {/* 8-Panel High-Density Telemetry Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
-        {telemetryMetrics.map((m) => {
-          const Icon = m.icon;
-          return (
-            <div
-              key={m.label}
-              onClick={() => navigate(m.link)}
-              className="p-3 rounded bg-[#0B0F17] border border-[#1E2638] hover:border-amber-500/40 hover:bg-[#0E1420] cursor-pointer transition group flex flex-col justify-between"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono text-slate-400 font-medium uppercase truncate pr-1">
-                  {m.label}
-                </span>
-                <Icon className="w-3.5 h-3.5 text-slate-500 group-hover:text-amber-400 transition" />
-              </div>
+      {/* Summary Metrics Strip */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div
+          onClick={() => navigate('/cases')}
+          className="p-3.5 bg-[#0B0F17] border border-[#1E2638] rounded cursor-pointer hover:border-slate-700 transition-colors duration-150"
+        >
+          <div className="text-xs text-slate-400">Total Cases</div>
+          <div className="text-xl font-semibold text-slate-100 font-mono mt-1">
+            {stats.total_cases}
+          </div>
+          <div className="text-[11px] text-slate-500 mt-0.5">
+            {stats.open_cases} open • {stats.under_investigation_cases} investigating
+          </div>
+        </div>
 
-              <div className="mt-2 flex items-baseline justify-between">
-                <div className="text-xl font-mono font-bold text-slate-100 tracking-tight">
-                  {m.value}
-                </div>
-                {m.badge && (
-                  <span
-                    className={`text-[9px] font-mono px-1 py-0.2 rounded leading-none ${
-                      m.badge === 'MongoDB'
-                        ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/40'
-                        : 'bg-amber-950/80 text-amber-400 border border-amber-800/40'
-                    }`}
-                  >
-                    {m.badge}
-                  </span>
-                )}
-              </div>
+        <div
+          onClick={() => navigate('/evidence')}
+          className="p-3.5 bg-[#0B0F17] border border-[#1E2638] rounded cursor-pointer hover:border-slate-700 transition-colors duration-150"
+        >
+          <div className="text-xs text-slate-400">Evidence Items</div>
+          <div className="text-xl font-semibold text-slate-100 font-mono mt-1">
+            {stats.total_evidence}
+          </div>
+          <div className="text-[11px] text-slate-500 mt-0.5">
+            Chain of custody recorded
+          </div>
+        </div>
 
-              <div className="text-[10px] text-slate-500 font-mono truncate mt-1">
-                {m.sub}
-              </div>
-            </div>
-          );
-        })}
+        <div
+          onClick={() => navigate('/people')}
+          className="p-3.5 bg-[#0B0F17] border border-[#1E2638] rounded cursor-pointer hover:border-slate-700 transition-colors duration-150"
+        >
+          <div className="text-xs text-slate-400">Persons of Interest</div>
+          <div className="text-xl font-semibold text-slate-100 font-mono mt-1">
+            {stats.total_people}
+          </div>
+          <div className="text-[11px] text-slate-500 mt-0.5">
+            Suspects, witnesses, victims
+          </div>
+        </div>
+
+        <div
+          onClick={() => navigate('/documents')}
+          className="p-3.5 bg-[#0B0F17] border border-[#1E2638] rounded cursor-pointer hover:border-slate-700 transition-colors duration-150"
+        >
+          <div className="text-xs text-slate-400">Documents (NoSQL)</div>
+          <div className="text-xl font-semibold text-slate-100 font-mono mt-1">
+            {stats.total_documents}
+          </div>
+          <div className="text-[11px] text-slate-500 mt-0.5">
+            MongoDB unstructured telemetry
+          </div>
+        </div>
       </div>
 
-      {/* Analytical Breakdown: Case Distribution & Priority (SQL Aggregations) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* Case Status Distribution */}
-        <div className="p-3.5 rounded bg-[#0B0F17] border border-[#1E2638] flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-2">
-            <div>
-              <div className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wide">
-                Case Status Distribution
-              </div>
-              <p className="text-[10px] font-mono text-slate-500 m-0">SQL GROUP BY status</p>
-            </div>
-            <span className="text-[9px] font-mono text-slate-400 bg-[#131A26] px-1.5 py-0.5 rounded border border-[#1E2638]">
-              RELATIONAL AGGREGATE
-            </span>
-          </div>
+      {/* Secondary Entity Counts Row */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-[#0B0F17] p-2.5 border border-[#1E2638] rounded text-xs">
+        <div onClick={() => navigate('/organizations')} className="cursor-pointer hover:text-slate-200 text-slate-400 px-2 py-1">
+          <span className="text-slate-500">Organizations: </span>
+          <span className="font-mono font-medium text-slate-200">{stats.total_organizations}</span>
+        </div>
+        <div onClick={() => navigate('/vehicles')} className="cursor-pointer hover:text-slate-200 text-slate-400 px-2 py-1">
+          <span className="text-slate-500">Vehicles: </span>
+          <span className="font-mono font-medium text-slate-200">{stats.total_vehicles}</span>
+        </div>
+        <div onClick={() => navigate('/devices')} className="cursor-pointer hover:text-slate-200 text-slate-400 px-2 py-1">
+          <span className="text-slate-500">Devices: </span>
+          <span className="font-mono font-medium text-slate-200">{stats.total_devices}</span>
+        </div>
+        <div onClick={() => navigate('/locations')} className="cursor-pointer hover:text-slate-200 text-slate-400 px-2 py-1">
+          <span className="text-slate-500">Locations: </span>
+          <span className="font-mono font-medium text-slate-200">{stats.total_locations}</span>
+        </div>
+      </div>
 
-          <div className="h-44 w-full">
+      {/* Charts Section: 2 simple charts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {/* Status Distribution */}
+        <div className="p-3.5 bg-[#0B0F17] border border-[#1E2638] rounded">
+          <div className="text-xs font-medium text-slate-200 mb-0.5">Case Status Distribution</div>
+          <div className="text-[11px] text-slate-500 mb-3">Grouped by status in relational database</div>
+
+          <div className="h-40 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -199,67 +185,58 @@ export const DashboardPage: React.FC = () => {
                   nameKey="status"
                   cx="50%"
                   cy="50%"
-                  outerRadius={65}
-                  innerRadius={40}
-                  paddingAngle={3}
+                  outerRadius={60}
+                  innerRadius={36}
+                  paddingAngle={2}
                 >
                   {stats.case_status_distribution.map((entry) => (
                     <Cell
                       key={`cell-${entry.status}`}
-                      fill={STATUS_COLORS[entry.status] || '#38BDF8'}
+                      fill={STATUS_COLORS[entry.status] || '#3B82F6'}
                     />
                   ))}
                 </Pie>
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0B0F17', borderColor: '#1E2638', borderRadius: '4px', fontSize: '11px', fontFamily: 'monospace' }}
+                  contentStyle={{ backgroundColor: '#0E1420', borderColor: '#1E2638', borderRadius: '4px', fontSize: '11px', color: '#E2E8F0' }}
                   itemStyle={{ color: '#E2E8F0' }}
                 />
               </PieChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="flex items-center justify-center gap-3 flex-wrap pt-2 border-t border-[#1E2638] text-[10px] font-mono">
+          <div className="flex items-center justify-center gap-3 flex-wrap pt-2 border-t border-[#1E2638] text-[11px]">
             {stats.case_status_distribution.map((entry) => (
               <div key={entry.status} className="flex items-center gap-1.5">
                 <span
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: STATUS_COLORS[entry.status] || '#38BDF8' }}
+                  className="w-2 h-2 rounded-sm"
+                  style={{ backgroundColor: STATUS_COLORS[entry.status] || '#3B82F6' }}
                 />
                 <span className="text-slate-400">{entry.status}:</span>
-                <span className="text-slate-200 font-bold">{entry.count}</span>
+                <span className="font-mono text-slate-200">{entry.count}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Case Priority Breakdown */}
-        <div className="p-3.5 rounded bg-[#0B0F17] border border-[#1E2638] flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-2">
-            <div>
-              <div className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wide">
-                Case Priority Hierarchy
-              </div>
-              <p className="text-[10px] font-mono text-slate-500 m-0">SQL GROUP BY priority</p>
-            </div>
-            <span className="text-[9px] font-mono text-slate-400 bg-[#131A26] px-1.5 py-0.5 rounded border border-[#1E2638]">
-              RELATIONAL AGGREGATE
-            </span>
-          </div>
+        {/* Priority Breakdown */}
+        <div className="p-3.5 bg-[#0B0F17] border border-[#1E2638] rounded">
+          <div className="text-xs font-medium text-slate-200 mb-0.5">Case Priority Breakdown</div>
+          <div className="text-[11px] text-slate-500 mb-3">Cases by triage priority level</div>
 
-          <div className="h-44 w-full">
+          <div className="h-40 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={stats.case_priority_distribution} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
-                <XAxis dataKey="priority" stroke="#64748B" fontSize={10} tickLine={false} fontFamily="monospace" />
-                <YAxis stroke="#64748B" fontSize={10} tickLine={false} fontFamily="monospace" />
+              <BarChart data={stats.case_priority_distribution} margin={{ top: 5, right: 10, left: -25, bottom: 0 }}>
+                <XAxis dataKey="priority" stroke="#64748B" fontSize={11} tickLine={false} />
+                <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0B0F17', borderColor: '#1E2638', borderRadius: '4px', fontSize: '11px', fontFamily: 'monospace' }}
+                  contentStyle={{ backgroundColor: '#0E1420', borderColor: '#1E2638', borderRadius: '4px', fontSize: '11px', color: '#E2E8F0' }}
                   itemStyle={{ color: '#E2E8F0' }}
                 />
                 <Bar dataKey="count" radius={[2, 2, 0, 0]}>
                   {stats.case_priority_distribution.map((entry) => (
                     <Cell
                       key={`bar-${entry.priority}`}
-                      fill={PRIORITY_COLORS[entry.priority] || '#38BDF8'}
+                      fill={PRIORITY_COLORS[entry.priority] || '#3B82F6'}
                     />
                   ))}
                 </Bar>
@@ -267,199 +244,188 @@ export const DashboardPage: React.FC = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="flex items-center justify-center gap-3 flex-wrap pt-2 border-t border-[#1E2638] text-[10px] font-mono">
+          <div className="flex items-center justify-center gap-3 flex-wrap pt-2 border-t border-[#1E2638] text-[11px]">
             {stats.case_priority_distribution.map((entry) => (
               <div key={entry.priority} className="flex items-center gap-1.5">
                 <span
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: PRIORITY_COLORS[entry.priority] || '#38BDF8' }}
+                  className="w-2 h-2 rounded-sm"
+                  style={{ backgroundColor: PRIORITY_COLORS[entry.priority] || '#3B82F6' }}
                 />
                 <span className="text-slate-400">{entry.priority}:</span>
-                <span className="text-slate-200 font-bold">{entry.count}</span>
+                <span className="font-mono text-slate-200">{entry.count}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Primary Activity Feeds: Active Relational Cases & Ingested NoSQL Telemetry */}
+      {/* Dense Tables: Recent Cases & Recent Documents */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        {/* Active SQL Cases */}
-        <div className="p-3.5 rounded bg-[#0B0F17] border border-[#1E2638]">
-          <div className="flex items-center justify-between mb-2.5 pb-2 border-b border-[#1E2638]">
-            <div className="flex items-center gap-2">
-              <FolderKanban className="w-3.5 h-3.5 text-amber-400" />
-              <div className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wide">
-                Recent Investigation Cases (SQL)
-              </div>
-            </div>
+        {/* Recent Cases Table */}
+        <div className="bg-[#0B0F17] border border-[#1E2638] rounded">
+          <div className="p-3 border-b border-[#1E2638] flex items-center justify-between">
+            <div className="text-xs font-medium text-slate-200">Recent Cases</div>
             <button
               onClick={() => navigate('/cases')}
-              className="text-[10px] font-mono text-amber-400/90 hover:text-amber-300 flex items-center gap-1 transition"
+              className="text-xs text-blue-400 hover:text-blue-300 transition-colors duration-150 flex items-center gap-1"
             >
-              <span>View Dossier</span>
-              <ExternalLink className="w-3 h-3" />
+              <span>View all</span>
+              <ArrowRight className="w-3 h-3" />
             </button>
           </div>
 
-          <div className="space-y-1.5">
-            {stats.recent_cases.length === 0 ? (
-              <div className="p-4 text-center text-xs font-mono text-slate-500">
-                No active investigation cases recorded. Use the "New Investigation" button above.
-              </div>
-            ) : (
-              stats.recent_cases.map((c) => (
-                <div
-                  key={c.case_id}
-                  onClick={() => navigate(`/cases/${c.case_id}`)}
-                  className="p-2.5 rounded bg-[#0E1420] border border-[#161D2B] hover:border-amber-500/40 cursor-pointer transition flex items-center justify-between"
-                >
-                  <div className="min-w-0 pr-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-mono text-amber-400 font-bold">{c.case_id}</span>
-                      <span
-                        className={`text-[9px] font-mono px-1 rounded font-semibold ${
-                          c.priority === 'Critical'
-                            ? 'bg-red-950/80 text-red-400 border border-red-800/40'
-                            : c.priority === 'High'
-                            ? 'bg-amber-950/80 text-amber-400 border border-amber-800/40'
-                            : 'bg-blue-950/80 text-blue-400 border border-blue-800/40'
-                        }`}
-                      >
-                        {c.priority}
-                      </span>
-                      <span className="text-[10px] text-slate-500 font-mono truncate">
-                        Lead: {c.lead_officer_name || 'Unassigned'}
-                      </span>
-                    </div>
-                    <div className="text-xs font-medium text-slate-200 truncate">{c.title}</div>
-                  </div>
-
-                  <div className="text-right flex-shrink-0">
-                    <span
-                      className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-medium ${
-                        c.status === 'Open'
-                          ? 'bg-blue-950/80 text-blue-400 border border-blue-800/40'
-                          : c.status === 'Under Investigation'
-                          ? 'bg-amber-950/80 text-amber-400 border border-amber-800/40'
-                          : 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/40'
-                      }`}
+          {stats.recent_cases.length === 0 ? (
+            <div className="p-4 text-center text-xs text-slate-500">No cases recorded.</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-[#1E2638] text-slate-400 text-[11px]">
+                    <th className="py-2 px-3">Case ID</th>
+                    <th className="py-2 px-3">Title</th>
+                    <th className="py-2 px-3">Status</th>
+                    <th className="py-2 px-3">Priority</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#161D2B]">
+                  {stats.recent_cases.map((c) => (
+                    <tr
+                      key={c.case_id}
+                      onClick={() => navigate(`/cases/${c.case_id}`)}
+                      className="hover:bg-[#141C2B] cursor-pointer transition-colors duration-150"
                     >
-                      {c.status}
-                    </span>
-                    <div className="text-[9px] text-slate-500 font-mono mt-1">
-                      {c.evidence_count || 0} Evd • {c.people_count || 0} Entities
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+                      <td className="py-2 px-3 font-mono text-blue-400 font-medium whitespace-nowrap">
+                        {c.case_id}
+                      </td>
+                      <td className="py-2 px-3 max-w-[180px] truncate text-slate-200">
+                        {c.title}
+                      </td>
+                      <td className="py-2 px-3 whitespace-nowrap">
+                        <span className={`px-1.5 py-0.5 rounded text-[10px] ${
+                          c.status === 'Open' ? 'bg-blue-950 text-blue-400 border border-blue-900' :
+                          c.status === 'Under Investigation' ? 'bg-amber-950 text-amber-400 border border-amber-900' :
+                          'bg-emerald-950 text-emerald-400 border border-emerald-900'
+                        }`}>
+                          {c.status}
+                        </span>
+                      </td>
+                      <td className="py-2 px-3 whitespace-nowrap">
+                        <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono ${
+                          c.priority === 'Critical' ? 'text-red-400' :
+                          c.priority === 'High' ? 'text-amber-400' : 'text-slate-400'
+                        }`}>
+                          {c.priority}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
-        {/* Ingested NoSQL Documents */}
-        <div className="p-3.5 rounded bg-[#0B0F17] border border-[#1E2638]">
-          <div className="flex items-center justify-between mb-2.5 pb-2 border-b border-[#1E2638]">
-            <div className="flex items-center gap-2">
-              <FileText className="w-3.5 h-3.5 text-emerald-400" />
-              <div className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wide">
-                Ingested Intelligence Telemetry (MongoDB)
-              </div>
-            </div>
+        {/* Recent Documents Table */}
+        <div className="bg-[#0B0F17] border border-[#1E2638] rounded">
+          <div className="p-3 border-b border-[#1E2638] flex items-center justify-between">
+            <div className="text-xs font-medium text-slate-200">Recent Documents (MongoDB)</div>
             <button
               onClick={() => navigate('/documents')}
-              className="text-[10px] font-mono text-emerald-400/90 hover:text-emerald-300 flex items-center gap-1 transition"
+              className="text-xs text-blue-400 hover:text-blue-300 transition-colors duration-150 flex items-center gap-1"
             >
-              <span>View Repository</span>
-              <ExternalLink className="w-3 h-3" />
+              <span>View all</span>
+              <ArrowRight className="w-3 h-3" />
             </button>
           </div>
 
-          <div className="space-y-1.5">
-            {stats.recent_documents.length === 0 ? (
-              <div className="p-4 text-center text-xs font-mono text-slate-500">
-                No intelligence documents found. Document store is ready for ingestion.
-              </div>
-            ) : (
-              stats.recent_documents.map((doc) => (
-                <div
-                  key={doc.id}
-                  onClick={() => navigate('/documents')}
-                  className="p-2.5 rounded bg-[#0E1420] border border-[#161D2B] hover:border-emerald-500/40 cursor-pointer transition flex items-center justify-between"
-                >
-                  <div className="min-w-0 pr-3">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-emerald-950/70 text-emerald-400 border border-emerald-800/40">
+          {stats.recent_documents.length === 0 ? (
+            <div className="p-4 text-center text-xs text-slate-500">No documents found.</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-[#1E2638] text-slate-400 text-[11px]">
+                    <th className="py-2 px-3">Type</th>
+                    <th className="py-2 px-3">Title</th>
+                    <th className="py-2 px-3">Case</th>
+                    <th className="py-2 px-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#161D2B]">
+                  {stats.recent_documents.map((doc) => (
+                    <tr
+                      key={doc.id}
+                      onClick={() => navigate('/documents')}
+                      className="hover:bg-[#141C2B] cursor-pointer transition-colors duration-150"
+                    >
+                      <td className="py-2 px-3 whitespace-nowrap font-mono text-[10px] text-slate-400">
                         {doc.document_type}
-                      </span>
-                      {doc.case_id && (
-                        <span className="text-[10px] font-mono text-slate-400">
-                          Case: <span className="text-amber-400/90">{doc.case_id}</span>
-                        </span>
-                      )}
-                      <span className="text-[10px] text-slate-500 font-mono truncate max-w-[120px]">
-                        {doc.source_name}
-                      </span>
-                    </div>
-                    <div className="text-xs font-medium text-slate-200 truncate">{doc.title}</div>
-                  </div>
-
-                  <div className="text-right flex-shrink-0">
-                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#131A26] border border-[#1E2638] text-slate-400">
-                      {doc.document_status}
-                    </span>
-                    <div className="text-[9px] text-slate-500 font-mono mt-1">
-                      {doc.tags?.slice(0, 2).join(', ') || 'verified'}
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+                      </td>
+                      <td className="py-2 px-3 max-w-[180px] truncate text-slate-200">
+                        {doc.title}
+                      </td>
+                      <td className="py-2 px-3 font-mono text-slate-400 whitespace-nowrap">
+                        {doc.case_id || '—'}
+                      </td>
+                      <td className="py-2 px-3 whitespace-nowrap text-[10px] text-slate-400">
+                        {doc.document_status}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Chronological Investigation Audit Activity Feed */}
-      <div className="p-3.5 rounded bg-[#0B0F17] border border-[#1E2638]">
-        <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#1E2638]">
-          <div className="flex items-center gap-2">
-            <Activity className="w-3.5 h-3.5 text-cyan-400" />
-            <div className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wide">
-              Investigation Audit Log & Event Timeline
-            </div>
+      {/* Activity Log Table */}
+      <div className="bg-[#0B0F17] border border-[#1E2638] rounded">
+        <div className="p-3 border-b border-[#1E2638] flex items-center justify-between">
+          <div>
+            <div className="text-xs font-medium text-slate-200">Recent Investigation Activity</div>
+            <div className="text-[11px] text-slate-500">Chronological audit log from case_activity table</div>
           </div>
-          <span className="text-[9px] font-mono text-slate-500">
-            PostgreSQL Table: case_activity
-          </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-          {stats.recent_activities.length === 0 ? (
-            <div className="col-span-3 p-4 text-center text-xs font-mono text-slate-500">
-              No audit activities recorded.
-            </div>
-          ) : (
-            stats.recent_activities.map((act) => (
-              <div key={act.activity_id} className="p-2.5 rounded bg-[#0E1420] border border-[#161D2B] text-xs">
-                <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1">
-                  <span className="text-amber-400 font-semibold">{act.case_id}</span>
-                  <span className="text-slate-500 flex items-center gap-1">
-                    <Clock className="w-2.5 h-2.5" />
-                    {new Date(act.activity_timestamp).toLocaleDateString()}
-                  </span>
-                </div>
-                <div className="font-medium text-slate-200 truncate mb-1 text-[11px]">{act.title}</div>
-                <p className="text-[10px] text-slate-400 line-clamp-2 m-0 leading-relaxed font-sans">
-                  {act.description}
-                </p>
-                <div className="mt-2 pt-1.5 border-t border-[#161D2B] text-[9px] font-mono text-slate-500 flex items-center justify-between">
-                  <span>Officer: {act.officer_name || 'Investigator'}</span>
-                  <span className="text-amber-400/90">{act.activity_type}</span>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+        {stats.recent_activities.length === 0 ? (
+          <div className="p-4 text-center text-xs text-slate-500">No activity recorded.</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-[#1E2638] text-slate-400 text-[11px]">
+                  <th className="py-2 px-3">Timestamp</th>
+                  <th className="py-2 px-3">Case ID</th>
+                  <th className="py-2 px-3">Type</th>
+                  <th className="py-2 px-3">Description</th>
+                  <th className="py-2 px-3">Officer</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#161D2B]">
+                {stats.recent_activities.map((act) => (
+                  <tr key={act.activity_id} className="hover:bg-[#141C2B] transition-colors duration-150">
+                    <td className="py-2 px-3 font-mono text-slate-500 whitespace-nowrap text-[11px]">
+                      {new Date(act.activity_timestamp).toLocaleDateString()}
+                    </td>
+                    <td className="py-2 px-3 font-mono text-blue-400 whitespace-nowrap font-medium">
+                      {act.case_id}
+                    </td>
+                    <td className="py-2 px-3 font-mono text-slate-300 text-[11px] whitespace-nowrap">
+                      {act.activity_type}
+                    </td>
+                    <td className="py-2 px-3 text-slate-300 max-w-md truncate">
+                      {act.title}: {act.description}
+                    </td>
+                    <td className="py-2 px-3 text-slate-400 whitespace-nowrap text-[11px]">
+                      {act.officer_name || 'Investigator'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Users, Shield, ShieldCheck, Plus, Search, Filter,
-  Lock, CheckCircle2, AlertTriangle, KeyRound, Mail, Building
-} from 'lucide-react';
+import { Plus, Search, Filter } from 'lucide-react';
 import { ApiService } from '../services/api';
 import { Officer } from '../types';
 
@@ -21,7 +18,7 @@ export const UsersPage: React.FC = () => {
   const [newOfficer, setNewOfficer] = useState({
     badge_number: '',
     full_name: '',
-    department: 'Special Cyber & Intelligence Fusion Command',
+    department: 'Special Operations',
     role: 'INVESTIGATOR',
     contact_email: '',
     password: 'password123'
@@ -72,7 +69,7 @@ export const UsersPage: React.FC = () => {
       setNewOfficer({
         badge_number: '',
         full_name: '',
-        department: 'Special Cyber & Intelligence Fusion Command',
+        department: 'Special Operations',
         role: 'INVESTIGATOR',
         contact_email: '',
         password: 'password123'
@@ -86,7 +83,6 @@ export const UsersPage: React.FC = () => {
   };
 
   const isAdmin = currentOfficer?.role === 'ADMIN';
-
   const departments = ['All', ...Array.from(new Set(officers.map(o => o.department).filter(Boolean)))];
 
   const filteredOfficers = officers.filter(o => {
@@ -94,177 +90,122 @@ export const UsersPage: React.FC = () => {
       o.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       o.badge_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
       o.officer_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      o.contact_email.toLowerCase().includes(searchTerm.toLowerCase());
+      (o.contact_email && o.contact_email.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesDept = departmentFilter === 'All' || o.department === departmentFilter;
     return matchesSearch && matchesDept;
   });
 
   return (
-    <div className="space-y-5 max-w-7xl mx-auto">
-      {/* Page Title & Breadcrumb Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#212836] pb-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1E2638] gap-3">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold tracking-tight text-slate-100 m-0">
-              Users & Access Control
-            </h1>
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#1c2433] text-slate-300 border border-[#2b374d]">
-              RBAC
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-1 font-normal">
-            Directory of authorized personnel, badge assignments, and role-based permissions
+          <h1 className="text-lg font-semibold text-slate-100">Officers & Role-Based Access Control</h1>
+          <p className="text-xs text-slate-400">
+            Personnel registry, badge identifiers, and role permissions (ADMIN / INVESTIGATOR)
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          {isAdmin ? (
-            <button
-              onClick={() => setShowAddModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Register Officer</span>
-            </button>
-          ) : (
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#161c28] border border-[#263145] text-amber-400 text-xs">
-              <Lock className="w-3.5 h-3.5" />
-              <span className="font-mono text-[11px]">Read-Only (Investigator Role)</span>
-            </div>
-          )}
-        </div>
+        {isAdmin && (
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 self-start sm:self-auto"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Officer</span>
+          </button>
+        )}
       </div>
 
-      {/* Role-Based Access Control Notice for Investigator */}
-      {!isAdmin && (
-        <div className="p-3.5 rounded-lg bg-[#141822] border border-[#263145] flex items-start gap-3">
-          <Shield className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-          <div className="text-xs text-slate-300 space-y-1">
-            <div className="font-semibold text-slate-200">
-              Role-Based Access Control Active: You are logged in as {currentOfficer?.full_name || 'Lead Inspector'} ({currentOfficer?.role || 'INVESTIGATOR'})
-            </div>
-            <div className="text-slate-400 leading-relaxed text-[11px]">
-              User creation and credential management are restricted to users with <span className="text-amber-400 font-mono">ADMIN</span> clearance (Badge <span className="font-mono text-slate-200">CID-001</span>). As an investigator, you have read-only visibility into active personnel for evidence custody transfers and case assignment.
-            </div>
-          </div>
+      {error && (
+        <div className="p-3 bg-red-950/40 border border-red-800 text-red-300 text-xs rounded">
+          {error}
         </div>
       )}
 
-      {/* Summary KPI Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3 rounded-lg bg-[#141824] border border-[#212a3b]">
-          <div className="text-[11px] text-slate-400 font-medium">Total Registered Officers</div>
-          <div className="text-lg font-bold text-slate-100 font-mono mt-0.5">{officers.length}</div>
-          <div className="text-[10px] text-slate-500 mt-1">Active in relational directory</div>
-        </div>
-
-        <div className="p-3 rounded-lg bg-[#141824] border border-[#212a3b]">
-          <div className="text-[11px] text-slate-400 font-medium">Administrators</div>
-          <div className="text-lg font-bold text-amber-400 font-mono mt-0.5">
-            {officers.filter(o => o.role === 'ADMIN').length}
-          </div>
-          <div className="text-[10px] text-slate-500 mt-1">Full system authority</div>
-        </div>
-
-        <div className="p-3 rounded-lg bg-[#141824] border border-[#212a3b]">
-          <div className="text-[11px] text-slate-400 font-medium">Investigators</div>
-          <div className="text-lg font-bold text-blue-400 font-mono mt-0.5">
-            {officers.filter(o => o.role === 'INVESTIGATOR').length}
-          </div>
-          <div className="text-[10px] text-slate-500 mt-1">Case & evidence custody</div>
-        </div>
-
-        <div className="p-3 rounded-lg bg-[#141824] border border-[#212a3b]">
-          <div className="text-[11px] text-slate-400 font-medium">Account Status</div>
-          <div className="text-lg font-bold text-emerald-400 font-mono mt-0.5">
-            {officers.filter(o => o.account_status === 'Active').length} Active
-          </div>
-          <div className="text-[10px] text-slate-500 mt-1">All accounts operational</div>
-        </div>
-      </div>
-
-      {/* Filters & Search Bar */}
-      <div className="p-3 rounded-lg bg-[#141824] border border-[#212a3b] flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="relative w-full sm:w-72">
+      {/* Filter Bar */}
+      <div className="p-3 bg-[#0B0F17] border border-[#1E2638] rounded flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[200px]">
           <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search by name, badge, email..."
+            placeholder="Search by badge, name, email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-[#0d111a] border border-[#212836] rounded pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 font-mono"
+            className="w-full bg-[#0E1420] border border-[#1E2638] rounded pl-8 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-150"
           />
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <span className="text-[11px] text-slate-400 whitespace-nowrap">Department:</span>
+        <div className="flex items-center gap-2 text-xs">
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <Filter className="w-3 h-3" />
+            <span>Department:</span>
+          </div>
           <select
             value={departmentFilter}
             onChange={(e) => setDepartmentFilter(e.target.value)}
-            className="bg-[#0d111a] border border-[#212836] rounded px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-blue-500"
+            className="bg-[#0E1420] border border-[#1E2638] text-xs text-slate-200 rounded px-2.5 py-1 focus:outline-none focus:border-blue-500"
           >
             {departments.map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
+              <option key={d} value={d}>{d}</option>
             ))}
           </select>
         </div>
       </div>
 
       {/* Officers Table */}
-      <div className="rounded-lg bg-[#141824] border border-[#212a3b] overflow-hidden">
+      <div className="bg-[#0B0F17] border border-[#1E2638] rounded overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-xs text-slate-400 font-mono">
-            Querying officer records from database...
-          </div>
-        ) : error ? (
-          <div className="p-4 text-xs text-rose-400 font-mono">
-            Error: {error}
+          <div className="p-8 text-center text-slate-400 text-xs">
+            <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+            Loading officer directory...
           </div>
         ) : filteredOfficers.length === 0 ? (
-          <div className="p-8 text-center text-xs text-slate-400">
-            No matching officers found for the selected query.
-          </div>
+          <div className="p-8 text-center text-slate-500 text-xs">No officer records found.</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-[#212836] bg-[#0f131d] text-slate-400 font-mono text-[11px]">
+                <tr className="border-b border-[#1E2638] bg-[#0E1420] text-slate-400 text-[11px]">
                   <th className="py-2.5 px-3">Officer ID</th>
                   <th className="py-2.5 px-3">Badge</th>
                   <th className="py-2.5 px-3">Full Name</th>
-                  <th className="py-2.5 px-3">Department</th>
                   <th className="py-2.5 px-3">Role</th>
-                  <th className="py-2.5 px-3">Status</th>
+                  <th className="py-2.5 px-3">Department</th>
                   <th className="py-2.5 px-3">Contact Email</th>
+                  <th className="py-2.5 px-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1e2535]">
+              <tbody className="divide-y divide-[#161D2B]">
                 {filteredOfficers.map((o) => (
-                  <tr key={o.officer_id} className="hover:bg-[#182030]/50 transition-colors">
-                    <td className="py-2.5 px-3 font-mono text-slate-400 text-[11px]">{o.officer_id}</td>
-                    <td className="py-2.5 px-3 font-mono font-semibold text-slate-200">{o.badge_number}</td>
-                    <td className="py-2.5 px-3 font-medium text-slate-100">{o.full_name}</td>
-                    <td className="py-2.5 px-3 text-slate-300">{o.department}</td>
-                    <td className="py-2.5 px-3">
-                      <span
-                        className={`inline-block px-2 py-0.5 rounded text-[10px] font-mono font-semibold ${
-                          o.role === 'ADMIN'
-                            ? 'bg-amber-950/60 text-amber-300 border border-amber-800/50'
-                            : 'bg-blue-950/60 text-blue-300 border border-blue-800/50'
-                        }`}
-                      >
+                  <tr key={o.officer_id} className="hover:bg-[#141C2B] transition-colors duration-150">
+                    <td className="py-2.5 px-3 font-mono text-slate-400 whitespace-nowrap">
+                      {o.officer_id}
+                    </td>
+                    <td className="py-2.5 px-3 font-mono font-medium text-blue-400 whitespace-nowrap">
+                      {o.badge_number}
+                    </td>
+                    <td className="py-2.5 px-3 font-medium text-slate-200">
+                      {o.full_name}
+                    </td>
+                    <td className="py-2.5 px-3 whitespace-nowrap">
+                      <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono ${
+                        o.role === 'ADMIN'
+                          ? 'bg-amber-950 text-amber-300 border border-amber-900'
+                          : 'bg-blue-950 text-blue-300 border border-blue-900'
+                      }`}>
                         {o.role}
                       </span>
                     </td>
-                    <td className="py-2.5 px-3">
-                      <span className="inline-flex items-center gap-1 text-[11px] text-emerald-400 font-mono">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                        {o.account_status}
-                      </span>
+                    <td className="py-2.5 px-3 text-slate-400">
+                      {o.department}
                     </td>
-                    <td className="py-2.5 px-3 font-mono text-slate-400 text-[11px]">{o.contact_email}</td>
+                    <td className="py-2.5 px-3 font-mono text-slate-400 text-[11px]">
+                      {o.contact_email || '—'}
+                    </td>
+                    <td className="py-2.5 px-3 whitespace-nowrap">
+                      <span className="text-[11px] text-emerald-400">Active</span>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -273,120 +214,110 @@ export const UsersPage: React.FC = () => {
         )}
       </div>
 
-      {/* Registration Modal for Admin */}
-      {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <div className="w-full max-w-md rounded-lg bg-[#141824] border border-[#2b374d] p-5 space-y-4 shadow-xl">
-            <div className="flex items-center justify-between pb-3 border-b border-[#212836]">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-blue-400" />
-                <h3 className="text-sm font-semibold text-slate-100 m-0">Provision New Officer Account</h3>
-              </div>
-              <button
-                onClick={() => setShowAddModal(false)}
-                className="text-slate-400 hover:text-slate-200 text-xs"
-              >
-                ✕
+      {/* Add Officer Modal (Admin only) */}
+      {showAddModal && isAdmin && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+          <div className="bg-[#0B0F17] border border-[#1E2638] rounded w-full max-w-md p-5 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-[#1E2638]">
+              <h2 className="text-sm font-semibold text-slate-100">Provision New Officer</h2>
+              <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-200 text-xs">
+                Close
               </button>
             </div>
 
             {formError && (
-              <div className="p-2.5 rounded bg-rose-950/50 border border-rose-800/60 text-rose-300 text-xs">
+              <div className="p-2.5 rounded bg-red-950/40 border border-red-800 text-red-300 text-xs">
                 {formError}
               </div>
             )}
 
             <form onSubmit={handleCreateOfficer} className="space-y-3 text-xs">
-              <div>
-                <label className="block text-slate-300 mb-1">Badge Identifier (e.g. CID-006 or B-9012)</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="CID-006"
-                  value={newOfficer.badge_number}
-                  onChange={(e) => setNewOfficer({ ...newOfficer, badge_number: e.target.value })}
-                  className="w-full bg-[#0d111a] border border-[#212836] rounded px-3 py-1.5 text-slate-200 font-mono focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-300 mb-1">Full Legal Name</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Inspector Ramesh Rao"
-                  value={newOfficer.full_name}
-                  onChange={(e) => setNewOfficer({ ...newOfficer, full_name: e.target.value })}
-                  className="w-full bg-[#0d111a] border border-[#212836] rounded px-3 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-300 mb-1">Department</label>
-                <select
-                  value={newOfficer.department}
-                  onChange={(e) => setNewOfficer({ ...newOfficer, department: e.target.value })}
-                  className="w-full bg-[#0d111a] border border-[#212836] rounded px-3 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500"
-                >
-                  <option value="Special Cyber & Intelligence Fusion Command">Special Cyber & Intelligence Fusion Command</option>
-                  <option value="Major Crimes & Cross-Border Investigations">Major Crimes & Cross-Border Investigations</option>
-                  <option value="Tactical Field Operations">Tactical Field Operations</option>
-                  <option value="Digital & Physical Forensics Lab">Digital & Physical Forensics Lab</option>
-                  <option value="Evidence Control & Vault Management">Evidence Control & Vault Management</option>
-                </select>
-              </div>
-
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 mb-1">Assigned Role</label>
+                  <label className="block text-slate-300 mb-1">Badge Identifier</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. CID-010"
+                    value={newOfficer.badge_number}
+                    onChange={(e) => setNewOfficer({ ...newOfficer, badge_number: e.target.value })}
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 font-mono focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 mb-1">Role</label>
                   <select
                     value={newOfficer.role}
                     onChange={(e) => setNewOfficer({ ...newOfficer, role: e.target.value })}
-                    className="w-full bg-[#0d111a] border border-[#212836] rounded px-3 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500 font-mono"
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500"
                   >
                     <option value="INVESTIGATOR">INVESTIGATOR</option>
                     <option value="ADMIN">ADMIN</option>
                   </select>
                 </div>
-
-                <div>
-                  <label className="block text-slate-300 mb-1">Initial Password</label>
-                  <input
-                    type="password"
-                    required
-                    value={newOfficer.password}
-                    onChange={(e) => setNewOfficer({ ...newOfficer, password: e.target.value })}
-                    className="w-full bg-[#0d111a] border border-[#212836] rounded px-3 py-1.5 text-slate-200 font-mono focus:outline-none focus:border-blue-500"
-                  />
-                </div>
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Official Contact Email</label>
+                <label className="block text-slate-300 mb-1">Full Name</label>
                 <input
-                  type="email"
+                  type="text"
                   required
-                  placeholder="ramesh.rao@fusion.gov.in"
-                  value={newOfficer.contact_email}
-                  onChange={(e) => setNewOfficer({ ...newOfficer, contact_email: e.target.value })}
-                  className="w-full bg-[#0d111a] border border-[#212836] rounded px-3 py-1.5 text-slate-200 font-mono focus:outline-none focus:border-blue-500"
+                  placeholder="e.g. Inspector John Doe"
+                  value={newOfficer.full_name}
+                  onChange={(e) => setNewOfficer({ ...newOfficer, full_name: e.target.value })}
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#212836]">
+              <div>
+                <label className="block text-slate-300 mb-1">Department</label>
+                <input
+                  type="text"
+                  required
+                  value={newOfficer.department}
+                  onChange={(e) => setNewOfficer({ ...newOfficer, department: e.target.value })}
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-300 mb-1">Email</label>
+                <input
+                  type="email"
+                  required
+                  placeholder="officer@cid.gov.in"
+                  value={newOfficer.contact_email}
+                  onChange={(e) => setNewOfficer({ ...newOfficer, contact_email: e.target.value })}
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-300 mb-1">Initial Password</label>
+                <input
+                  type="password"
+                  required
+                  value={newOfficer.password}
+                  onChange={(e) => setNewOfficer({ ...newOfficer, password: e.target.value })}
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 font-mono focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-[#1E2638]">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-3 py-1.5 rounded bg-[#1e2535] hover:bg-[#252f44] text-slate-300 text-xs transition"
+                  className="px-3 py-1.5 bg-[#0E1420] hover:bg-[#141C2B] border border-[#1E2638] text-slate-300 rounded"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-3 py-1.5 rounded bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition"
+                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded font-medium disabled:opacity-50"
                 >
-                  {saving ? 'Registering...' : 'Confirm Registration'}
+                  {saving ? 'Saving...' : 'Save Officer'}
                 </button>
               </div>
             </form>

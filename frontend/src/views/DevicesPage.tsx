@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Smartphone, Plus, Search, Trash2, Cpu, HardDrive } from 'lucide-react';
+import { Plus, Search, Trash2 } from 'lucide-react';
 import { ApiService } from '../services/api';
 import { Device } from '../types';
 
@@ -65,145 +65,182 @@ export const DevicesPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1E2638] gap-3">
         <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-white tracking-tight m-0">Hardware & Devices</h2>
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-violet-950 text-violet-400 border border-violet-800">
-              Relational: devices
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Seized digital electronics, crypto hardware wallets, key programmers, laptops, and cellular devices.
+          <h1 className="text-lg font-semibold text-slate-100">Devices & Hardware</h1>
+          <p className="text-xs text-slate-400">
+            Seized electronics, phones, GPS transponders, hardware tokens, and crypto keys
           </p>
         </div>
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-3.5 py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-xs font-semibold flex items-center gap-2 shadow-sm transition"
+          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 self-start sm:self-auto"
         >
-          <Plus className="w-4 h-4" />
-          <span>Register Device</span>
+          <Plus className="w-3.5 h-3.5" />
+          <span>Add Device</span>
         </button>
       </div>
 
-      <div className="p-4 rounded-xl bg-[#0F172A] border border-slate-800 flex items-center">
+      {/* Search */}
+      <div className="p-3 bg-[#0B0F17] border border-[#1E2638] rounded flex items-center">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search by serial number, device type, or manufacturer..."
+            placeholder="Search by device type, serial number, or manufacturer..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-violet-500"
+            className="w-full bg-[#0E1420] border border-[#1E2638] rounded pl-8 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-150"
           />
         </div>
       </div>
 
-      {loading ? (
-        <div className="p-12 text-center text-slate-400 text-xs">Loading hardware inventory...</div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {devices.map((d) => (
-            <div
-              key={d.device_id}
-              className="p-4 rounded-xl bg-[#0F172A] border border-slate-800 flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono text-blue-400 font-bold text-xs">{d.device_id}</span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-violet-950 text-violet-300 border border-violet-800/40">
-                    {d.device_type}
-                  </span>
-                </div>
-                <h4 className="font-semibold text-slate-100 text-sm m-0">
-                  {d.manufacturer} {d.model}
-                </h4>
-                <div className="text-[11px] font-mono text-slate-400 mt-1">
-                  SN: <span className="text-violet-400 font-bold">{d.serial_number}</span>
-                </div>
-                <p className="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                  {d.description || 'No descriptive technical notes.'}
-                </p>
-              </div>
+      {/* Table */}
+      <div className="bg-[#0B0F17] border border-[#1E2638] rounded overflow-hidden">
+        {loading ? (
+          <div className="p-8 text-center text-slate-400 text-xs">
+            <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+            Loading devices...
+          </div>
+        ) : devices.length === 0 ? (
+          <div className="p-8 text-center text-slate-500 text-xs">No devices found.</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-[#1E2638] bg-[#0E1420] text-slate-400 text-[11px]">
+                  <th className="py-2.5 px-3">Device ID</th>
+                  <th className="py-2.5 px-3">Manufacturer & Model</th>
+                  <th className="py-2.5 px-3">Device Type</th>
+                  <th className="py-2.5 px-3">Serial / IMEI</th>
+                  <th className="py-2.5 px-3">Description</th>
+                  <th className="py-2.5 px-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#161D2B]">
+                {devices.map((d) => (
+                  <tr key={d.device_id} className="hover:bg-[#141C2B] transition-colors duration-150">
+                    <td className="py-2.5 px-3 font-mono font-medium text-blue-400 whitespace-nowrap">
+                      {d.device_id}
+                    </td>
+                    <td className="py-2.5 px-3 font-medium text-slate-200">
+                      {d.manufacturer} {d.model}
+                    </td>
+                    <td className="py-2.5 px-3 whitespace-nowrap text-slate-400">
+                      {d.device_type}
+                    </td>
+                    <td className="py-2.5 px-3 font-mono text-slate-300 text-[11px] whitespace-nowrap">
+                      {d.serial_number || '—'}
+                    </td>
+                    <td className="py-2.5 px-3 text-slate-400 truncate max-w-xs">
+                      {d.description || '—'}
+                    </td>
+                    <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                      <button
+                        onClick={() => handleDelete(d.device_id)}
+                        className="text-slate-500 hover:text-red-400 p-1 transition-colors duration-150"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
 
-              <div className="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-500">
-                <span>{d.device_type}</span>
-                <button onClick={() => handleDelete(d.device_id)} className="p-1 hover:text-red-400">
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Create Modal */}
+      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#0F172A] border border-slate-800 rounded-xl w-full max-w-md p-6 shadow-2xl">
-            <h3 className="text-sm font-bold text-white mb-3">Register Hardware Device</h3>
-            <form onSubmit={handleCreate} className="space-y-3">
-              <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Device Category *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Encrypted Laptop, Key Programmer, Crypto Wallet"
-                  value={dtype}
-                  onChange={(e) => setDtype(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
-                />
-              </div>
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+          <div className="bg-[#0B0F17] border border-[#1E2638] rounded w-full max-w-md p-5 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-[#1E2638]">
+              <h2 className="text-sm font-semibold text-slate-100">Add Device</h2>
+              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-200 text-xs">
+                Close
+              </button>
+            </div>
+
+            <form onSubmit={handleCreate} className="space-y-3 text-xs">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Manufacturer *</label>
+                  <label className="block text-slate-300 mb-1">Manufacturer</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Apple, Lenovo, Autel"
+                    placeholder="e.g. Autel"
                     value={mfr}
                     onChange={(e) => setMfr(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Model *</label>
+                  <label className="block text-slate-300 mb-1">Model</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. ThinkPad X1 Carbon"
+                    placeholder="e.g. MaxiIM IM608"
                     value={model}
                     onChange={(e) => setModel(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
-              <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Serial Number / Unique Identifier *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. LNV-TP-992817"
-                  value={sn}
-                  onChange={(e) => setSn(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white font-mono"
-                />
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-300 mb-1">Device Type</label>
+                  <input
+                    type="text"
+                    value={dtype}
+                    onChange={(e) => setDtype(e.target.value)}
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 mb-1">Serial Number / IMEI</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. IM608-2026-X88"
+                    value={sn}
+                    onChange={(e) => setSn(e.target.value)}
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 font-mono focus:outline-none focus:border-blue-500"
+                  />
+                </div>
               </div>
+
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Description</label>
+                <label className="block text-slate-300 mb-1">Description / Notes</label>
                 <textarea
                   rows={2}
-                  placeholder="Hardware state, seized conditions..."
                   value={desc}
                   onChange={(e) => setDesc(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="px-3 py-1.5 border border-slate-700 text-xs rounded text-slate-300">Cancel</button>
-                <button type="submit" className="px-4 py-1.5 bg-violet-600 text-white text-xs font-semibold rounded">Save Device</button>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-[#1E2638]">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-3 py-1.5 bg-[#0E1420] hover:bg-[#141C2B] border border-[#1E2638] text-slate-300 rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded font-medium"
+                >
+                  Save Device
+                </button>
               </div>
             </form>
           </div>

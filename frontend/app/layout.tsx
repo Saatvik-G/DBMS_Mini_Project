@@ -18,7 +18,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
       </head>
-      <body className="bg-[#0B1120] text-[#F1F5F9] min-h-screen" suppressHydrationWarning>
+      <body className="bg-[#070A0F] text-[#E2E8F0] min-h-screen" suppressHydrationWarning>
         {children}
       </body>
     </html>

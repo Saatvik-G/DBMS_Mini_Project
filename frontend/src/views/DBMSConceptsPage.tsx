@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Database, Play, CheckCircle2, Clock, Code, Layers,
-  Server, Shield, Sparkles, BookOpen, ChevronRight, AlertCircle
-} from 'lucide-react';
+import { Play } from 'lucide-react';
 import { ApiService } from '../services/api';
 
 export const DBMSConceptsPage: React.FC = () => {
   const [queries, setQueries] = useState<any[]>([]);
   const [selectedQueryId, setSelectedQueryId] = useState('q1_three_way_join');
   const [executionResult, setExecutionResult] = useState<any | null>(null);
-  const [isExecuting, setIsExecuting] = useState(false);
+  const [_loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadQueries();
@@ -29,98 +26,85 @@ export const DBMSConceptsPage: React.FC = () => {
 
   const handleExecute = async (queryId: string) => {
     setSelectedQueryId(queryId);
-    setIsExecuting(true);
+    setLoading(true);
     try {
       const res = await ApiService.executeConceptQuery(queryId);
       setExecutionResult(res);
     } catch (err) {
       console.error(err);
     } finally {
-      setIsExecuting(false);
+      setLoading(false);
     }
   };
 
   const concepts = [
     {
-      title: '1. Relational Modeling & Normalization (1NF to BCNF)',
+      title: 'Relational Modeling & Normalization (1NF to BCNF)',
       badge: 'Relational Design',
-      desc: 'The relational database is decomposed into 10 primary entity tables and 12 bridge junction tables to eliminate functional and transitive dependencies.',
+      desc: 'The database is decomposed into 10 primary entity tables and 12 associative junction tables to eliminate functional and transitive dependencies.',
       points: [
-        '1NF: All attributes are atomic (no arrays or comma-delimited values inside SQL columns).',
-        '2NF: Every non-key attribute is fully functionally dependent on the entire primary key.',
-        '3NF / BCNF: Removed transitive dependencies by extracting independent entities (Officers, Locations, Devices, Organizations) into standalone tables.'
+        '1NF: Every attribute contains atomic scalar values (no repeating groups or arrays in relational columns).',
+        '2NF: Every non-key attribute is fully functionally dependent on the primary key, eliminating partial dependencies.',
+        '3NF / BCNF: All transitive functional dependencies removed by isolating independent entities (Officers, Locations, Devices, Organizations) into standalone tables.'
       ]
     },
     {
-      title: '2. Primary Keys, Foreign Keys & Referential Integrity',
+      title: 'Primary Keys, Foreign Keys & Referential Integrity',
       badge: 'Integrity Rules',
       desc: 'Foreign key constraints ensure relational consistency across all entity boundaries.',
       points: [
-        'ON DELETE CASCADE: Applied strictly on junction tables (case_people, person_vehicles) so removing an entity automatically cleans associations without leaving orphaned foreign keys.',
+        'ON DELETE CASCADE: Applied on junction tables (case_people, person_vehicles) so removing an entity automatically cleans associations without leaving orphaned foreign keys.',
         'ON DELETE RESTRICT: Enforced on evidence.case_id to prevent accidental deletion of cases that hold active legal evidence history.',
         'ON DELETE SET NULL: Used for lead_officer_id and collected_by_officer_id to preserve cases and evidence when an investigator profile is retired.'
       ]
     },
     {
-      title: '3. Many-to-Many Associations via Bridge / Junction Tables',
+      title: 'Many-to-Many Associations via 12 Junction Tables',
       badge: 'M:N Relationships',
-      desc: 'Solves complex academic M:N relationships cleanly using composite primary key bridge tables.',
+      desc: 'Resolves complex real-world many-to-many relationships using composite primary key bridge tables.',
       points: [
-        'case_people: Links cases and persons with relationship roles (e.g. Eyewitness, Suspect, Reporting Party).',
-        'person_vehicles: Maps individuals to owned, leased, or operated automobiles.',
+        'case_people: Maps cases to suspects, witnesses, victims, and informants.',
+        'person_vehicles: Correlates individuals to registered or operated vehicles.',
         'evidence_devices: Correlates digital evidence extractions back to physical hardware units.'
       ]
     },
     {
-      title: '4. SQL vs NoSQL Architectural Trade-offs',
-      badge: 'Hybrid Fusion Architecture',
-      desc: 'Why did we choose both PostgreSQL and MongoDB in a single system?',
+      title: 'SQL vs NoSQL Persistence Architecture',
+      badge: 'Hybrid Persistence',
+      desc: 'Technical rationale for polyglot persistence combining PostgreSQL and MongoDB in one platform.',
       points: [
-        'PostgreSQL (SQL): Strict schema, transactional ACID guarantees, complex multi-table joins, and foreign key cascades make it ideal for structured entity master data.',
-        'MongoDB (NoSQL): Polymorphic schema allows storing 9 different document types (CCTV telemetry, forensic transcripts, WhatsApp/Signal chats, raw JSON payloads) with varying nested structures without schema migrations.',
-        'Fusion Layer: Fast full-text regex and text indexing in MongoDB referencing SQL Case IDs.'
+        'PostgreSQL (SQL Core): 22-table relational core provides ACID guarantees, check constraints, and foreign key cascades for legal evidence custody.',
+        'MongoDB (NoSQL Document Store): Stores polymorphic intelligence documents (CCTV logs, phone extractions, audio transcripts) with varying schemas without DDL migrations.',
+        'Integration: Federated search and foreign entity ID cross-referencing between relational tables and document collections.'
       ]
     }
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 max-w-7xl mx-auto">
       {/* Page Header */}
-      <div className="p-5 rounded-xl bg-gradient-to-r from-blue-950/60 via-slate-900 to-purple-950/60 border border-slate-800">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-900 text-blue-300 border border-blue-700">
-            PES University • DBMS Mini Project Viva
-          </span>
-          <span className="text-xs text-slate-400">Team: Saatvik Gupta & Satyam Goyal</span>
-        </div>
-        <h2 className="text-xl font-bold text-white tracking-tight m-0">
-          DBMS Core Concepts Demonstration
-        </h2>
-        <p className="text-xs text-slate-300 mt-1 max-w-4xl leading-relaxed">
-          This interactive module enables examiners and students to inspect the normalized schema, review relational integrity rules, and execute safe real-time benchmark queries against live PostgreSQL and MongoDB engines.
+      <div className="pb-3 border-b border-[#1E2638]">
+        <h1 className="text-lg font-semibold text-slate-100">DBMS Concepts & Live Sandbox</h1>
+        <p className="text-xs text-slate-400">
+          Relational normalization proofs, foreign key integrity rules, and live query execution runner
         </p>
       </div>
 
-      {/* Interactive Viva Query Runner Section */}
-      <div className="p-5 rounded-xl bg-[#0F172A] border border-slate-800 space-y-4">
+      {/* Interactive Query Runner */}
+      <div className="p-4 bg-[#0B0F17] border border-[#1E2638] rounded space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Database className="w-5 h-5 text-blue-400" />
-            <div>
-              <h3 className="text-xs font-bold text-white uppercase tracking-wider m-0">
-                Interactive Predefined Query Benchmark Runner
-              </h3>
-              <p className="text-[11px] text-slate-400 m-0">
-                Executes safe, parameterized queries with real database execution timing.
-              </p>
-            </div>
+          <div>
+            <h2 className="text-xs font-semibold text-slate-200">Predefined Benchmark Queries</h2>
+            <p className="text-[11px] text-slate-500">
+              Select any query to execute it against the connected database engine
+            </p>
           </div>
-          <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
-            LIVE DB EXECUTION
+          <span className="text-[10px] font-mono text-slate-400 bg-[#0E1420] px-2 py-0.5 rounded border border-[#1E2638]">
+            Live DB Execution
           </span>
         </div>
 
-        {/* Query Selector Tabs */}
+        {/* Query Selector Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
           {queries.map((q) => {
             const isSelected = selectedQueryId === q.id;
@@ -128,78 +112,68 @@ export const DBMSConceptsPage: React.FC = () => {
               <button
                 key={q.id}
                 onClick={() => handleExecute(q.id)}
-                className={`p-3 rounded-lg text-left transition border flex flex-col justify-between ${
+                className={`p-2.5 rounded text-left transition-colors duration-150 border flex flex-col justify-between ${
                   isSelected
-                    ? 'bg-blue-600/20 border-blue-500 text-white'
-                    : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800/60'
+                    ? 'bg-[#141C2B] border-blue-500 text-slate-100'
+                    : 'bg-[#0E1420] border-[#1E2638] text-slate-400 hover:text-slate-200 hover:bg-[#111723]'
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded font-semibold ${
-                      q.type === 'SQL' ? 'bg-blue-950 text-blue-300 border border-blue-800/40' :
-                      q.type === 'MongoDB' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800/40' :
-                      'bg-purple-950 text-purple-300 border border-purple-800/40'
-                    }`}>
+                    <span className="text-[10px] font-mono px-1 rounded bg-[#070A0F] text-slate-400 border border-[#1E2638]">
                       {q.type}
                     </span>
                     {isSelected && <Play className="w-3 h-3 text-blue-400 fill-current" />}
                   </div>
-                  <h4 className="text-xs font-semibold text-slate-100 m-0 line-clamp-1">{q.title}</h4>
+                  <div className="text-xs font-medium text-slate-200 truncate">{q.title}</div>
                 </div>
-                <p className="text-[10px] text-slate-400 mt-1 line-clamp-2">{q.concept}</p>
+                <div className="text-[10px] text-slate-500 mt-1 line-clamp-1">{q.concept}</div>
               </button>
             );
           })}
         </div>
 
-        {/* Query Output View */}
+        {/* Execution Output */}
         {executionResult && (
-          <div className="space-y-3 pt-3 border-t border-slate-800">
-            {/* Query details strip */}
-            <div className="p-3.5 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
+          <div className="space-y-3 pt-3 border-t border-[#1E2638]">
+            <div className="p-3 rounded bg-[#0E1420] border border-[#1E2638] space-y-2">
               <div className="flex items-center justify-between flex-wrap gap-2 text-xs">
-                <span className="font-semibold text-white">{executionResult.title}</span>
-                <div className="flex items-center gap-3 font-mono text-[11px]">
-                  <span className="text-slate-400">Target Engine: <strong className="text-blue-400">{executionResult.engine}</strong></span>
-                  <span className="text-emerald-400 flex items-center gap-1">
-                    <Clock className="w-3 h-3" /> {executionResult.execution_time_ms} ms
-                  </span>
-                  <span className="text-purple-400">
-                    {executionResult.row_count} rows returned
-                  </span>
+                <span className="font-medium text-slate-200">{executionResult.title}</span>
+                <div className="flex items-center gap-3 font-mono text-[11px] text-slate-400">
+                  <span>Engine: <strong className="text-blue-400 font-normal">{executionResult.engine}</strong></span>
+                  <span>Time: <strong className="text-slate-300 font-normal">{executionResult.execution_time_ms} ms</strong></span>
+                  <span>Rows: <strong className="text-slate-300 font-normal">{executionResult.row_count}</strong></span>
                 </div>
               </div>
 
-              <div className="text-[11px] text-slate-300">
-                <span className="text-slate-500 font-medium">DBMS Concept:</span> {executionResult.concept}
+              <div className="text-[11px] text-slate-400">
+                <span className="text-slate-500">DBMS Concept:</span> {executionResult.concept}
               </div>
 
-              {/* Code snippet of query */}
-              <div className="pt-1">
-                <span className="text-[10px] font-mono text-slate-500 block mb-1">EXECUTED QUERY SYNTAX:</span>
-                <pre className="p-2.5 rounded bg-[#070B14] font-mono text-[11px] text-blue-300 border border-slate-800 overflow-x-auto m-0 leading-relaxed">
+              <div>
+                <span className="text-[10px] font-mono text-slate-500 block mb-1">Executed query:</span>
+                <pre className="p-2 rounded bg-[#070A0F] font-mono text-[11px] text-blue-300 border border-[#1E2638] overflow-x-auto m-0 leading-relaxed">
                   {executionResult.executed_query}
                 </pre>
               </div>
             </div>
 
             {/* Results Table */}
-            <div className="border border-slate-800 rounded-lg overflow-hidden shadow-sm">
-              <div className="overflow-x-auto max-h-72">
+            <div className="border border-[#1E2638] rounded overflow-hidden">
+              <div className="overflow-x-auto max-h-64">
                 <table className="w-full text-left text-xs border-collapse">
-                  <thead className="bg-slate-900 sticky top-0 text-slate-300 font-mono text-[10px] uppercase">
-                    <tr className="border-b border-slate-800">
+                  <thead className="bg-[#0E1420] sticky top-0 text-slate-400 font-mono text-[10px]">
+                    <tr className="border-b border-[#1E2638]">
                       {executionResult.columns.map((col: string) => (
-                        <th key={col} className="py-2.5 px-3 whitespace-nowrap">{col}</th>
+                        <th key={col} className="py-2 px-3 whitespace-nowrap">{col}</th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/70 text-[11px]">
+                  <tbody className="divide-y divide-[#161D2B]">
                     {executionResult.rows.map((row: any, idx: number) => (
-                      <tr key={idx} className="hover:bg-slate-900/50 font-sans">
+                      <tr key={idx} className="hover:bg-[#141C2B] transition-colors duration-150">
                         {executionResult.columns.map((col: string) => (
-                          <td key={col} className="py-2 px-3 whitespace-nowrap text-slate-200">
+                          <td key={col} className="py-1.5 px-3 whitespace-nowrap text-slate-300 font-mono text-[11px]">
                             {row[col] !== undefined ? String(row[col]) : ''}
                           </td>
                         ))}
@@ -213,27 +187,22 @@ export const DBMSConceptsPage: React.FC = () => {
         )}
       </div>
 
-      {/* Core Academic DBMS Theory Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* DBMS Concept Reference Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {concepts.map((c) => (
-          <div key={c.title} className="p-5 rounded-xl bg-[#0F172A] border border-slate-800 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800/40 font-semibold">
-                  {c.badge}
-                </span>
-              </div>
-              <h3 className="text-sm font-bold text-white mb-2">{c.title}</h3>
-              <p className="text-xs text-slate-300 mb-3 leading-relaxed">{c.desc}</p>
-              <ul className="space-y-1.5 pl-0 text-xs text-slate-400 list-none m-0">
-                {c.points.map((pt, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 flex-shrink-0 mt-0.5" />
-                    <span>{pt}</span>
-                  </li>
-                ))}
-              </ul>
+          <div key={c.title} className="p-4 rounded bg-[#0B0F17] border border-[#1E2638] space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#0E1420] text-slate-400 border border-[#1E2638]">
+                {c.badge}
+              </span>
             </div>
+            <h2 className="text-xs font-semibold text-slate-100">{c.title}</h2>
+            <p className="text-xs text-slate-400 leading-relaxed m-0">{c.desc}</p>
+            <ul className="space-y-1 pl-3 text-xs text-slate-400 list-disc m-0 pt-1">
+              {c.points.map((pt, idx) => (
+                <li key={idx} className="leading-normal">{pt}</li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>

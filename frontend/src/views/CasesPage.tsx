@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  FolderKanban, Plus, Search, Filter, ArrowUpDown, ChevronRight,
-  Shield, AlertTriangle, Calendar, CheckCircle2, User, Trash2, Edit3
-} from 'lucide-react';
+import { Plus, Search, Filter, Trash2 } from 'lucide-react';
 import { ApiService } from '../services/api';
 import { Case, Officer } from '../types';
 
@@ -96,7 +93,7 @@ export const CasesPage: React.FC = () => {
     } catch (err: any) {
       const detail = err?.response?.data?.detail;
       if (detail && detail.includes('force=true')) {
-        if (window.confirm(`${detail}\n\nDo you want to override and permanently force delete this case and its associated evidence?`)) {
+        if (window.confirm(`${detail}\n\nForce delete this case and its associated evidence?`)) {
           await ApiService.deleteCase(caseId, true);
           loadData();
         }
@@ -107,51 +104,47 @@ export const CasesPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 max-w-7xl mx-auto">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1E2638] gap-3">
         <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-white tracking-tight m-0">Case Management</h2>
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-950 text-blue-400 border border-blue-800">
-              PostgreSQL Relational
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Maintain centralized investigative dossiers, assigned officers, linked entities, and audit trails.
+          <h1 className="text-lg font-semibold text-slate-100">Cases</h1>
+          <p className="text-xs text-slate-400">
+            Investigative dossiers, assigned officers, and linked entities
           </p>
         </div>
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold flex items-center gap-2 shadow-sm transition self-start md:self-auto"
+          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 self-start sm:self-auto"
         >
-          <Plus className="w-4 h-4" />
-          <span>Open New Case</span>
+          <Plus className="w-3.5 h-3.5" />
+          <span>New Case</span>
         </button>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="p-4 rounded-xl bg-[#0F172A] border border-slate-800 flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[220px]">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+      <div className="p-3 bg-[#0B0F17] border border-[#1E2638] rounded flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search by Case ID, title, or keywords..."
+            placeholder="Search by case ID, title, or keywords..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/80 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500"
+            className="w-full bg-[#0E1420] border border-[#1E2638] rounded pl-8 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-150"
           />
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-1.5 text-xs text-slate-400">
-            <Filter className="w-3.5 h-3.5" /> Status:
+        <div className="flex items-center gap-2 flex-wrap text-xs">
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <Filter className="w-3 h-3" />
+            <span>Status:</span>
           </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-blue-500"
+            className="bg-[#0E1420] border border-[#1E2638] text-xs text-slate-200 rounded px-2 py-1 focus:outline-none focus:border-blue-500"
           >
             <option value="All">All Statuses</option>
             <option value="Open">Open</option>
@@ -160,13 +153,11 @@ export const CasesPage: React.FC = () => {
             <option value="Closed">Closed</option>
           </select>
 
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 ml-2">
-            Priority:
-          </div>
+          <span className="text-slate-500 ml-1">Priority:</span>
           <select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-blue-500"
+            className="bg-[#0E1420] border border-[#1E2638] text-xs text-slate-200 rounded px-2 py-1 focus:outline-none focus:border-blue-500"
           >
             <option value="All">All Priorities</option>
             <option value="Low">Low</option>
@@ -175,13 +166,11 @@ export const CasesPage: React.FC = () => {
             <option value="Critical">Critical</option>
           </select>
 
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 ml-2">
-            Officer:
-          </div>
+          <span className="text-slate-500 ml-1">Officer:</span>
           <select
             value={officerFilter}
             onChange={(e) => setOfficerFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-blue-500 max-w-[150px]"
+            className="bg-[#0E1420] border border-[#1E2638] text-xs text-slate-200 rounded px-2 py-1 focus:outline-none focus:border-blue-500 max-w-[150px]"
           >
             <option value="All">All Officers</option>
             {officers.map((o) => (
@@ -193,91 +182,77 @@ export const CasesPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Case Table / Card Grid */}
+      {/* Case Table */}
       {loading ? (
-        <div className="p-12 text-center text-slate-400 text-xs">
-          <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-          Loading cases from relational database...
+        <div className="p-8 text-center text-slate-400 text-xs">
+          <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+          Loading cases...
         </div>
       ) : cases.length === 0 ? (
-        <div className="p-12 text-center rounded-xl bg-[#0F172A] border border-slate-800 text-slate-400">
-          <FolderKanban className="w-10 h-10 text-slate-600 mx-auto mb-2" />
-          <h4 className="text-sm font-semibold text-slate-300">No matching cases found</h4>
-          <p className="text-xs text-slate-500 mt-1">Try resetting your search query or status filter.</p>
+        <div className="p-8 text-center bg-[#0B0F17] border border-[#1E2638] rounded text-slate-400 text-xs">
+          No matching cases found. Adjust the filter criteria or create a new case.
         </div>
       ) : (
-        <div className="bg-[#0F172A] border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+        <div className="bg-[#0B0F17] border border-[#1E2638] rounded overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
+            <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-slate-800 bg-slate-900/60 text-slate-400 text-[11px] font-semibold uppercase tracking-wider">
-                  <th className="py-3 px-4">Case ID</th>
-                  <th className="py-3 px-4">Case Title & Type</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4">Priority</th>
-                  <th className="py-3 px-4">Lead Officer</th>
-                  <th className="py-3 px-4">Linked Relational Entities</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
+                <tr className="border-b border-[#1E2638] bg-[#0E1420] text-slate-400 text-[11px]">
+                  <th className="py-2.5 px-3">Case ID</th>
+                  <th className="py-2.5 px-3">Title & Type</th>
+                  <th className="py-2.5 px-3">Status</th>
+                  <th className="py-2.5 px-3">Priority</th>
+                  <th className="py-2.5 px-3">Lead Officer</th>
+                  <th className="py-2.5 px-3">Linked Entities</th>
+                  <th className="py-2.5 px-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-[#161D2B]">
                 {cases.map((c) => (
                   <tr
                     key={c.case_id}
                     onClick={() => navigate(`/cases/${c.case_id}`)}
-                    className="hover:bg-slate-800/40 cursor-pointer transition group"
+                    className="hover:bg-[#141C2B] cursor-pointer transition-colors duration-150"
                   >
-                    <td className="py-3.5 px-4 font-mono font-bold text-blue-400 whitespace-nowrap">
+                    <td className="py-2.5 px-3 font-mono font-medium text-blue-400 whitespace-nowrap">
                       {c.case_id}
                     </td>
-                    <td className="py-3.5 px-4 max-w-xs">
-                      <div className="font-semibold text-slate-100 group-hover:text-blue-300 transition truncate">
-                        {c.title}
-                      </div>
-                      <div className="text-[11px] text-slate-400 mt-0.5">
-                        {c.case_type}
-                      </div>
+                    <td className="py-2.5 px-3 max-w-xs">
+                      <div className="font-medium text-slate-200 truncate">{c.title}</div>
+                      <div className="text-[11px] text-slate-500">{c.case_type}</div>
                     </td>
-                    <td className="py-3.5 px-4 whitespace-nowrap">
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
-                        c.status === 'Open' ? 'bg-blue-950 text-blue-400 border border-blue-800' :
-                        c.status === 'Under Investigation' ? 'bg-amber-950 text-amber-400 border border-amber-800' :
-                        c.status === 'On Hold' ? 'bg-purple-950 text-purple-400 border border-purple-800' :
-                        'bg-emerald-950 text-emerald-400 border border-emerald-800'
+                    <td className="py-2.5 px-3 whitespace-nowrap">
+                      <span className={`px-1.5 py-0.5 rounded text-[10px] ${
+                        c.status === 'Open' ? 'bg-blue-950 text-blue-400 border border-blue-900' :
+                        c.status === 'Under Investigation' ? 'bg-amber-950 text-amber-400 border border-amber-900' :
+                        c.status === 'On Hold' ? 'bg-slate-900 text-slate-400 border border-slate-700' :
+                        'bg-emerald-950 text-emerald-400 border border-emerald-900'
                       }`}>
                         {c.status}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 whitespace-nowrap">
-                      <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-semibold ${
-                        c.priority === 'Critical' ? 'bg-red-950 text-red-400 border border-red-800/60' :
-                        c.priority === 'High' ? 'bg-amber-950 text-amber-400 border border-amber-800/60' :
-                        c.priority === 'Medium' ? 'bg-blue-950 text-blue-400 border border-blue-800/60' :
-                        'bg-slate-800 text-slate-400'
+                    <td className="py-2.5 px-3 whitespace-nowrap">
+                      <span className={`text-[11px] font-mono ${
+                        c.priority === 'Critical' ? 'text-red-400 font-semibold' :
+                        c.priority === 'High' ? 'text-amber-400' : 'text-slate-400'
                       }`}>
                         {c.priority}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 whitespace-nowrap text-slate-300">
-                      <div className="flex items-center gap-1.5">
-                        <User className="w-3.5 h-3.5 text-slate-500" />
-                        <span>{c.lead_officer_name || 'Unassigned'}</span>
-                      </div>
+                    <td className="py-2.5 px-3 whitespace-nowrap text-slate-300">
+                      {c.lead_officer_name || 'Unassigned'}
                     </td>
-                    <td className="py-3.5 px-4 whitespace-nowrap text-slate-400 text-[11px] font-mono">
-                      <span className="text-slate-300 font-semibold">{c.evidence_count || 0}</span> Evidence • <span className="text-slate-300 font-semibold">{c.people_count || 0}</span> People
+                    <td className="py-2.5 px-3 whitespace-nowrap font-mono text-[11px] text-slate-400">
+                      {c.people_count || 0} People • {c.evidence_count || 0} Evd
                     </td>
-                    <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={(e) => handleDeleteCase(c.case_id, e)}
-                          title="Delete Case (Enforces referential integrity)"
-                          className="p-1 rounded hover:bg-red-950 text-slate-400 hover:text-red-400 transition"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition" />
-                      </div>
+                    <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                      <button
+                        onClick={(e) => handleDeleteCase(c.case_id, e)}
+                        className="p-1 text-slate-500 hover:text-red-400 rounded transition-colors duration-150"
+                        title="Delete case"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -287,62 +262,85 @@ export const CasesPage: React.FC = () => {
         </div>
       )}
 
-      {/* New Case Creation Modal */}
+      {/* New Case Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#0F172A] border border-slate-800 rounded-xl w-full max-w-lg p-6 shadow-2xl">
-            <h3 className="text-base font-bold text-white mb-1 flex items-center gap-2">
-              <FolderKanban className="w-4 h-4 text-blue-400" />
-              Open New Case Dossier
-            </h3>
-            <p className="text-xs text-slate-400 mb-4">
-              Registers a new investigation record in PostgreSQL with relational constraints and an initialization activity event.
-            </p>
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+          <div className="bg-[#0B0F17] border border-[#1E2638] rounded w-full max-w-lg p-5 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-[#1E2638]">
+              <h2 className="text-sm font-semibold text-slate-100">Create New Case</h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-slate-400 hover:text-slate-200 text-xs"
+              >
+                Close
+              </button>
+            </div>
 
             {formError && (
-              <div className="p-3 mb-4 rounded-lg bg-red-950/40 border border-red-800/60 text-red-200 text-xs">
+              <div className="p-2.5 rounded bg-red-950/40 border border-red-800 text-red-300 text-xs">
                 {formError}
               </div>
             )}
 
-            <form onSubmit={handleCreateCase} className="space-y-3.5">
+            <form onSubmit={handleCreateCase} className="space-y-3">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  Case Title *
-                </label>
+                <label className="block text-xs text-slate-300 mb-1">Case Title</label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Operation Blue Mirage: Luxury Vehicle Theft"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                  placeholder="e.g. Operation Silk Road FinTech"
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  Case Category / Classification *
-                </label>
-                <input
-                  type="text"
+                <label className="block text-xs text-slate-300 mb-1">Description</label>
+                <textarea
                   required
-                  placeholder="e.g. Organized Vehicle Theft, Financial Cybercrime"
-                  value={newType}
-                  onChange={(e) => setNewType(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                  rows={3}
+                  value={newDescription}
+                  onChange={(e) => setNewDescription(e.target.value)}
+                  placeholder="Initial incident summary and scope..."
+                  className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
-                    Initial Status
-                  </label>
+                  <label className="block text-xs text-slate-300 mb-1">Case Type</label>
+                  <input
+                    type="text"
+                    value={newType}
+                    onChange={(e) => setNewType(e.target.value)}
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-slate-300 mb-1">Lead Officer</label>
+                  <select
+                    value={newOfficerId}
+                    onChange={(e) => setNewOfficerId(e.target.value)}
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500"
+                  >
+                    {officers.map((o) => (
+                      <option key={o.officer_id} value={o.officer_id}>
+                        {o.full_name} ({o.badge_number})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs text-slate-300 mb-1">Status</label>
                   <select
                     value={newStatus}
-                    onChange={(e: any) => setNewStatus(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500"
+                    onChange={(e) => setNewStatus(e.target.value as any)}
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500"
                   >
                     <option value="Open">Open</option>
                     <option value="Under Investigation">Under Investigation</option>
@@ -352,13 +350,11 @@ export const CasesPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
-                    Priority Level
-                  </label>
+                  <label className="block text-xs text-slate-300 mb-1">Priority</label>
                   <select
                     value={newPriority}
-                    onChange={(e: any) => setNewPriority(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500"
+                    onChange={(e) => setNewPriority(e.target.value as any)}
+                    className="w-full bg-[#0E1420] border border-[#1E2638] rounded px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500"
                   >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
@@ -368,52 +364,20 @@ export const CasesPage: React.FC = () => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  Assigned Lead Investigator (Officer)
-                </label>
-                <select
-                  value={newOfficerId}
-                  onChange={(e) => setNewOfficerId(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500"
-                >
-                  <option value="">-- Select Lead Officer --</option>
-                  {officers.map((o) => (
-                    <option key={o.officer_id} value={o.officer_id}>
-                      {o.full_name} ({o.badge_number} - {o.role})
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  Investigation Description & Scope *
-                </label>
-                <textarea
-                  rows={3}
-                  required
-                  placeholder="Summarize the core premise, preliminary facts, and scope of inquiry..."
-                  value={newDescription}
-                  onChange={(e) => setNewDescription(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
+              <div className="flex justify-end gap-2 pt-2 border-t border-[#1E2638]">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg border border-slate-700 text-xs text-slate-300 hover:bg-slate-800 transition"
+                  className="px-3 py-1.5 bg-[#0E1420] hover:bg-[#141C2B] border border-[#1E2638] text-slate-300 rounded text-xs transition-colors duration-150"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow transition disabled:opacity-50"
+                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-medium transition-colors duration-150 disabled:opacity-50"
                 >
-                  {isSubmitting ? 'Opening Case...' : 'Create Case File'}
+                  {isSubmitting ? 'Creating...' : 'Create Case'}
                 </button>
               </div>
             </form>
