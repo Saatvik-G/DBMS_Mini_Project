@@ -51,8 +51,21 @@ BEGIN
 END;
 $$;
 
--- Demonstration Call:
+-- Demonstration Call & Verification:
 -- CALL sp_create_investigation_case('CASE-2026-999', 'Operation Neon Cipher', 'Cryptocurrency drainer ring', 'Financial Cybercrime', 'High', 'OFF-001');
+--
+-- VERIFICATION SELECT:
+-- SELECT case_id, title, status, priority, lead_officer_id FROM cases WHERE case_id = 'CASE-2026-999';
+-- EXPECTED OUTPUT:
+--    case_id    |         title          | status | priority | lead_officer_id 
+-- --------------+------------------------+--------+----------+-----------------
+--  CASE-2026-999 | Operation Neon Cipher  | Open   | High     | OFF-001
+--
+-- SELECT activity_type, title, description FROM case_activity WHERE case_id = 'CASE-2026-999';
+-- EXPECTED OUTPUT:
+--     activity_type   |        title        |                           description                            
+--  -------------------+---------------------+------------------------------------------------------------------
+--   CASE_INITIALIZED  | Case Record Created | Case initialized with priority "High" and type "Financial Cybercrime".
 
 
 -- ============================================================================
@@ -105,6 +118,26 @@ $$;
 
 -- Demonstration Call:
 -- SELECT fn_get_case_summary('CASE-2026-001');
+--
+-- EXPECTED JSON OUTPUT:
+-- {
+--   "case_id": "CASE-2026-001",
+--   "title": "Operation Shrouded Horizon: Luxury Vehicle Identification Fraud Ring",
+--   "status": "Open",
+--   "priority": "High",
+--   "case_type": "Organized Auto Theft & Counterfeiting",
+--   "lead_officer": "Rajesh Sharma (Badge: CID-001)",
+--   "statistics": {
+--     "total_people": 3,
+--     "organizations": 2,
+--     "vehicles": 2,
+--     "devices": 2,
+--     "locations": 2,
+--     "evidence_count": 3
+--   },
+--   "created_at": "2026-10-15T09:00:00Z",
+--   "updated_at": "2026-10-15T09:00:00Z"
+-- }
 
 
 -- ============================================================================
@@ -156,6 +189,27 @@ CREATE TRIGGER trg_case_activity_audit
     AFTER UPDATE OF status, priority ON cases
     FOR EACH ROW
     EXECUTE FUNCTION fn_audit_case_state_change();
+
+-- TRIGGER DEMONSTRATION & VERIFICATION:
+--
+-- BEFORE UPDATE:
+-- SELECT case_id, status, priority FROM cases WHERE case_id = 'CASE-2026-001';
+-- EXPECTED: status = 'Open', priority = 'High'
+--
+-- EXECUTE UPDATE:
+-- UPDATE cases SET status = 'Under Investigation', priority = 'Critical' WHERE case_id = 'CASE-2026-001';
+--
+-- AFTER UPDATE (Verify trigger automatically appended activity audit rows):
+-- SELECT activity_id, case_id, activity_type, title, description, activity_timestamp
+-- FROM case_activity
+-- WHERE case_id = 'CASE-2026-001'
+-- ORDER BY activity_timestamp DESC LIMIT 2;
+--
+-- EXPECTED TRIGGER AUDIT OUTPUT:
+--  activity_id |    case_id    |  activity_type  |         title         |                                description                                
+-- -------------+---------------+-----------------+-----------------------+---------------------------------------------------------------------------
+--           12 | CASE-2026-001 | PRIORITY_CHANGE | Case Priority Updated | Urgency priority updated from "High" to "Critical".
+--           11 | CASE-2026-001 | STATUS_CHANGE   | Case Status Updated   | Investigation status modified from "Open" to "Under Investigation".
 
 
 -- ============================================================================
