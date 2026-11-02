@@ -1,0 +1,2378 @@
+{
+  "metadata": {
+    "system_name": "Intelligence Fusion Platform",
+    "course": "Database Management Systems (UE24CS395)",
+    "rubric_row": "Row 2: Relational Schema with Keys and Constraints (3 Marks)",
+    "total_tables": 22,
+    "total_entity_tables": 10,
+    "total_junction_tables": 12,
+    "total_columns": 141,
+    "total_foreign_keys": 31,
+    "target_dbms": [
+      "PostgreSQL 14+ / 15+",
+      "SQLite 3 Fallback"
+    ]
+  },
+  "tables": {
+    "case_activity": {
+      "table_name": "case_activity",
+      "table_type": "entity",
+      "description": "Audit log capturing all administrative and operational activities performed on investigation cases.",
+      "columns": [
+        {
+          "name": "activity_id",
+          "data_type": "INTEGER",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the case activity record"
+        },
+        {
+          "name": "case_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": {
+            "source_table": "case_activity",
+            "source_column": "case_id",
+            "target_table": "cases",
+            "target_column": "case_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the case"
+        },
+        {
+          "name": "officer_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": {
+            "source_table": "case_activity",
+            "source_column": "officer_id",
+            "target_table": "officers",
+            "target_column": "officer_id",
+            "on_delete": "SET NULL",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Foreign key referencing the officer executing the custody action"
+        },
+        {
+          "name": "activity_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Taxonomy of action (Created, Updated, Evidence Added)"
+        },
+        {
+          "name": "title",
+          "data_type": "VARCHAR(200)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Concise headline or title describing the investigation"
+        },
+        {
+          "name": "description",
+          "data_type": "TEXT",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Comprehensive narrative details or case description"
+        },
+        {
+          "name": "activity_timestamp",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653E0C860>",
+          "description": "Activity Timestamp field"
+        }
+      ],
+      "primary_key": [
+        "activity_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "case_activity",
+          "source_column": "officer_id",
+          "target_table": "officers",
+          "target_column": "officer_id",
+          "on_delete": "SET NULL",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "case_activity",
+          "source_column": "case_id",
+          "target_table": "cases",
+          "target_column": "case_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "case_devices": {
+      "table_name": "case_devices",
+      "table_type": "junction",
+      "description": "Associative relation linking investigation cases to electronic and computing devices.",
+      "columns": [
+        {
+          "name": "case_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "case_devices",
+            "source_column": "case_id",
+            "target_table": "cases",
+            "target_column": "case_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the case"
+        },
+        {
+          "name": "device_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "case_devices",
+            "source_column": "device_id",
+            "target_table": "devices",
+            "target_column": "device_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the hardware device"
+        },
+        {
+          "name": "role_in_case",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Digital Evidence / Device",
+          "description": "Designation of person within case scope (Suspect, Witness)"
+        },
+        {
+          "name": "notes",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Contextual handover remarks, court docket, or lab reason"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D337E0>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "case_id",
+        "device_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "case_devices",
+          "source_column": "case_id",
+          "target_table": "cases",
+          "target_column": "case_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "case_devices",
+          "source_column": "device_id",
+          "target_table": "devices",
+          "target_column": "device_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "case_locations": {
+      "table_name": "case_locations",
+      "table_type": "junction",
+      "description": "Associative relation linking investigation cases to physical scenes and addresses.",
+      "columns": [
+        {
+          "name": "case_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "case_locations",
+            "source_column": "case_id",
+            "target_table": "cases",
+            "target_column": "case_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the case"
+        },
+        {
+          "name": "location_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "case_locations",
+            "source_column": "location_id",
+            "target_table": "locations",
+            "target_column": "location_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the location record"
+        },
+        {
+          "name": "association_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Incident Site / Point of Interest",
+          "description": "Association Type field"
+        },
+        {
+          "name": "notes",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Contextual handover remarks, court docket, or lab reason"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D33D80>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "case_id",
+        "location_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "case_locations",
+          "source_column": "case_id",
+          "target_table": "cases",
+          "target_column": "case_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "case_locations",
+          "source_column": "location_id",
+          "target_table": "locations",
+          "target_column": "location_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "case_organizations": {
+      "table_name": "case_organizations",
+      "table_type": "junction",
+      "description": "Associative relation linking investigation cases to commercial and syndicate organizations.",
+      "columns": [
+        {
+          "name": "case_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "case_organizations",
+            "source_column": "case_id",
+            "target_table": "cases",
+            "target_column": "case_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the case"
+        },
+        {
+          "name": "organization_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "case_organizations",
+            "source_column": "organization_id",
+            "target_table": "organizations",
+            "target_column": "organization_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the organization"
+        },
+        {
+          "name": "association_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Under Investigation / Related",
+          "description": "Association Type field"
+        },
+        {
+          "name": "notes",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Contextual handover remarks, court docket, or lab reason"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D32C00>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "case_id",
+        "organization_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "case_organizations",
+          "source_column": "organization_id",
+          "target_table": "organizations",
+          "target_column": "organization_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "case_organizations",
+          "source_column": "case_id",
+          "target_table": "cases",
+          "target_column": "case_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "case_people": {
+      "table_name": "case_people",
+      "table_type": "junction",
+      "description": "Associative relation linking investigation cases to persons of interest with involvement roles.",
+      "columns": [
+        {
+          "name": "case_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "case_people",
+            "source_column": "case_id",
+            "target_table": "cases",
+            "target_column": "case_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the case"
+        },
+        {
+          "name": "person_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "case_people",
+            "source_column": "person_id",
+            "target_table": "people",
+            "target_column": "person_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the person of interest"
+        },
+        {
+          "name": "role_in_case",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Associated Person",
+          "description": "Designation of person within case scope (Suspect, Witness)"
+        },
+        {
+          "name": "notes",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Contextual handover remarks, court docket, or lab reason"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D32660>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "case_id",
+        "person_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "case_people",
+          "source_column": "case_id",
+          "target_table": "cases",
+          "target_column": "case_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "case_people",
+          "source_column": "person_id",
+          "target_table": "people",
+          "target_column": "person_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "case_vehicles": {
+      "table_name": "case_vehicles",
+      "table_type": "junction",
+      "description": "Associative relation linking investigation cases to motor transport assets.",
+      "columns": [
+        {
+          "name": "case_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "case_vehicles",
+            "source_column": "case_id",
+            "target_table": "cases",
+            "target_column": "case_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the case"
+        },
+        {
+          "name": "vehicle_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "case_vehicles",
+            "source_column": "vehicle_id",
+            "target_table": "vehicles",
+            "target_column": "vehicle_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the vehicle"
+        },
+        {
+          "name": "role_in_case",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Vehicle of Interest",
+          "description": "Designation of person within case scope (Suspect, Witness)"
+        },
+        {
+          "name": "notes",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Contextual handover remarks, court docket, or lab reason"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D33100>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "case_id",
+        "vehicle_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "case_vehicles",
+          "source_column": "vehicle_id",
+          "target_table": "vehicles",
+          "target_column": "vehicle_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "case_vehicles",
+          "source_column": "case_id",
+          "target_table": "cases",
+          "target_column": "case_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "cases": {
+      "table_name": "cases",
+      "table_type": "entity",
+      "description": "Central investigation incident records, priority classifications, status workflows, and lead assignment.",
+      "columns": [
+        {
+          "name": "case_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the case"
+        },
+        {
+          "name": "title",
+          "data_type": "VARCHAR(200)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Concise headline or title describing the investigation"
+        },
+        {
+          "name": "description",
+          "data_type": "TEXT",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Comprehensive narrative details or case description"
+        },
+        {
+          "name": "case_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Taxonomic categorization of crime or case nature"
+        },
+        {
+          "name": "status",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": "status IN ('Open', 'Under Investigation', 'On Hold', 'Closed')",
+          "default": "Open",
+          "description": "Investigation workflow lifecycle status"
+        },
+        {
+          "name": "priority",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": "priority IN ('Low', 'Medium', 'High', 'Critical')",
+          "default": "Medium",
+          "description": "Operational severity and urgency triage level"
+        },
+        {
+          "name": "lead_officer_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": {
+            "source_table": "cases",
+            "source_column": "lead_officer_id",
+            "target_table": "officers",
+            "target_column": "officer_id",
+            "on_delete": "SET NULL",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Foreign key referencing officer leading the case"
+        },
+        {
+          "name": "incident_date",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Date and time when the primary incident occurred"
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D94CC0>",
+          "description": "UTC audit timestamp of record creation"
+        },
+        {
+          "name": "updated_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D94D60>",
+          "description": "UTC audit timestamp of last record update"
+        }
+      ],
+      "primary_key": [
+        "case_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "cases",
+          "source_column": "lead_officer_id",
+          "target_table": "officers",
+          "target_column": "officer_id",
+          "on_delete": "SET NULL",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": [
+        {
+          "name": "check_case_status",
+          "sqltext": "status IN ('Open', 'Under Investigation', 'On Hold', 'Closed')"
+        },
+        {
+          "name": "check_case_priority",
+          "sqltext": "priority IN ('Low', 'Medium', 'High', 'Critical')"
+        }
+      ]
+    },
+    "devices": {
+      "table_name": "devices",
+      "table_type": "entity",
+      "description": "Physical and electronic digital hardware assets with serial numbers and forensic status.",
+      "columns": [
+        {
+          "name": "device_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the hardware device"
+        },
+        {
+          "name": "device_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Type of device (Smartphone, Laptop, Server, Storage)"
+        },
+        {
+          "name": "manufacturer",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Manufacturer field"
+        },
+        {
+          "name": "model",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Vehicle model name"
+        },
+        {
+          "name": "serial_number",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": true,
+          "check": null,
+          "default": null,
+          "description": "Unique manufacturer serial number or IMEI"
+        },
+        {
+          "name": "description",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Comprehensive narrative details or case description"
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DBA980>",
+          "description": "UTC audit timestamp of record creation"
+        },
+        {
+          "name": "updated_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DBAA20>",
+          "description": "UTC audit timestamp of last record update"
+        }
+      ],
+      "primary_key": [
+        "device_id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "evidence": {
+      "table_name": "evidence",
+      "table_type": "entity",
+      "description": "Physical, digital, and documentary evidentiary items cataloged with chain of custody controls.",
+      "columns": [
+        {
+          "name": "evidence_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the evidence item"
+        },
+        {
+          "name": "title",
+          "data_type": "VARCHAR(200)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Concise headline or title describing the investigation"
+        },
+        {
+          "name": "evidence_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Evidence Type field"
+        },
+        {
+          "name": "description",
+          "data_type": "TEXT",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Comprehensive narrative details or case description"
+        },
+        {
+          "name": "collection_date",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DE8E00>",
+          "description": "Collection Date field"
+        },
+        {
+          "name": "case_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": {
+            "source_table": "evidence",
+            "source_column": "case_id",
+            "target_table": "cases",
+            "target_column": "case_id",
+            "on_delete": "RESTRICT",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the case"
+        },
+        {
+          "name": "collected_by_officer_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": {
+            "source_table": "evidence",
+            "source_column": "collected_by_officer_id",
+            "target_table": "officers",
+            "target_column": "officer_id",
+            "on_delete": "SET NULL",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Foreign key referencing the seizing officer"
+        },
+        {
+          "name": "storage_reference",
+          "data_type": "VARCHAR(150)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Storage Reference field"
+        },
+        {
+          "name": "status",
+          "data_type": "VARCHAR(50)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Logged in Secure Storage",
+          "description": "Investigation workflow lifecycle status"
+        },
+        {
+          "name": "notes",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Contextual handover remarks, court docket, or lab reason"
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DE91C0>",
+          "description": "UTC audit timestamp of record creation"
+        },
+        {
+          "name": "updated_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DE9260>",
+          "description": "UTC audit timestamp of last record update"
+        }
+      ],
+      "primary_key": [
+        "evidence_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "evidence",
+          "source_column": "case_id",
+          "target_table": "cases",
+          "target_column": "case_id",
+          "on_delete": "RESTRICT",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "evidence",
+          "source_column": "collected_by_officer_id",
+          "target_table": "officers",
+          "target_column": "officer_id",
+          "on_delete": "SET NULL",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "evidence_custody": {
+      "table_name": "evidence_custody",
+      "table_type": "entity",
+      "description": "Append-only chronological chain of custody transfer ledger logging physical custody movements.",
+      "columns": [
+        {
+          "name": "custody_event_id",
+          "data_type": "INTEGER",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the custody movement event"
+        },
+        {
+          "name": "evidence_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": {
+            "source_table": "evidence_custody",
+            "source_column": "evidence_id",
+            "target_table": "evidence",
+            "target_column": "evidence_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the evidence item"
+        },
+        {
+          "name": "officer_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": {
+            "source_table": "evidence_custody",
+            "source_column": "officer_id",
+            "target_table": "officers",
+            "target_column": "officer_id",
+            "on_delete": "RESTRICT",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Foreign key referencing the officer executing the custody action"
+        },
+        {
+          "name": "event_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Event Type field"
+        },
+        {
+          "name": "event_timestamp",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DEB420>",
+          "description": "Event Timestamp field"
+        },
+        {
+          "name": "notes",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Contextual handover remarks, court docket, or lab reason"
+        }
+      ],
+      "primary_key": [
+        "custody_event_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "evidence_custody",
+          "source_column": "evidence_id",
+          "target_table": "evidence",
+          "target_column": "evidence_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "evidence_custody",
+          "source_column": "officer_id",
+          "target_table": "officers",
+          "target_column": "officer_id",
+          "on_delete": "RESTRICT",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "evidence_devices": {
+      "table_name": "evidence_devices",
+      "table_type": "junction",
+      "description": "Associative relation linking digital forensic evidentiary items to hardware devices.",
+      "columns": [
+        {
+          "name": "evidence_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "evidence_devices",
+            "source_column": "evidence_id",
+            "target_table": "evidence",
+            "target_column": "evidence_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the evidence item"
+        },
+        {
+          "name": "device_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "evidence_devices",
+            "source_column": "device_id",
+            "target_table": "devices",
+            "target_column": "device_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the hardware device"
+        },
+        {
+          "name": "association_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Extracted from / Hardware correlation",
+          "description": "Association Type field"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D55B20>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "evidence_id",
+        "device_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "evidence_devices",
+          "source_column": "device_id",
+          "target_table": "devices",
+          "target_column": "device_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "evidence_devices",
+          "source_column": "evidence_id",
+          "target_table": "evidence",
+          "target_column": "evidence_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "evidence_locations": {
+      "table_name": "evidence_locations",
+      "table_type": "junction",
+      "description": "Associative relation linking evidentiary items to discovery scenes or recovery locations.",
+      "columns": [
+        {
+          "name": "evidence_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "evidence_locations",
+            "source_column": "evidence_id",
+            "target_table": "evidence",
+            "target_column": "evidence_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the evidence item"
+        },
+        {
+          "name": "location_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "evidence_locations",
+            "source_column": "location_id",
+            "target_table": "locations",
+            "target_column": "location_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the location record"
+        },
+        {
+          "name": "association_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Found at location",
+          "description": "Association Type field"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D560C0>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "evidence_id",
+        "location_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "evidence_locations",
+          "source_column": "evidence_id",
+          "target_table": "evidence",
+          "target_column": "evidence_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "evidence_locations",
+          "source_column": "location_id",
+          "target_table": "locations",
+          "target_column": "location_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "evidence_people": {
+      "table_name": "evidence_people",
+      "table_type": "junction",
+      "description": "Associative relation linking evidentiary items directly to persons of interest.",
+      "columns": [
+        {
+          "name": "evidence_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "evidence_people",
+            "source_column": "evidence_id",
+            "target_table": "evidence",
+            "target_column": "evidence_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the evidence item"
+        },
+        {
+          "name": "person_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "evidence_people",
+            "source_column": "person_id",
+            "target_table": "people",
+            "target_column": "person_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the person of interest"
+        },
+        {
+          "name": "association_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Recovered from / Linked to",
+          "description": "Association Type field"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D55120>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "evidence_id",
+        "person_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "evidence_people",
+          "source_column": "evidence_id",
+          "target_table": "evidence",
+          "target_column": "evidence_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "evidence_people",
+          "source_column": "person_id",
+          "target_table": "people",
+          "target_column": "person_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "evidence_vehicles": {
+      "table_name": "evidence_vehicles",
+      "table_type": "junction",
+      "description": "Associative relation linking evidentiary items recovered from or associated with vehicles.",
+      "columns": [
+        {
+          "name": "evidence_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "evidence_vehicles",
+            "source_column": "evidence_id",
+            "target_table": "evidence",
+            "target_column": "evidence_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the evidence item"
+        },
+        {
+          "name": "vehicle_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "evidence_vehicles",
+            "source_column": "vehicle_id",
+            "target_table": "vehicles",
+            "target_column": "vehicle_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the vehicle"
+        },
+        {
+          "name": "association_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Found in / Associated with",
+          "description": "Association Type field"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D55620>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "evidence_id",
+        "vehicle_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "evidence_vehicles",
+          "source_column": "evidence_id",
+          "target_table": "evidence",
+          "target_column": "evidence_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "evidence_vehicles",
+          "source_column": "vehicle_id",
+          "target_table": "vehicles",
+          "target_column": "vehicle_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "locations": {
+      "table_name": "locations",
+      "table_type": "entity",
+      "description": "Geographic incident scenes, safe houses, addresses, and GPS coordinate points.",
+      "columns": [
+        {
+          "name": "location_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the location record"
+        },
+        {
+          "name": "name",
+          "data_type": "VARCHAR(200)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Registered legal entity name or alias"
+        },
+        {
+          "name": "address",
+          "data_type": "TEXT",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Residential or physical street address"
+        },
+        {
+          "name": "location_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Commercial",
+          "description": "Location Type field"
+        },
+        {
+          "name": "latitude",
+          "data_type": "FLOAT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "WGS 84 geographic latitude coordinate"
+        },
+        {
+          "name": "longitude",
+          "data_type": "FLOAT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "WGS 84 geographic longitude coordinate"
+        },
+        {
+          "name": "description",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Comprehensive narrative details or case description"
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DBBBA0>",
+          "description": "UTC audit timestamp of record creation"
+        },
+        {
+          "name": "updated_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DBBC40>",
+          "description": "UTC audit timestamp of last record update"
+        }
+      ],
+      "primary_key": [
+        "location_id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "officers": {
+      "table_name": "officers",
+      "table_type": "entity",
+      "description": "Law enforcement personnel, authentication credentials, badge tracking, and role-based access control.",
+      "columns": [
+        {
+          "name": "officer_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Foreign key referencing the officer executing the custody action"
+        },
+        {
+          "name": "full_name",
+          "data_type": "VARCHAR(150)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Full legal name of the officer"
+        },
+        {
+          "name": "badge_number",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": true,
+          "check": null,
+          "default": null,
+          "description": "Unique official badge or identification credential"
+        },
+        {
+          "name": "department",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Law enforcement bureau or department unit"
+        },
+        {
+          "name": "contact_email",
+          "data_type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": true,
+          "check": null,
+          "default": null,
+          "description": "Unique official department email address"
+        },
+        {
+          "name": "role",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": "role IN ('ADMIN', 'INVESTIGATOR'",
+          "default": "Investigator",
+          "description": "Role-based access control role ('ADMIN' or 'INVESTIGATOR')"
+        },
+        {
+          "name": "account_status",
+          "data_type": "VARCHAR(50)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": "account_status IN ('Active', 'Suspended', 'On Leave'",
+          "default": "Active",
+          "description": "Account status flag ('Active', 'Suspended', 'On Leave')"
+        },
+        {
+          "name": "hashed_password",
+          "data_type": "VARCHAR(255)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "PBKDF2-SHA256 / bcrypt cryptographic password hash"
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D56480>",
+          "description": "UTC audit timestamp of record creation"
+        },
+        {
+          "name": "updated_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D56520>",
+          "description": "UTC audit timestamp of last record update"
+        }
+      ],
+      "primary_key": [
+        "officer_id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [
+        {
+          "name": "uq_officers",
+          "columns": [
+            "contact_email"
+          ]
+        }
+      ],
+      "check_constraints": [
+        {
+          "name": "chk_officers",
+          "sqltext": "role IN ('ADMIN', 'INVESTIGATOR'"
+        },
+        {
+          "name": "chk_officers",
+          "sqltext": "account_status IN ('Active', 'Suspended', 'On Leave'"
+        }
+      ]
+    },
+    "organizations": {
+      "table_name": "organizations",
+      "table_type": "entity",
+      "description": "Corporate entities, front companies, NGOs, and criminal syndicates linked to cases.",
+      "columns": [
+        {
+          "name": "organization_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the organization"
+        },
+        {
+          "name": "name",
+          "data_type": "VARCHAR(200)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Registered legal entity name or alias"
+        },
+        {
+          "name": "organization_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Classification (Corporation, Syndicate, NGO)"
+        },
+        {
+          "name": "address",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Residential or physical street address"
+        },
+        {
+          "name": "contact_details",
+          "data_type": "VARCHAR(200)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Telephone numbers or communication channels"
+        },
+        {
+          "name": "description",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Comprehensive narrative details or case description"
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DB84A0>",
+          "description": "UTC audit timestamp of record creation"
+        },
+        {
+          "name": "updated_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DB8540>",
+          "description": "UTC audit timestamp of last record update"
+        }
+      ],
+      "primary_key": [
+        "organization_id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "people": {
+      "table_name": "people",
+      "table_type": "entity",
+      "description": "Individuals of investigative interest, suspects, witnesses, victims, and informants.",
+      "columns": [
+        {
+          "name": "person_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the person of interest"
+        },
+        {
+          "name": "full_name",
+          "data_type": "VARCHAR(150)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Full legal name of the officer"
+        },
+        {
+          "name": "date_of_birth",
+          "data_type": "VARCHAR(50)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Date of birth of the individual"
+        },
+        {
+          "name": "contact_details",
+          "data_type": "VARCHAR(200)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Telephone numbers or communication channels"
+        },
+        {
+          "name": "address",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Residential or physical street address"
+        },
+        {
+          "name": "category",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": "category IN ('Witness', 'Reporting Party', 'Subject', 'Other')",
+          "default": "Other",
+          "description": "Investigative role classification ('Witness', 'Subject', etc.)"
+        },
+        {
+          "name": "description",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Comprehensive narrative details or case description"
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D96CA0>",
+          "description": "UTC audit timestamp of record creation"
+        },
+        {
+          "name": "updated_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D96DE0>",
+          "description": "UTC audit timestamp of last record update"
+        }
+      ],
+      "primary_key": [
+        "person_id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "check_constraints": [
+        {
+          "name": "check_person_category",
+          "sqltext": "category IN ('Witness', 'Reporting Party', 'Subject', 'Other')"
+        }
+      ]
+    },
+    "person_devices": {
+      "table_name": "person_devices",
+      "table_type": "junction",
+      "description": "Associative relation tracking device ownership, custody, or usage by individuals.",
+      "columns": [
+        {
+          "name": "person_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "person_devices",
+            "source_column": "person_id",
+            "target_table": "people",
+            "target_column": "person_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the person of interest"
+        },
+        {
+          "name": "device_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "person_devices",
+            "source_column": "device_id",
+            "target_table": "devices",
+            "target_column": "device_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the hardware device"
+        },
+        {
+          "name": "relationship_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "User / Owner",
+          "description": "Nature of affiliation (Owner, Driver, Leased)"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D54C20>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "person_id",
+        "device_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "person_devices",
+          "source_column": "person_id",
+          "target_table": "people",
+          "target_column": "person_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "person_devices",
+          "source_column": "device_id",
+          "target_table": "devices",
+          "target_column": "device_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "person_organizations": {
+      "table_name": "person_organizations",
+      "table_type": "junction",
+      "description": "Associative relation tracking affiliations, employment, or leadership between individuals and organizations.",
+      "columns": [
+        {
+          "name": "person_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "person_organizations",
+            "source_column": "person_id",
+            "target_table": "people",
+            "target_column": "person_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the person of interest"
+        },
+        {
+          "name": "organization_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "person_organizations",
+            "source_column": "organization_id",
+            "target_table": "organizations",
+            "target_column": "organization_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the organization"
+        },
+        {
+          "name": "role",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Member / Employee",
+          "description": "Role-based access control role ('ADMIN' or 'INVESTIGATOR')"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D54220>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "person_id",
+        "organization_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "person_organizations",
+          "source_column": "person_id",
+          "target_table": "people",
+          "target_column": "person_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "person_organizations",
+          "source_column": "organization_id",
+          "target_table": "organizations",
+          "target_column": "organization_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "person_vehicles": {
+      "table_name": "person_vehicles",
+      "table_type": "junction",
+      "description": "Associative relation tracking vehicle ownership, operation, or registration linkages to individuals.",
+      "columns": [
+        {
+          "name": "person_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "person_vehicles",
+            "source_column": "person_id",
+            "target_table": "people",
+            "target_column": "person_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the person of interest"
+        },
+        {
+          "name": "vehicle_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": {
+            "source_table": "person_vehicles",
+            "source_column": "vehicle_id",
+            "target_table": "vehicles",
+            "target_column": "vehicle_id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION"
+          },
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the vehicle"
+        },
+        {
+          "name": "relationship_type",
+          "data_type": "VARCHAR(100)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Registered Owner / Driver",
+          "description": "Nature of affiliation (Owner, Driver, Leased)"
+        },
+        {
+          "name": "added_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653D54720>",
+          "description": "Added At field"
+        }
+      ],
+      "primary_key": [
+        "person_id",
+        "vehicle_id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "person_vehicles",
+          "source_column": "person_id",
+          "target_table": "people",
+          "target_column": "person_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        },
+        {
+          "source_table": "person_vehicles",
+          "source_column": "vehicle_id",
+          "target_table": "vehicles",
+          "target_column": "vehicle_id",
+          "on_delete": "CASCADE",
+          "on_update": "NO ACTION"
+        }
+      ],
+      "unique_constraints": [],
+      "check_constraints": []
+    },
+    "vehicles": {
+      "table_name": "vehicles",
+      "table_type": "entity",
+      "description": "Motor vehicles and transport assets with registration tracking.",
+      "columns": [
+        {
+          "name": "vehicle_id",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": true,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Primary key identifier for the vehicle"
+        },
+        {
+          "name": "registration_number",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": true,
+          "check": null,
+          "default": null,
+          "description": "Unique vehicle license plate or registration tag"
+        },
+        {
+          "name": "make",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Vehicle manufacturer make"
+        },
+        {
+          "name": "model",
+          "data_type": "VARCHAR(100)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Vehicle model name"
+        },
+        {
+          "name": "color",
+          "data_type": "VARCHAR(50)",
+          "nullable": false,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Exterior visual paint color"
+        },
+        {
+          "name": "vehicle_type",
+          "data_type": "VARCHAR(50)",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "Sedan",
+          "description": "Vehicle Type field"
+        },
+        {
+          "name": "description",
+          "data_type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": null,
+          "description": "Comprehensive narrative details or case description"
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DB9620>",
+          "description": "UTC audit timestamp of record creation"
+        },
+        {
+          "name": "updated_at",
+          "data_type": "TIMESTAMP WITH TIME ZONE",
+          "nullable": true,
+          "primary_key": false,
+          "foreign_key": null,
+          "unique": false,
+          "check": null,
+          "default": "<function utc_now at 0x0000020653DB96C0>",
+          "description": "UTC audit timestamp of last record update"
+        }
+      ],
+      "primary_key": [
+        "vehicle_id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "check_constraints": []
+    }
+  }
+}

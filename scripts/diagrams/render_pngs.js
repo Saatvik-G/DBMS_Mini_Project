@@ -3,6 +3,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import puppeteer from 'puppeteer-core';
 import { fileURLToPath } from 'url';
 
@@ -18,9 +19,11 @@ async function main() {
   const files = fs.readdirSync(DIAGRAMS_DIR).filter(f => f.endsWith('.svg'));
   console.log(`Found ${files.length} SVGs to rasterize to 300 DPI PNG.`);
 
+  const tempUserDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'chrome-diag-'));
+
   const browser = await puppeteer.launch({
     executablePath: chromePath,
-    userDataDir: path.resolve(__dirname, '../../.chrome-diagrams-prof'),
+    userDataDir: tempUserDataDir,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
   });
 
@@ -72,6 +75,9 @@ async function main() {
   }
 
   await browser.close();
+  try {
+    fs.rmSync(tempUserDataDir, { recursive: true, force: true });
+  } catch (e) {}
   console.log('All PNG diagrams rendered at 300 DPI successfully!');
 }
 

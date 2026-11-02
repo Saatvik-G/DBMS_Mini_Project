@@ -3,6 +3,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import puppeteer from 'puppeteer-core';
 import { fileURLToPath } from 'url';
 
@@ -38,9 +39,11 @@ const PDF_MAP = [
 
 async function main() {
   console.log(`Connecting to Chrome at: ${chromePath}`);
+  const tempUserDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'chrome-pdf-'));
+
   const browser = await puppeteer.launch({
     executablePath: chromePath,
-    userDataDir: path.resolve(__dirname, '../.chrome-pdf-prof'),
+    userDataDir: tempUserDataDir,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
   });
 
@@ -85,6 +88,9 @@ async function main() {
   }
 
   await browser.close();
+  try {
+    fs.rmSync(tempUserDataDir, { recursive: true, force: true });
+  } catch (e) {}
   console.log('\nAll 11 Official Submission PDFs successfully generated in docs/submission/!');
 }
 
