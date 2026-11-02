@@ -149,8 +149,9 @@ The platform enforces role-based access control (RBAC) both at the database leve
 
 ---
 
-## 5. Official Academic PDF Deliverables (`docs/submission/`)
+## 5. Official Academic PDF Deliverables & Visual Diagram Suite
 
+### 5.1 Official Submission PDFs (`docs/submission/`)
 The repository includes 11 publication-grade academic PDF deliverables in `docs/submission/` mapping directly onto the official evaluation matrix:
 
 | Deliverable | File Path | Topic & Official Matrix Component | Marks |
@@ -159,16 +160,38 @@ The repository includes 11 publication-grade academic PDF deliverables in `docs/
 | **Doc 2: Relational Schema** | [`docs/submission/02_Relational_Schema.pdf`](docs/submission/02_Relational_Schema.pdf) | Schema table per relation, keys, constraints, normalization proofs | 3 |
 | **Doc 3: SQL DDL** | [`docs/submission/03_SQL_DDL_Implementation.pdf`](docs/submission/03_SQL_DDL_Implementation.pdf) | DDL with constraints, cascade rules, and 17 performance indexes | 4 |
 | **Doc 4: NoSQL & Vector DB** | [`docs/submission/04_NoSQL_Vector_Database_Creation.pdf`](docs/submission/04_NoSQL_Vector_Database_Creation.pdf) | MongoDB schema validation, 64-dim vector design, text/compound indexes | 4 |
-| **Doc 5: Tech Justification** | [`docs/submission/05_Technology_Justification.pdf`](docs/submission/05_Technology_Justification.pdf) | Architectural trade-offs: PostgreSQL ACID vs MongoDB polymorphism | 1 |
+| **Doc 5: Tech Justification** | [`docs/submission/05_Technology_Justification.pdf`](docs/submission/05_Technology_Justification.pdf) | Architectural trade-offs: PostgreSQL ACID vs MongoDB polymorphism (<= 2 pages) | 1 |
 | **Doc 6: DML Operations** | [`docs/submission/06_DML_Operations.pdf`](docs/submission/06_DML_Operations.pdf) | CRUD statements with outputs, transaction rollback & savepoint demo | 4 |
 | **Doc 7: Advanced Queries** | [`docs/submission/07_Queries_Nested_Correlated_Recursive_Joins.pdf`](docs/submission/07_Queries_Nested_Correlated_Recursive_Joins.pdf) | Multi-table joins, nested subqueries, correlated subqueries, recursive CTE | 4 |
 | **Doc 8: Advanced SQL** | [`docs/submission/08_Advanced_SQL_Procedure_Function_Trigger_CTE.pdf`](docs/submission/08_Advanced_SQL_Procedure_Function_Trigger_CTE.pdf) | Stored procedure, user function, audit trigger, and recursive CTE | 6 |
 | **Doc 9: Vector Search & RUD**| [`docs/submission/09_NoSQL_Vector_Features_and_RUD.pdf`](docs/submission/09_NoSQL_Vector_Features_and_RUD.pdf) | 64-dim vector cosine similarity search, MongoDB CRUD, aggregations | 7 |
 | **Doc 10: Auth & RBAC** | [`docs/submission/10_Authentication_and_RBAC.pdf`](docs/submission/10_Authentication_and_RBAC.pdf) | JWT auth flow, 403 route protection, and PostgreSQL role privileges | 4 |
 | **Doc 11: Project Report** | [`docs/submission/11_Project_Report.pdf`](docs/submission/11_Project_Report.pdf) | Comprehensive report: Next.js UI, backend integration, Git/contributions | 11 |
-| **TOTAL** | **Comprehensive Academic Submission** | **All 14 Official Evaluation Components Covered** | **50** |
+| **TOTAL** | **Academic Submission Suite** | **All 14 Official Evaluation Components Covered** | **50** |
 
-#### To regenerate all 11 PDFs from scratch:
+### 5.2 Visual Diagram Suite (`docs/diagrams/`)
+All architectural and database models are provided as vector SVG and 300 DPI high-resolution PNG assets in `docs/diagrams/`:
+
+| Diagram Description | Vector SVG File | 300 DPI High-Res PNG File | Notation & Details |
+|:---|:---|:---|:---|
+| **Chen Conceptual ER (Overview)** | [`chen_overview.svg`](docs/diagrams/chen_overview.svg) | [`chen_overview.png`](docs/diagrams/chen_overview.png) | All 10 entities (8 strong, 2 weak), 12 M:N diamonds, total participation |
+| **Chen Detail: Case Management** | [`chen_case_management.svg`](docs/diagrams/chen_case_management.svg) | [`chen_case_management.png`](docs/diagrams/chen_case_management.png) | Cases, Case Activity (weak), Officers, lead assignment, all attributes |
+| **Chen Detail: Entities & Assets** | [`chen_entities_assets.svg`](docs/diagrams/chen_entities_assets.svg) | [`chen_entities_assets.png`](docs/diagrams/chen_entities_assets.png) | People, Organizations, Vehicles, Devices, Locations, relationship attributes |
+| **Chen Detail: Evidence & Custody** | [`chen_evidence_custody.svg`](docs/diagrams/chen_evidence_custody.svg) | [`chen_evidence_custody.png`](docs/diagrams/chen_evidence_custody.png) | Evidence, Evidence Custody (weak), custody chain identifying link |
+| **Chen Detail: Officers & Audit** | [`chen_officers_audit.svg`](docs/diagrams/chen_officers_audit.svg) | [`chen_officers_audit.png`](docs/diagrams/chen_officers_audit.png) | Accountability mappings, lead investigators, custody custodians |
+| **Crow's-Foot Full Relational Schema** | [`crowsfoot_full_schema.svg`](docs/diagrams/crowsfoot_full_schema.svg) | [`crowsfoot_full_schema.png`](docs/diagrams/crowsfoot_full_schema.png) | Complete 22-table physical schema with typed PK/FKs and cardinality forks |
+| **Crow's-Foot: Case Management** | [`crowsfoot_case_cluster.svg`](docs/diagrams/crowsfoot_case_cluster.svg) | [`crowsfoot_case_cluster.png`](docs/diagrams/crowsfoot_case_cluster.png) | Detailed column metadata for cases, case activity, case bridges |
+| **Crow's-Foot: Entities & Assets** | [`crowsfoot_entities_assets.svg`](docs/diagrams/crowsfoot_entities_assets.svg) | [`crowsfoot_entities_assets.png`](docs/diagrams/crowsfoot_entities_assets.png) | Columns and keys for people, orgs, vehicles, devices, locations |
+| **Crow's-Foot: Evidence & Custody** | [`crowsfoot_evidence_custody.svg`](docs/diagrams/crowsfoot_evidence_custody.svg) | [`crowsfoot_evidence_custody.png`](docs/diagrams/crowsfoot_evidence_custody.png) | Columns and keys for evidence, custody log, cross-entity links |
+| **Crow's-Foot: Officers & Audit** | [`crowsfoot_officers_audit.svg`](docs/diagrams/crowsfoot_officers_audit.svg) | [`crowsfoot_officers_audit.png`](docs/diagrams/crowsfoot_officers_audit.png) | Columns and keys for personnel, RBAC roles, immutable logs |
+| **MongoDB Document & Polyglot Model** | [`mongodb_document_model.svg`](docs/diagrams/mongodb_document_model.svg) | [`mongodb_document_model.png`](docs/diagrams/mongodb_document_model.png) | BSON collection, polymorphic payloads, 64-dim vector, SQL cross-references |
+| **System Architecture & Data Flow** | [`system_architecture.svg`](docs/diagrams/system_architecture.svg) | [`system_architecture.png`](docs/diagrams/system_architecture.png) | Next.js 15 client -> FastAPI API -> PostgreSQL/SQLite + MongoDB |
+| **Flowchart: Login & Dual-Tier RBAC** | [`flowchart_login_rbac.svg`](docs/diagrams/flowchart_login_rbac.svg) | [`flowchart_login_rbac.png`](docs/diagrams/flowchart_login_rbac.png) | JWT issue, route role dependency, and PostgreSQL kernel role grant check |
+| **Flowchart: Case SP & Audit Trigger** | [`flowchart_case_creation_sp_trigger.svg`](docs/diagrams/flowchart_case_creation_sp_trigger.svg) | [`flowchart_case_creation_sp_trigger.png`](docs/diagrams/flowchart_case_creation_sp_trigger.png) | `sp_create_investigation_case` execution + `trg_case_activity_audit` |
+| **Flowchart: Evidence Custody Tx** | [`flowchart_evidence_custody.svg`](docs/diagrams/flowchart_evidence_custody.svg) | [`flowchart_evidence_custody.png`](docs/diagrams/flowchart_evidence_custody.png) | Atomic transaction, SAVEPOINT, SHA-256 hash verify, commit/rollback |
+| **Flowchart: Unified Search Merge** | [`flowchart_unified_search.svg`](docs/diagrams/flowchart_unified_search.svg) | [`flowchart_unified_search.png`](docs/diagrams/flowchart_unified_search.png) | SQL ILIKE + Mongo $text + 64-dim semantic vector cosine similarity fan-out |
+
+#### To regenerate all 16 diagrams and 11 PDFs from scratch:
 ```powershell
 python scripts/generate_submission_pdfs.py
 ```
@@ -202,15 +225,28 @@ DBMS Mini Project/
 │       ├── sample-documents.json  # 26 polymorphic investigation documents
 │       └── README.md              # Document design guide
 ├── docs/                          # Comprehensive Academic Documentation
-│   ├── submission/                # 8 OFFICIAL ACADEMIC PDF DELIVERABLES
+│   ├── diagrams/                  # 16 Vector SVG & 300 DPI PNG Academic Diagrams
+│   │   ├── chen_overview.png / .svg
+│   │   ├── chen_case_management.png / .svg
+│   │   ├── chen_entities_assets.png / .svg
+│   │   ├── chen_evidence_custody.png / .svg
+│   │   ├── chen_officers_audit.png / .svg
+│   │   ├── crowsfoot_full_schema.png / .svg
+│   │   ├── mongodb_document_model.png / .svg
+│   │   ├── system_architecture.png / .svg
+│   │   └── flowchart_*.png / .svg (4 process flowcharts)
+│   ├── submission/                # 11 OFFICIAL ACADEMIC PDF DELIVERABLES
 │   │   ├── 01_ER_Diagram.pdf
-│   │   ├── 02_Relational_Schema_and_DDL.pdf
-│   │   ├── 03_SQL_Operations_and_Queries.pdf
-│   │   ├── 04_Advanced_Database_Concepts.pdf
-│   │   ├── 05_NoSQL_and_Integration.pdf
-│   │   ├── 06_Project_Report.pdf
-│   │   ├── 07_Rubric_Coverage_and_Viva.pdf
-│   │   └── 08_Setup_API_and_Testing_Guide.pdf
+│   │   ├── 02_Relational_Schema.pdf
+│   │   ├── 03_SQL_DDL_Implementation.pdf
+│   │   ├── 04_NoSQL_Vector_Database_Creation.pdf
+│   │   ├── 05_Technology_Justification.pdf
+│   │   ├── 06_DML_Operations.pdf
+│   │   ├── 07_Queries_Nested_Correlated_Recursive_Joins.pdf
+│   │   ├── 08_Advanced_SQL_Procedure_Function_Trigger_CTE.pdf
+│   │   ├── 09_NoSQL_Vector_Features_and_RUD.pdf
+│   │   ├── 10_Authentication_and_RBAC.pdf
+│   │   └── 11_Project_Report.pdf
 │   ├── rubric-compliance.md       # 14-component compliance matrix (50/50 marks)
 │   ├── er-diagram.md              # Complete Mermaid ER diagram
 │   ├── database-design.md         # 3NF/BCNF normalization proofs & indexes

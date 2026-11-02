@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" width="1100" height="720">
+<style>
+  text { font-family: "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .title { font-size: 18px; font-weight: 700; fill: #0f172a; }
+  .subtitle { font-size: 12px; font-weight: 500; fill: #475569; }
+  .legend { font-size: 11px; fill: #334155; }
+  .mono { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; }
+</style>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b" />
+  </marker>
+  <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
+  </marker>
+  <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706" />
+  </marker>
+
+</defs>
+<rect width="100%" height="100%" fill="#ffffff" />
+<text x="550" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#0f172a">Chen ER Detail: Officers, RBAC & Immutable Audit Logs</text>
+<text x="550" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="normal" text-anchor="middle" fill="#475569">Demonstrating how OFFICERS link to CASES (lead), CASE_ACTIVITY (audit trigger), and EVIDENCE_CUSTODY</text>
+<rect x="460" y="280" width="160" height="56" rx="3" ry="3" fill="#f8fafc" stroke="#0f172a" stroke-width="2" />
+<text x="540.0" y="313.0" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" text-anchor="middle" fill="#0f172a">OFFICERS</text>
+<line x1="540.0" y1="308.0" x2="340" y2="200" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="340" cy="200" rx="48" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="340" y="204" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="600" text-anchor="middle" fill="#0f172a" text-decoration="underline">officer_id</text>
+<line x1="540.0" y1="308.0" x2="430" y2="170" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="430" cy="170" rx="48" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="430" y="174" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">badge_number</text>
+<line x1="540.0" y1="308.0" x2="540" y2="160" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="540" cy="160" rx="48" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="540" y="164" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">full_name</text>
+<line x1="540.0" y1="308.0" x2="640" y2="170" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="640" cy="170" rx="48" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="640" y="174" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">rank</text>
+<line x1="540.0" y1="308.0" x2="720" y2="220" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="720" cy="220" rx="48" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="720" y="224" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">department</text>
+<line x1="540.0" y1="308.0" x2="730" y2="290" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="730" cy="290" rx="48" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="730" y="294" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">contact_email</text>
+<line x1="540.0" y1="308.0" x2="720" y2="360" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="720" cy="360" rx="48" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="720" y="364" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">role</text>
+<line x1="540.0" y1="308.0" x2="640" y2="410" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="640" cy="410" rx="48" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="640" y="414" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">phone_number</text>
+<line x1="540.0" y1="308.0" x2="530" y2="420" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="530" cy="420" rx="48" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="530" y="424" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">is_active</text>
+<line x1="540.0" y1="308.0" x2="420" y2="410" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="420" cy="410" rx="48" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="420" y="414" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">created_at</text>
+<rect x="100" y="100" width="140" height="52" rx="3" ry="3" fill="#f8fafc" stroke="#0f172a" stroke-width="2" />
+<text x="170.0" y="131.0" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#0f172a">CASES</text>
+<line x1="540.0" y1="280" x2="300" y2="180" stroke="#334155" stroke-width="1.5" />
+<line x1="300" y1="180" x2="240" y2="126.0" stroke="#334155" stroke-width="1.5" />
+<polygon points="300,158 345,180 300,202 255,180" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+<text x="300" y="184" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#0f172a">assigned_lead</text>
+<text x="390" y="230" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">1</text>
+<text x="260" y="130" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">N</text>
+<rect x="90" y="480" width="160" height="52" rx="0" ry="0" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8" />
+<rect x="94" y="484" width="152" height="44" rx="0" ry="0" fill="none" stroke="#0f172a" stroke-width="1.8" />
+<text x="170.0" y="511.0" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#0f172a">CASE_ACTIVITY</text>
+<line x1="540.0" y1="336" x2="300" y2="430" stroke="#334155" stroke-width="1.5" />
+<line x1="300" y1="430" x2="250" y2="506.0" stroke="#334155" stroke-width="1.5" />
+<polygon points="300,408 345,430 300,452 255,430" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+<text x="300" y="434" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#0f172a">logs_action</text>
+<text x="390" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">1</text>
+<text x="260" y="490" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">N</text>
+<rect x="860" y="280" width="170" height="52" rx="0" ry="0" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8" />
+<rect x="864" y="284" width="162" height="44" rx="0" ry="0" fill="none" stroke="#0f172a" stroke-width="1.8" />
+<text x="945.0" y="311.0" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#0f172a">EVIDENCE_CUSTODY</text>
+<line x1="620" y1="308.0" x2="740" y2="306" stroke="#334155" stroke-width="1.5" />
+<line x1="740" y1="306" x2="860" y2="306.0" stroke="#334155" stroke-width="1.5" />
+<polygon points="740,284 785,306 740,328 695,306" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+<text x="740" y="310" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#0f172a">custodian</text>
+<text x="660" y="295" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">1</text>
+<text x="820" y="295" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">N</text>
+<rect x="50" y="650" width="1000" height="36" rx="3" ry="3" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" />
+<text x="550" y="672" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="normal" text-anchor="middle" fill="#334155">Figure A.4: Officers & System Audit Cluster (Chen Notation). Demonstrating accountability references across case leads and forensic audit trails.</text>
+</svg>

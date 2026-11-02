@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Advanced SQL Concepts: Procedure, Function, Trigger, CTE — UE24CS395 Deliverable</title>
+  <style>
+    
+      @page {
+        size: A4 portrait;
+        margin: 20mm 18mm 20mm 18mm;
+      }
+    
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: "Times New Roman", Times, "Liberation Serif", serif;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      color: #111827;
+      background: #ffffff;
+      text-align: justify;
+    }
+    
+    /* Cover / Header section */
+    .cover-header {
+      text-align: center;
+      border-bottom: 1.5pt solid #111827;
+      padding-bottom: 12pt;
+      margin-bottom: 16pt;
+    }
+    
+    .institution {
+      font-size: 9.5pt;
+      font-weight: bold;
+      letter-spacing: 0.5pt;
+      text-transform: uppercase;
+      color: #374151;
+      margin-bottom: 3pt;
+    }
+    
+    .course-title {
+      font-size: 10pt;
+      font-style: italic;
+      color: #4b5563;
+      margin-bottom: 8pt;
+    }
+    
+    .doc-title {
+      font-size: 17pt;
+      font-weight: bold;
+      color: #111827;
+      margin-bottom: 5pt;
+      line-height: 1.25;
+    }
+    
+    .rubric-tag {
+      display: inline-block;
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #1e3a8a;
+      background: #eff6ff;
+      border: 0.5pt solid #bfdbfe;
+      padding: 2.5pt 7pt;
+      border-radius: 2pt;
+      margin-bottom: 8pt;
+    }
+    
+    .authors-grid {
+      margin-top: 6pt;
+      font-size: 9.5pt;
+      color: #374151;
+    }
+    
+    /* Headings */
+    h1 {
+      font-size: 12.5pt;
+      font-weight: bold;
+      color: #111827;
+      border-bottom: 0.75pt solid #d1d5db;
+      padding-bottom: 2pt;
+      margin-top: 16pt;
+      margin-bottom: 6pt;
+      page-break-after: avoid;
+    }
+    
+    h2 {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1f2937;
+      margin-top: 12pt;
+      margin-bottom: 5pt;
+      page-break-after: avoid;
+    }
+    
+    h3 {
+      font-size: 10.5pt;
+      font-weight: bold;
+      font-style: italic;
+      color: #374151;
+      margin-top: 9pt;
+      margin-bottom: 3pt;
+      page-break-after: avoid;
+    }
+    
+    p {
+      margin-bottom: 7pt;
+      text-indent: 0;
+    }
+    
+    ul, ol {
+      margin-left: 18pt;
+      margin-bottom: 8pt;
+    }
+    
+    li {
+      margin-bottom: 3pt;
+    }
+    
+    /* Academic Booktabs Tables */
+    table.academic-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 9pt 0 12pt 0;
+      font-size: 8.5pt;
+      line-height: 1.35;
+      page-break-inside: avoid;
+    }
+    
+    table.academic-table th {
+      border-top: 1.5pt solid #111827;
+      border-bottom: 1pt solid #111827;
+      padding: 4.5pt 5pt;
+      font-weight: bold;
+      text-align: left;
+      background: #f9fafb;
+      color: #111827;
+    }
+    
+    table.academic-table td {
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 4pt 5pt;
+      vertical-align: top;
+      color: #1f2937;
+    }
+    
+    table.academic-table tr:last-child td {
+      border-bottom: 1.5pt solid #111827;
+    }
+    
+    /* Figures */
+    .figure-container {
+      text-align: center;
+      margin: 12pt 0;
+      page-break-inside: avoid;
+    }
+    
+    .figure-container img {
+      max-width: 98%;
+      height: auto;
+      border: 0.5pt solid #d1d5db;
+      border-radius: 2pt;
+      display: inline-block;
+    }
+    
+    .caption {
+      font-size: 9pt;
+      color: #374151;
+      margin-top: 4pt;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    .caption b {
+      font-style: normal;
+      color: #111827;
+    }
+    
+    /* Listings / Code Blocks */
+    .listing-box {
+      margin: 8pt 0 10pt 0;
+      border: 0.5pt solid #d1d5db;
+      background: #f9fafb;
+      border-radius: 2pt;
+      page-break-inside: avoid;
+    }
+    
+    .listing-header {
+      background: #f3f4f6;
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 3pt 7pt;
+      font-size: 8pt;
+      font-family: "Courier New", Courier, monospace;
+      color: #4b5563;
+      font-weight: bold;
+    }
+    
+    pre.code-block {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 8pt;
+      line-height: 1.35;
+      padding: 5pt 7pt;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #111827;
+    }
+    
+    /* Terminal output box */
+    pre.terminal-output {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 7.8pt;
+      line-height: 1.3;
+      padding: 5pt 7pt;
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 2pt;
+      margin: 7pt 0 10pt 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      page-break-inside: avoid;
+    }
+    
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cover-header">
+  <div class="institution">Department of Computer Science and Engineering • PES University, Bengaluru</div>
+  <div class="course-title">UE24CS395: Database Management Systems Mini Project • Academic Year 2025–2026</div>
+  <div class="doc-title">Advanced SQL Concepts: Procedure, Function, Trigger, CTE</div>
+  <div class="rubric-tag">Evaluation Matrix Row 8: Advanced SQL Concepts • Weightage: 6 Marks</div>
+  <div class="authors-grid">
+    <b>Team Members:</b> Saatvik Gupta (<code>PES1UG24CS395</code>) & Satyam Goyal (<code>PES1UG24CS424</code>) &nbsp;|&nbsp; <b>Date:</b> November 2026
+  </div>
+</div>
+
+
+<h1>1. Advanced Procedural Architecture</h1>
+<p>
+We implemented procedural database logic directly inside PostgreSQL to ensure transactional consistency and automated auditing, independent of the application layer. The procedures, functions, and triggers defined in <code>database/sql/advanced-concepts.sql</code> enforce business constraints and maintain immutable logs.
+</p>
+
+<div class="figure-container">
+  <img src="../diagrams/flowchart_case_creation_sp_trigger.png" alt="Stored Procedure and Trigger Flowchart" />
+  <div class="caption"><b>Figure 1:</b> Procedural Execution Flowchart. Illustrates atomic case provisioning via <code>sp_create_investigation_case()</code> and automatic audit row creation via <code>trg_case_activity_audit</code>.</div>
+</div>
+
+<div class="page-break"></div>
+
+<h1>2. Stored Procedure: sp_create_investigation_case</h1>
+<p>
+The stored procedure validates officer credentials and atomically creates both the case record and its initial audit log entry within a single transaction.
+</p>
+
+<div class="listing-box">
+  <div class="listing-header">PL/pgSQL Source: sp_create_investigation_case (database/sql/advanced-concepts.sql)</div>
+  <pre class="code-block">
+CREATE OR REPLACE PROCEDURE sp_create_investigation_case(
+    IN p_case_id VARCHAR(50),
+    IN p_title VARCHAR(200),
+    IN p_description TEXT,
+    IN p_case_type VARCHAR(100),
+    IN p_priority VARCHAR(50),
+    IN p_lead_officer_id VARCHAR(50)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- Verify existence of assigned lead officer
+    IF p_lead_officer_id IS NOT NULL AND NOT EXISTS (
+        SELECT 1 FROM officers WHERE officer_id = p_lead_officer_id
+    ) THEN
+        RAISE EXCEPTION 'Officer ID % does not exist in law enforcement registry.', p_lead_officer_id;
+    END IF;
+
+    -- Provision primary case record
+    INSERT INTO cases (
+        case_id, title, description, case_type, status, priority, lead_officer_id, incident_date, created_at, updated_at
+    ) VALUES (
+        p_case_id, p_title, p_description, p_case_type, 'Open', p_priority, p_lead_officer_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+    );
+
+    -- Automatically log case provisioning to immutable case_activity audit log
+    INSERT INTO case_activity (
+        case_id, activity_type, title, description, officer_id, activity_timestamp
+    ) VALUES (
+        p_case_id,
+        'CASE_INITIALIZED',
+        'Case Record Created',
+        CONCAT('Case initialized with priority "', p_priority, '" and type "', p_case_type, '".'),
+        p_lead_officer_id,
+        CURRENT_TIMESTAMP
+    );
+END;
+$$;
+  </pre>
+</div>
+
+<div class="listing-box">
+  <div class="listing-header">Execution Call and Terminal Verification Output</div>
+  <pre class="terminal-output">
+CALL sp_create_investigation_case('CASE-2026-999', 'Operation Neon Cipher', 'Cryptocurrency drainer ring', 'Financial Cybercrime', 'High', 'OFF-001');
+
+SELECT case_id, title, status, priority, lead_officer_id FROM cases WHERE case_id = 'CASE-2026-999';
+    case_id    |         title          | status | priority | lead_officer_id 
+---------------+------------------------+--------+----------+-----------------
+ CASE-2026-999 | Operation Neon Cipher  | Open   | High     | OFF-001
+
+SELECT activity_type, title, description FROM case_activity WHERE case_id = 'CASE-2026-999';
+  activity_type   |        title        |                           description                            
+------------------+---------------------+------------------------------------------------------------------
+ CASE_INITIALIZED | Case Record Created | Case initialized with priority "High" and type "Financial Cybercrime".
+  </pre>
+</div>
+
+<div class="page-break"></div>
+
+<h1>3. Database Trigger: trg_case_activity_audit</h1>
+<p>
+To ensure an auditable chain of custody on case status changes, we implemented an <code>AFTER UPDATE</code> trigger that logs every modification to <code>status</code> or <code>priority</code> directly to <code>case_activity</code>.
+</p>
+
+<div class="listing-box">
+  <div class="listing-header">PL/pgSQL Trigger Definition & Function (database/sql/advanced-concepts.sql)</div>
+  <pre class="code-block">
+CREATE OR REPLACE FUNCTION fn_audit_case_state_change()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF (OLD.status IS DISTINCT FROM NEW.status) THEN
+        INSERT INTO case_activity (case_id, activity_type, title, description, officer_id, activity_timestamp)
+        VALUES (NEW.case_id, 'STATUS_CHANGE', 'Case Status Updated',
+                CONCAT('Investigation status modified from "', OLD.status, '" to "', NEW.status, '".'),
+                NEW.lead_officer_id, CURRENT_TIMESTAMP);
+    END IF;
+
+    IF (OLD.priority IS DISTINCT FROM NEW.priority) THEN
+        INSERT INTO case_activity (case_id, activity_type, title, description, officer_id, activity_timestamp)
+        VALUES (NEW.case_id, 'PRIORITY_CHANGE', 'Case Priority Updated',
+                CONCAT('Urgency priority updated from "', OLD.priority, '" to "', NEW.priority, '".'),
+                NEW.lead_officer_id, CURRENT_TIMESTAMP);
+    END IF;
+
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER trg_case_activity_audit
+    AFTER UPDATE OF status, priority ON cases
+    FOR EACH ROW
+    EXECUTE FUNCTION fn_audit_case_state_change();
+  </pre>
+</div>
+
+<h2>3.1 Live Demonstration: Before & After Table Contents</h2>
+<p>
+We ran an <code>UPDATE</code> statement to confirm that the trigger automatically creates audit records without application-level intervention.
+</p>
+
+<div class="listing-box">
+  <div class="listing-header">Step 1: Before State Verification</div>
+  <pre class="terminal-output">
+SELECT case_id, status, priority FROM cases WHERE case_id = 'CASE-2026-001';
+    case_id    | status | priority 
+---------------+--------+----------
+ CASE-2026-001 | Open   | High
+  </pre>
+</div>
+
+<div class="listing-box">
+  <div class="listing-header">Step 2: Executing UPDATE Statement</div>
+  <pre class="code-block">
+UPDATE cases 
+SET status = 'Under Investigation', priority = 'Critical' 
+WHERE case_id = 'CASE-2026-001';
+  </pre>
+</div>
+
+<div class="listing-box">
+  <div class="listing-header">Step 3: After State Verification (Proves Trigger Fired and Appended Audit Rows)</div>
+  <pre class="terminal-output">
+SELECT activity_id, case_id, activity_type, title, description, activity_timestamp
+FROM case_activity
+WHERE case_id = 'CASE-2026-001'
+ORDER BY activity_timestamp DESC LIMIT 2;
+
+ activity_id |    case_id    |  activity_type  |         title         |                                description                                
+-------------+---------------+-----------------+-----------------------+---------------------------------------------------------------------------
+          12 | CASE-2026-001 | PRIORITY_CHANGE | Case Priority Updated | Urgency priority updated from "High" to "Critical".
+          11 | CASE-2026-001 | STATUS_CHANGE   | Case Status Updated   | Investigation status modified from "Open" to "Under Investigation".
+(2 rows automatically generated by PostgreSQL kernel trigger)
+  </pre>
+</div>
+
+
+</body>
+</html>

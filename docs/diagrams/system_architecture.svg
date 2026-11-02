@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<style>
+  text { font-family: "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .title { font-size: 18px; font-weight: 700; fill: #0f172a; }
+  .subtitle { font-size: 12px; font-weight: 500; fill: #475569; }
+  .legend { font-size: 11px; fill: #334155; }
+  .mono { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; }
+</style>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b" />
+  </marker>
+  <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
+  </marker>
+  <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706" />
+  </marker>
+
+</defs>
+<rect width="100%" height="100%" fill="#ffffff" />
+<text x="600" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#0f172a">Intelligence Fusion Platform — End-to-End System Architecture</text>
+<text x="600" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="normal" text-anchor="middle" fill="#475569">Three-Tier Client-Server Architecture with Polyglot Persistence and Cross-Database Query Federation</text>
+<rect x="250" y="90" width="700" height="110" rx="4" ry="4" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8" />
+<rect x="250" y="90" width="700" height="28" rx="4" ry="4" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="600.0" y="108" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#ffffff">CLIENT TIER: Next.js 15 + React 19 Single Page Application</text>
+<rect x="280" y="132" width="190" height="50" rx="3" ry="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
+<text x="375" y="152" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#0f172a">Auth & JWT Storage</text>
+<text x="375" y="168" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="middle" fill="#64748b">LocalStorage / Memory</text>
+<rect x="470" y="132" width="190" height="50" rx="3" ry="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
+<text x="565" y="152" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#0f172a">App Router Views</text>
+<text x="565" y="168" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="middle" fill="#64748b">Cases, People, Evidence, Search</text>
+<rect x="720" y="132" width="190" height="50" rx="3" ry="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
+<text x="815" y="152" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#0f172a">Tailwind v4 UI Theme</text>
+<text x="815" y="168" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="middle" fill="#64748b">Dark Graphite & Muted Steel</text>
+<rect x="100" y="270" width="1000" height="200" rx="4" ry="4" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8" />
+<rect x="100" y="270" width="1000" height="28" rx="4" ry="4" fill="#1e293b" stroke="#1e293b" stroke-width="1.5" />
+<text x="600.0" y="288" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#ffffff">APPLICATION / API TIER: FastAPI (Python 3.13 Async REST Service)</text>
+<rect x="130" y="314" width="250" height="60" rx="3" ry="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+<text x="255" y="338" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700" text-anchor="middle" fill="#0f172a">JWT Auth & RBAC Guard</text>
+<text x="255" y="356" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#64748b">Role dependencies & DB kernel grants</text>
+<rect x="420" y="314" width="320" height="60" rx="3" ry="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+<text x="580" y="338" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700" text-anchor="middle" fill="#0f172a">Relational Business Logic Routers</text>
+<text x="580" y="356" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#64748b">Cases, People, Evidence, Stored Procedures</text>
+<rect x="780" y="314" width="290" height="60" rx="3" ry="3" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" />
+<text x="925" y="338" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700" text-anchor="middle" fill="#1e40af">Cross-Database Search Federator</text>
+<text x="925" y="356" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#2563eb">SQL ILIKE + Mongo Text + Vector Similarity</text>
+<rect x="200" y="390" width="360" height="60" rx="3" ry="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+<text x="380" y="414" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700" text-anchor="middle" fill="#0f172a">SQLAlchemy 2.0 Async Session Pool</text>
+<text x="380" y="432" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#64748b">Connection pooling, ACID transactions, triggers</text>
+<rect x="640" y="390" width="360" height="60" rx="3" ry="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+<text x="820" y="414" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700" text-anchor="middle" fill="#0f172a">Motor / PyMongo Client Engine</text>
+<text x="820" y="432" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#64748b">BSON serialization, aggregations, vector math</text>
+<rect x="100" y="540" width="460" height="180" rx="4" ry="4" fill="#f8fafc" stroke="#2563eb" stroke-width="1.8" />
+<rect x="100" y="540" width="460" height="28" rx="4" ry="4" fill="#1d4ed8" stroke="#1d4ed8" stroke-width="1.5" />
+<text x="330.0" y="558" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#ffffff">RELATIONAL STORE: PostgreSQL 16 (SQLite Fallback)</text>
+<text x="120" y="595" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• 22 Normalized Tables (10 Entities + 12 Junction Bridges)</text>
+<text x="120" y="615" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• Stored Procedures: sp_create_investigation_case</text>
+<text x="120" y="635" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• Audit Triggers: trg_case_activity_audit (Immutable Logs)</text>
+<text x="120" y="655" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• Functions & Recursive CTEs: fn_get_case_summary</text>
+<text x="120" y="675" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• Dual-Tier RBAC: Schema-level GRANT / REVOKE roles</text>
+<text x="120" y="695" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• ACID Guarantees: Multi-statement transactions with savepoints</text>
+<rect x="640" y="540" width="460" height="180" rx="4" ry="4" fill="#f8fafc" stroke="#15803d" stroke-width="1.8" />
+<rect x="640" y="540" width="460" height="28" rx="4" ry="4" fill="#15803d" stroke="#15803d" stroke-width="1.5" />
+<text x="870.0" y="558" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" fill="#ffffff">DOCUMENT & VECTOR STORE: MongoDB 7.0</text>
+<text x="660" y="595" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• Collection: investigation_documents (Polymorphic)</text>
+<text x="660" y="615" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• Schema Validator: BSON $jsonSchema strict enforcement</text>
+<text x="660" y="635" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• Semantic Vectors: 64-dimensional float embeddings</text>
+<text x="660" y="655" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• Inverted Full-Text Indexes on (title, content, tags)</text>
+<text x="660" y="675" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• Polyglot Links: Dotted references to cases and entities</text>
+<text x="660" y="695" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#1e293b">• Aggregation Pipelines: $match, $unwind, $group metrics</text>
+<line x1="550" y1="200" x2="550" y2="270" stroke="#0f172a" stroke-width="2" marker-end="url(#arrow)" />
+<line x1="650" y1="270" x2="650" y2="200" stroke="#0f172a" stroke-width="2" marker-end="url(#arrow)" />
+<text x="530" y="235" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="end" fill="#0f172a">REST JSON Requests (Bearer JWT)</text>
+<text x="670" y="235" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#0f172a">JSON Responses / 403 Forbidden</text>
+<line x1="330" y1="470" x2="330" y2="540" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)" />
+<line x1="380" y1="540" x2="380" y2="470" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)" />
+<text x="310" y="505" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="end" fill="#1e40af">SQL / Transactions</text>
+<text x="400" y="505" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#1e40af">Result Rows / Tuples</text>
+<line x1="820" y1="470" x2="820" y2="540" stroke="#15803d" stroke-width="2" marker-end="url(#arrow)" />
+<line x1="870" y1="540" x2="870" y2="470" stroke="#15803d" stroke-width="2" marker-end="url(#arrow)" />
+<text x="800" y="505" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="end" fill="#166534">BSON Queries / Vectors</text>
+<text x="890" y="505" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#166534">Documents / Scores</text>
+<rect x="100" y="745" width="1000" height="36" rx="3" ry="3" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+<text x="600" y="767" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="normal" text-anchor="middle" fill="#334155">Figure D.1: Unified Platform Architecture. Illustrating JWT authorization flows and cross-database search fan-out/merge.</text>
+</svg>

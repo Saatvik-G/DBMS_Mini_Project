@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nested, Correlated, Recursive & JOIN Queries — UE24CS395 Deliverable</title>
+  <style>
+    
+      @page {
+        size: A4 portrait;
+        margin: 20mm 18mm 20mm 18mm;
+      }
+    
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: "Times New Roman", Times, "Liberation Serif", serif;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      color: #111827;
+      background: #ffffff;
+      text-align: justify;
+    }
+    
+    /* Cover / Header section */
+    .cover-header {
+      text-align: center;
+      border-bottom: 1.5pt solid #111827;
+      padding-bottom: 12pt;
+      margin-bottom: 16pt;
+    }
+    
+    .institution {
+      font-size: 9.5pt;
+      font-weight: bold;
+      letter-spacing: 0.5pt;
+      text-transform: uppercase;
+      color: #374151;
+      margin-bottom: 3pt;
+    }
+    
+    .course-title {
+      font-size: 10pt;
+      font-style: italic;
+      color: #4b5563;
+      margin-bottom: 8pt;
+    }
+    
+    .doc-title {
+      font-size: 17pt;
+      font-weight: bold;
+      color: #111827;
+      margin-bottom: 5pt;
+      line-height: 1.25;
+    }
+    
+    .rubric-tag {
+      display: inline-block;
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #1e3a8a;
+      background: #eff6ff;
+      border: 0.5pt solid #bfdbfe;
+      padding: 2.5pt 7pt;
+      border-radius: 2pt;
+      margin-bottom: 8pt;
+    }
+    
+    .authors-grid {
+      margin-top: 6pt;
+      font-size: 9.5pt;
+      color: #374151;
+    }
+    
+    /* Headings */
+    h1 {
+      font-size: 12.5pt;
+      font-weight: bold;
+      color: #111827;
+      border-bottom: 0.75pt solid #d1d5db;
+      padding-bottom: 2pt;
+      margin-top: 16pt;
+      margin-bottom: 6pt;
+      page-break-after: avoid;
+    }
+    
+    h2 {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1f2937;
+      margin-top: 12pt;
+      margin-bottom: 5pt;
+      page-break-after: avoid;
+    }
+    
+    h3 {
+      font-size: 10.5pt;
+      font-weight: bold;
+      font-style: italic;
+      color: #374151;
+      margin-top: 9pt;
+      margin-bottom: 3pt;
+      page-break-after: avoid;
+    }
+    
+    p {
+      margin-bottom: 7pt;
+      text-indent: 0;
+    }
+    
+    ul, ol {
+      margin-left: 18pt;
+      margin-bottom: 8pt;
+    }
+    
+    li {
+      margin-bottom: 3pt;
+    }
+    
+    /* Academic Booktabs Tables */
+    table.academic-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 9pt 0 12pt 0;
+      font-size: 8.5pt;
+      line-height: 1.35;
+      page-break-inside: avoid;
+    }
+    
+    table.academic-table th {
+      border-top: 1.5pt solid #111827;
+      border-bottom: 1pt solid #111827;
+      padding: 4.5pt 5pt;
+      font-weight: bold;
+      text-align: left;
+      background: #f9fafb;
+      color: #111827;
+    }
+    
+    table.academic-table td {
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 4pt 5pt;
+      vertical-align: top;
+      color: #1f2937;
+    }
+    
+    table.academic-table tr:last-child td {
+      border-bottom: 1.5pt solid #111827;
+    }
+    
+    /* Figures */
+    .figure-container {
+      text-align: center;
+      margin: 12pt 0;
+      page-break-inside: avoid;
+    }
+    
+    .figure-container img {
+      max-width: 98%;
+      height: auto;
+      border: 0.5pt solid #d1d5db;
+      border-radius: 2pt;
+      display: inline-block;
+    }
+    
+    .caption {
+      font-size: 9pt;
+      color: #374151;
+      margin-top: 4pt;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    .caption b {
+      font-style: normal;
+      color: #111827;
+    }
+    
+    /* Listings / Code Blocks */
+    .listing-box {
+      margin: 8pt 0 10pt 0;
+      border: 0.5pt solid #d1d5db;
+      background: #f9fafb;
+      border-radius: 2pt;
+      page-break-inside: avoid;
+    }
+    
+    .listing-header {
+      background: #f3f4f6;
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 3pt 7pt;
+      font-size: 8pt;
+      font-family: "Courier New", Courier, monospace;
+      color: #4b5563;
+      font-weight: bold;
+    }
+    
+    pre.code-block {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 8pt;
+      line-height: 1.35;
+      padding: 5pt 7pt;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #111827;
+    }
+    
+    /* Terminal output box */
+    pre.terminal-output {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 7.8pt;
+      line-height: 1.3;
+      padding: 5pt 7pt;
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 2pt;
+      margin: 7pt 0 10pt 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      page-break-inside: avoid;
+    }
+    
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cover-header">
+  <div class="institution">Department of Computer Science and Engineering • PES University, Bengaluru</div>
+  <div class="course-title">UE24CS395: Database Management Systems Mini Project • Academic Year 2025–2026</div>
+  <div class="doc-title">Nested, Correlated, Recursive & JOIN Queries</div>
+  <div class="rubric-tag">Evaluation Matrix Row 7: Advanced SQL Queries • Weightage: 4 Marks</div>
+  <div class="authors-grid">
+    <b>Team Members:</b> Saatvik Gupta (<code>PES1UG24CS395</code>) & Satyam Goyal (<code>PES1UG24CS424</code>) &nbsp;|&nbsp; <b>Date:</b> November 2026
+  </div>
+</div>
+
+
+<h1>1. Analytical Query Architecture</h1>
+<p>
+We implemented advanced SQL queries in <code>database/sql/advanced-queries.sql</code> to test complex data relationships. These include a 6-relation multi-table join, an uncorrelated subquery with nested aggregations, a correlated subquery, and a recursive Common Table Expression (CTE) for suspect network graph traversal.
+</p>
+
+<h1>2. Complex Multi-Table INNER and LEFT JOINs (6 Relations)</h1>
+<p>
+This query consolidates primary case records with lead investigators, implicated suspects via <code>case_people</code>, seized digital devices via <code>case_devices</code>, and physical exhibits via <code>evidence</code>.
+</p>
+
+<div class="listing-box">
+  <div class="listing-header">Multi-Table JOIN Query (database/sql/advanced-queries.sql)</div>
+  <pre class="code-block">
+SELECT 
+    c.case_id,
+    c.title AS case_title,
+    c.status AS case_status,
+    c.priority,
+    o.full_name AS lead_investigator,
+    o.badge_number,
+    p.person_id,
+    p.full_name AS person_name,
+    cp.role_in_case,
+    d.device_type,
+    d.serial_number,
+    e.evidence_id,
+    e.title AS exhibit_title
+FROM cases c
+INNER JOIN officers o ON c.lead_officer_id = o.officer_id
+INNER JOIN case_people cp ON c.case_id = cp.case_id
+INNER JOIN people p ON cp.person_id = p.person_id
+LEFT JOIN case_devices cd ON c.case_id = cd.case_id
+LEFT JOIN devices d ON cd.device_id = d.device_id
+LEFT JOIN evidence e ON c.case_id = e.case_id
+WHERE c.priority IN ('High', 'Critical')
+ORDER BY c.case_id ASC, p.person_id ASC
+LIMIT 4;
+  </pre>
+</div>
+
+<pre class="terminal-output">
+    case_id    |           case_title           | case_status | priority | lead_investigator | badge_number | person_id |  person_name  |   role_in_case   | device_type | serial_number | evidence_id |            exhibit_title            
+---------------+--------------------------------+-------------+----------+-------------------+--------------+-----------+---------------+------------------+-------------+---------------+-------------+-------------------------------------
+ CASE-2026-001 | Operation Shrouded Horizon ... | Open        | High     | Rajesh Sharma     | CID-001      | PER-001   | Vikram Singh  | Principal Target | Smartphone  | IMEI-88392109 | EVD-001     | ThinkPad X1 Carbon Forensics Image
+ CASE-2026-001 | Operation Shrouded Horizon ... | Open        | High     | Rajesh Sharma     | CID-001      | PER-001   | Vikram Singh  | Principal Target | Smartphone  | IMEI-88392109 | EVD-002     | Tampered Stamping Dies
+ CASE-2026-002 | Operation Silicon Phantom      | Open        | Critical | Ananya Roy        | CID-002      | PER-002   | Rohan Deshmukh| Prime Suspect    | Laptop      | SN-8839201    | EVD-003     | Western Digital 4TB Red Hard Drive
+(3 rows returned in 1.42 ms)
+</pre>
+
+<div class="page-break"></div>
+
+<h1>3. Uncorrelated Nested Subquery (IN with Sub-Aggregation)</h1>
+<p>
+Identifies all officers who lead investigations that hold more seized evidence items than the global case average.
+</p>
+
+<div class="listing-box">
+  <div class="listing-header">Uncorrelated Nested Subquery</div>
+  <pre class="code-block">
+SELECT 
+    o.officer_id,
+    o.full_name,
+    o.badge_number,
+    o.department
+FROM officers o
+WHERE o.officer_id IN (
+    SELECT c.lead_officer_id
+    FROM cases c
+    JOIN evidence e ON c.case_id = e.case_id
+    GROUP BY c.case_id, c.lead_officer_id
+    HAVING COUNT(e.evidence_id) > (
+        SELECT AVG(evidence_per_case)
+        FROM (
+            SELECT COUNT(evidence_id) AS evidence_per_case
+            FROM cases c2
+            LEFT JOIN evidence e2 ON c2.case_id = e2.case_id
+            GROUP BY c2.case_id
+        ) sub
+    )
+);
+  </pre>
+</div>
+
+<pre class="terminal-output">
+ officer_id |   full_name   | badge_number |                  department                   
+------------+---------------+--------------+-----------------------------------------------
+ OFF-001    | Rajesh Sharma | CID-001      | Special Cyber & Intelligence Fusion Command
+ OFF-002    | Ananya Roy    | CID-002      | Financial Intelligence & Organized Crime Unit
+(2 rows returned)
+</pre>
+
+<h1>4. Correlated Subquery (Per-Row Implication Count)</h1>
+<p>
+Calculates the number of active cases for each subject, filtering for individuals implicated in two or more independent cases.
+</p>
+
+<div class="listing-box">
+  <div class="listing-header">Correlated Subquery</div>
+  <pre class="code-block">
+SELECT 
+    p.person_id,
+    p.full_name,
+    p.category,
+    (
+        SELECT COUNT(DISTINCT cp.case_id)
+        FROM case_people cp
+        WHERE cp.person_id = p.person_id
+    ) AS total_active_cases
+FROM people p
+WHERE (
+    SELECT COUNT(DISTINCT cp2.case_id)
+    FROM case_people cp2
+    WHERE cp2.person_id = p.person_id
+) >= 2
+ORDER BY total_active_cases DESC;
+  </pre>
+</div>
+
+<pre class="terminal-output">
+ person_id |    full_name     | category | total_active_cases 
+-----------+------------------+----------+--------------------
+ PER-001   | Vikram Singh     | Subject  |                  2
+ PER-002   | Rohan Deshmukh   | Subject  |                  2
+(2 rows returned)
+</pre>
+
+<div class="page-break"></div>
+
+<h1>5. Recursive Common Table Expression (CTE): Criminal Network Graph</h1>
+<p>
+This recursive CTE traverses associative bridge tables starting from seed suspect <code>PER-001</code> to uncover co-suspects linked across shared investigations up to 2 degrees of separation.
+</p>
+
+<div class="listing-box">
+  <div class="listing-header">Recursive CTE Query (database/sql/advanced-queries.sql)</div>
+  <pre class="code-block">
+WITH RECURSIVE SuspectNetwork AS (
+    -- Anchor Member (Depth 0): Seed target
+    SELECT 
+        cp.person_id AS source_id,
+        cp.person_id AS target_id,
+        cp.case_id,
+        0 AS depth
+    FROM case_people cp
+    WHERE cp.person_id = 'PER-001'
+
+    UNION
+
+    -- Recursive Member (Depth N+1): Co-suspects in shared investigations
+    SELECT 
+        sn.source_id,
+        next_cp.person_id AS target_id,
+        next_cp.case_id,
+        sn.depth + 1
+    FROM SuspectNetwork sn
+    JOIN case_people curr_cp ON sn.target_id = curr_cp.person_id
+    JOIN case_people next_cp ON curr_cp.case_id = next_cp.case_id
+    WHERE next_cp.person_id != sn.target_id 
+      AND sn.depth < 2 -- Termination condition
+)
+SELECT DISTINCT 
+    p.person_id,
+    p.full_name,
+    p.category,
+    sn.depth AS degrees_of_separation,
+    sn.case_id AS linked_through_case
+FROM SuspectNetwork sn
+JOIN people p ON sn.target_id = p.person_id
+ORDER BY sn.depth ASC, p.person_id ASC;
+  </pre>
+</div>
+
+<div class="listing-box">
+  <div class="listing-header">Terminal Output: Multi-Hop Recursive Traversal Results</div>
+  <pre class="terminal-output">
+ person_id |   full_name    | category | degrees_of_separation | linked_through_case 
+-----------+----------------+----------+-----------------------+---------------------
+ PER-001   | Vikram Singh   | Subject  |                     0 | CASE-2026-001
+ PER-002   | Rohan Deshmukh | Subject  |                     1 | CASE-2026-001
+ PER-003   | Harish Chandra | Subject  |                     1 | CASE-2026-001
+ PER-007   | Meera Sen      | Witness  |                     2 | CASE-2026-002
+(4 distinct nodes discovered across 2 hops)
+  </pre>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Comprehensive Project Report & Master Evaluation Map — UE24CS395 Deliverable</title>
+  <style>
+    
+      @page {
+        size: A4 portrait;
+        margin: 20mm 18mm 20mm 18mm;
+      }
+    
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: "Times New Roman", Times, "Liberation Serif", serif;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      color: #111827;
+      background: #ffffff;
+      text-align: justify;
+    }
+    
+    /* Cover / Header section */
+    .cover-header {
+      text-align: center;
+      border-bottom: 1.5pt solid #111827;
+      padding-bottom: 12pt;
+      margin-bottom: 16pt;
+    }
+    
+    .institution {
+      font-size: 9.5pt;
+      font-weight: bold;
+      letter-spacing: 0.5pt;
+      text-transform: uppercase;
+      color: #374151;
+      margin-bottom: 3pt;
+    }
+    
+    .course-title {
+      font-size: 10pt;
+      font-style: italic;
+      color: #4b5563;
+      margin-bottom: 8pt;
+    }
+    
+    .doc-title {
+      font-size: 17pt;
+      font-weight: bold;
+      color: #111827;
+      margin-bottom: 5pt;
+      line-height: 1.25;
+    }
+    
+    .rubric-tag {
+      display: inline-block;
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #1e3a8a;
+      background: #eff6ff;
+      border: 0.5pt solid #bfdbfe;
+      padding: 2.5pt 7pt;
+      border-radius: 2pt;
+      margin-bottom: 8pt;
+    }
+    
+    .authors-grid {
+      margin-top: 6pt;
+      font-size: 9.5pt;
+      color: #374151;
+    }
+    
+    /* Headings */
+    h1 {
+      font-size: 12.5pt;
+      font-weight: bold;
+      color: #111827;
+      border-bottom: 0.75pt solid #d1d5db;
+      padding-bottom: 2pt;
+      margin-top: 16pt;
+      margin-bottom: 6pt;
+      page-break-after: avoid;
+    }
+    
+    h2 {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1f2937;
+      margin-top: 12pt;
+      margin-bottom: 5pt;
+      page-break-after: avoid;
+    }
+    
+    h3 {
+      font-size: 10.5pt;
+      font-weight: bold;
+      font-style: italic;
+      color: #374151;
+      margin-top: 9pt;
+      margin-bottom: 3pt;
+      page-break-after: avoid;
+    }
+    
+    p {
+      margin-bottom: 7pt;
+      text-indent: 0;
+    }
+    
+    ul, ol {
+      margin-left: 18pt;
+      margin-bottom: 8pt;
+    }
+    
+    li {
+      margin-bottom: 3pt;
+    }
+    
+    /* Academic Booktabs Tables */
+    table.academic-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 9pt 0 12pt 0;
+      font-size: 8.5pt;
+      line-height: 1.35;
+      page-break-inside: avoid;
+    }
+    
+    table.academic-table th {
+      border-top: 1.5pt solid #111827;
+      border-bottom: 1pt solid #111827;
+      padding: 4.5pt 5pt;
+      font-weight: bold;
+      text-align: left;
+      background: #f9fafb;
+      color: #111827;
+    }
+    
+    table.academic-table td {
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 4pt 5pt;
+      vertical-align: top;
+      color: #1f2937;
+    }
+    
+    table.academic-table tr:last-child td {
+      border-bottom: 1.5pt solid #111827;
+    }
+    
+    /* Figures */
+    .figure-container {
+      text-align: center;
+      margin: 12pt 0;
+      page-break-inside: avoid;
+    }
+    
+    .figure-container img {
+      max-width: 98%;
+      height: auto;
+      border: 0.5pt solid #d1d5db;
+      border-radius: 2pt;
+      display: inline-block;
+    }
+    
+    .caption {
+      font-size: 9pt;
+      color: #374151;
+      margin-top: 4pt;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    .caption b {
+      font-style: normal;
+      color: #111827;
+    }
+    
+    /* Listings / Code Blocks */
+    .listing-box {
+      margin: 8pt 0 10pt 0;
+      border: 0.5pt solid #d1d5db;
+      background: #f9fafb;
+      border-radius: 2pt;
+      page-break-inside: avoid;
+    }
+    
+    .listing-header {
+      background: #f3f4f6;
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 3pt 7pt;
+      font-size: 8pt;
+      font-family: "Courier New", Courier, monospace;
+      color: #4b5563;
+      font-weight: bold;
+    }
+    
+    pre.code-block {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 8pt;
+      line-height: 1.35;
+      padding: 5pt 7pt;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #111827;
+    }
+    
+    /* Terminal output box */
+    pre.terminal-output {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 7.8pt;
+      line-height: 1.3;
+      padding: 5pt 7pt;
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 2pt;
+      margin: 7pt 0 10pt 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      page-break-inside: avoid;
+    }
+    
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cover-header">
+  <div class="institution">Department of Computer Science and Engineering • PES University, Bengaluru</div>
+  <div class="course-title">UE24CS395: Database Management Systems Mini Project • Academic Year 2025–2026</div>
+  <div class="doc-title">Comprehensive Project Report & Master Evaluation Map</div>
+  <div class="rubric-tag">Evaluation Matrix Rows 10, 11, 13, 14: Project Report • Weightage: 11 Marks</div>
+  <div class="authors-grid">
+    <b>Team Members:</b> Saatvik Gupta (<code>PES1UG24CS395</code>) & Satyam Goyal (<code>PES1UG24CS424</code>) &nbsp;|&nbsp; <b>Date:</b> November 2026
+  </div>
+</div>
+
+
+<h1>1. Project Architecture & System Integration</h1>
+<p>
+The Intelligence Fusion Platform is an end-to-end case management system built around a polyglot persistence architecture. The platform connects a Next.js 15 client single-page application (SPA), an asynchronous FastAPI 3.13 backend, a 22-table PostgreSQL relational database (with automated SQLite fallback), and a MongoDB 7.0 document store with a 64-dimensional semantic vector search engine.
+</p>
+
+<div class="figure-container">
+  <img src="../diagrams/system_architecture.png" alt="System Architecture Flowchart" />
+  <div class="caption"><b>Figure 1:</b> System Architecture & Data Flow. Demonstrates three-tier client-server structure, JWT authorization flow, and cross-database search federation.</div>
+</div>
+
+<div class="page-break"></div>
+
+<h1>2. REST API Endpoint Directory</h1>
+<p>
+Table 1 catalogs the platform's primary REST endpoints, detailing their HTTP method, route, access control requirements, storage tier, and operation.
+</p>
+
+<table class="academic-table">
+  <thead>
+    <tr>
+      <th style="width: 10%;">Method</th>
+      <th style="width: 25%;">API Route</th>
+      <th style="width: 18%;">Required Role</th>
+      <th style="width: 15%;">Storage Store</th>
+      <th style="width: 32%;">Operational Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>POST</code></td>
+      <td><code>/api/auth/login</code></td>
+      <td>Public (Unrestricted)</td>
+      <td>PostgreSQL (officers)</td>
+      <td>Verifies bcrypt password; issues signed HS256 JWT.</td>
+    </tr>
+    <tr>
+      <td><code>GET</code></td>
+      <td><code>/api/cases</code></td>
+      <td>Authenticated</td>
+      <td>PostgreSQL (cases)</td>
+      <td>Lists case dossiers with priority/status filtering.</td>
+    </tr>
+    <tr>
+      <td><code>POST</code></td>
+      <td><code>/api/cases</code></td>
+      <td><code>Admin, Investigator</code></td>
+      <td>PostgreSQL (SP)</td>
+      <td>Invokes <code>sp_create_investigation_case</code> + audit trigger.</td>
+    </tr>
+    <tr>
+      <td><code>GET</code></td>
+      <td><code>/api/cases/{id}</code></td>
+      <td>Authenticated</td>
+      <td>PostgreSQL (Function)</td>
+      <td>Returns case summary via <code>fn_get_case_summary</code>.</td>
+    </tr>
+    <tr>
+      <td><code>GET</code></td>
+      <td><code>/api/evidence</code></td>
+      <td>Authenticated</td>
+      <td>PostgreSQL (evidence)</td>
+      <td>Lists seized evidence items and current locations.</td>
+    </tr>
+    <tr>
+      <td><code>POST</code></td>
+      <td><code>/api/evidence/{id}/custody</code></td>
+      <td><code>Admin, Evidence Officer</code></td>
+      <td>PostgreSQL (Tx)</td>
+      <td>Multi-statement custody transfer with SHA-256 hash.</td>
+    </tr>
+    <tr>
+      <td><code>GET</code></td>
+      <td><code>/api/documents</code></td>
+      <td>Authenticated</td>
+      <td>MongoDB (docs)</td>
+      <td>Retrieves polymorphic intelligence documents.</td>
+    </tr>
+    <tr>
+      <td><code>GET</code></td>
+      <td><code>/api/search</code></td>
+      <td>Authenticated</td>
+      <td>Polyglot (SQL + Mongo)</td>
+      <td>Parallel fan-out across SQL ILIKE and Mongo text index.</td>
+    </tr>
+    <tr>
+      <td><code>GET</code></td>
+      <td><code>/api/search/semantic</code></td>
+      <td>Authenticated</td>
+      <td>MongoDB + Vector</td>
+      <td>64-dimensional dense semantic vector similarity query.</td>
+    </tr>
+    <tr>
+      <td><code>GET</code></td>
+      <td><code>/api/graph/relationships</code></td>
+      <td>Authenticated</td>
+      <td>Polyglot Graph</td>
+      <td>Traverses 12 junction bridges for entity graph view.</td>
+    </tr>
+    <tr>
+      <td><code>POST</code></td>
+      <td><code>/api/officers</code></td>
+      <td><code>ADMIN ONLY</code></td>
+      <td>PostgreSQL (officers)</td>
+      <td>Provisions officer credentials (enforces 403 on others).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1>3. Next.js 15 Frontend Implementation</h1>
+<p>
+The user interface is built using Next.js 15, React 19, and Tailwind CSS v4. In keeping with modern operational tool standards, we designed the interface with a dark graphite base palette (<code>#070A0F</code>, <code>#0B0F17</code>, <code>#0E1420</code>), muted steel blue accents, structured data tables, and an interactive entity relationship canvas powered by <code>@xyflow/react</code>.
+</p>
+<ul>
+  <li><b>Case Management View:</b> High-density sortable tables displaying active cases, priority tags, lead investigator assignments, and status filters.</li>
+  <li><b>Evidence Locker & Chain of Custody:</b> Displays seized physical/digital exhibits, custody transfer histories, and cryptographic SHA-256 validation status.</li>
+  <li><b>Federated & Semantic Search:</b> Multi-mode search interface supporting SQL substring matching, MongoDB full-text keyword searches, and dense vector similarity queries.</li>
+  <li><b>Entity Graph Visualization:</b> Interactive node-link canvas rendering multi-degree suspect networks, linked vehicles, communication devices, and organizational hierarchies.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h1>4. Originality & Architectural Extensions</h1>
+<p>
+To demonstrate mastery beyond baseline course expectations, we implemented five significant architectural extensions:
+</p>
+<ol>
+  <li><b>Deterministic 64-Dimensional Semantic Vector Search:</b> We developed a custom offline vector search engine (<code>backend/app/core/vector.py</code>) that converts queries into 64-dimensional float embeddings and computes cosine similarity against stored documents. This allows semantic intelligence discovery without relying on third-party cloud APIs.</li>
+  <li><b>Dual-Tier Role-Based Security:</b> We implemented defense-in-depth authorization by enforcing permissions at both the application layer (FastAPI JWT claims) and the database engine layer (PostgreSQL roles with table-level <code>GRANT</code> / <code>REVOKE</code>).</li>
+  <li><b>Cross-Database Polyglot Entity Resolution:</b> The search router dispatches queries to PostgreSQL and MongoDB in parallel using <code>asyncio.gather</code>, merging relational records, polymorphic documents, and vector similarity ranks into a unified response payload.</li>
+  <li><b>Deterministic Dual-Database Engine Fallback:</b> To ensure the application runs reliably in any evaluation environment, the database engine automatically detects PostgreSQL availability and automatically falls back to an embedded SQLite database if PostgreSQL is offline.</li>
+  <li><b>Automated Audit Triggers & Stored Procedures:</b> Case provisioning and status changes trigger automated, immutable audit log insertions directly inside the database kernel (<code>trg_case_activity_audit</code>), ensuring an unalterable forensic record.</li>
+</ol>
+
+<h1>5. Team Contributions & Division of Responsibilities</h1>
+<p>
+Both team members contributed actively to the architecture, implementation, and verification of the project:
+</p>
+<table class="academic-table">
+  <thead>
+    <tr>
+      <th style="width: 25%;">Team Member</th>
+      <th style="width: 25%;">Primary Focus</th>
+      <th style="width: 50%;">Core Deliverables & Technical Responsibilities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Saatvik Gupta</b><br/>(<code>PES1UG24CS395</code>)</td>
+      <td>Relational Architecture & Backend Systems</td>
+      <td>Designed the 22-table relational schema; authored <code>schema.sql</code>, DDL/DML scripts, stored procedure <code>sp_create_investigation_case</code>, function <code>fn_get_case_summary</code>, and trigger <code>trg_case_activity_audit</code>; implemented FastAPI REST services, dual-tier RBAC, and the 64-dimensional vector search engine.</td>
+    </tr>
+    <tr>
+      <td><b>Satyam Goyal</b><br/>(<code>PES1UG24CS424</code>)</td>
+      <td>NoSQL Modeling & Frontend User Interface</td>
+      <td>Designed the MongoDB document model, BSON schema validator, and aggregation pipelines; authored Next.js 15 views, the Tailwind v4 graphite design system, the interactive <code>@xyflow/react</code> relationship graph, and client-side API state caching.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h1>6. Official Evaluation Matrix Compliance Map</h1>
+<p>
+Table 2 maps all 14 components of the official university evaluation rubric to the corresponding submission documents, verifying complete coverage across the platform.
+</p>
+
+<table class="academic-table">
+  <thead>
+    <tr>
+      <th style="width: 5%;">#</th>
+      <th style="width: 30%;">Official Rubric Component</th>
+      <th style="width: 8%;">Marks</th>
+      <th style="width: 27%;">Submission Deliverable</th>
+      <th style="width: 30%;">Repository Evidence Path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>ER Diagram</td>
+      <td>2</td>
+      <td><code>01_ER_Diagram.pdf</code> (pp. 1–5)</td>
+      <td><code>docs/diagrams/chen_*.png</code>, <code>crowsfoot_*.png</code></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Relational Schema with Keys & Constraints</td>
+      <td>3</td>
+      <td><code>02_Relational_Schema.pdf</code> (pp. 1–3)</td>
+      <td><code>database/sql/schema.sql</code>, <code>docs/database-design.md</code></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>SQL Database Implementation (DDL)</td>
+      <td>4</td>
+      <td><code>03_SQL_DDL_Implementation.pdf</code> (pp. 1–3)</td>
+      <td><code>database/sql/schema.sql</code></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>NoSQL / Vector Database Creation</td>
+      <td>4</td>
+      <td><code>04_NoSQL_Vector_Database_Creation.pdf</code> (pp. 1–3)</td>
+      <td><code>database/mongodb/collection-schema.json</code></td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Technology Justification</td>
+      <td>1</td>
+      <td><code>05_Technology_Justification.pdf</code> (pp. 1–2)</td>
+      <td><code>docs/technology-justification.md</code></td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>DML Operations & Transactions</td>
+      <td>4</td>
+      <td><code>06_DML_Operations.pdf</code> (pp. 1–3)</td>
+      <td><code>database/sql/dml-examples.sql</code></td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Nested, Correlated, Recursive & JOIN Queries</td>
+      <td>4</td>
+      <td><code>07_Queries_Nested_Correlated_Recursive_Joins.pdf</code></td>
+      <td><code>database/sql/advanced-queries.sql</code></td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Advanced SQL (Procedure, Trigger, Function, CTE)</td>
+      <td>6</td>
+      <td><code>08_Advanced_SQL_Procedure_Function_Trigger_CTE.pdf</code></td>
+      <td><code>database/sql/advanced-concepts.sql</code></td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>NoSQL / Vector Features & RUD Operations</td>
+      <td>7</td>
+      <td><code>09_NoSQL_Vector_Features_and_RUD.pdf</code></td>
+      <td><code>database/mongodb/rud-examples.js</code>, <code>vector.py</code></td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Next.js User Interface</td>
+      <td>3</td>
+      <td><code>11_Project_Report.pdf</code> (Section 3)</td>
+      <td><code>frontend/src/views/*</code></td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Backend API & Database Integration</td>
+      <td>2</td>
+      <td><code>11_Project_Report.pdf</code> (Section 1–2)</td>
+      <td><code>backend/app/routers/*</code></td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>Authentication & Dual-Tier RBAC in Database</td>
+      <td>4</td>
+      <td><code>10_Authentication_and_RBAC.pdf</code></td>
+      <td><code>database/sql/roles-and-grants.sql</code>, <code>auth.py</code></td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>Documentation & Git Quality</td>
+      <td>2</td>
+      <td><code>11_Project_Report.pdf</code> (Section 1–6)</td>
+      <td><code>README.md</code>, Clean Git History, <code>start.ps1</code></td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>Originality, Contribution & Modifications</td>
+      <td>4</td>
+      <td><code>11_Project_Report.pdf</code> (Section 4–5)</td>
+      <td><code>docs/modifications.md</code> (5 major extensions)</td>
+    </tr>
+    <tr>
+      <td><b>Total</b></td>
+      <td><b>14 Components (Official Evaluation Rubric)</b></td>
+      <td><b>50</b></td>
+      <td><b>Complete 11 PDF Deliverable Suite</b></td>
+      <td><b>100% Repository Compliance Verified</b></td>
+    </tr>
+  </tbody>
+</table>
+
+
+</body>
+</html>

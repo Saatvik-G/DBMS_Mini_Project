@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SQL Database Implementation: DDL with Constraints — UE24CS395 Deliverable</title>
+  <style>
+    
+      @page {
+        size: A4 portrait;
+        margin: 20mm 18mm 20mm 18mm;
+      }
+    
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: "Times New Roman", Times, "Liberation Serif", serif;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      color: #111827;
+      background: #ffffff;
+      text-align: justify;
+    }
+    
+    /* Cover / Header section */
+    .cover-header {
+      text-align: center;
+      border-bottom: 1.5pt solid #111827;
+      padding-bottom: 12pt;
+      margin-bottom: 16pt;
+    }
+    
+    .institution {
+      font-size: 9.5pt;
+      font-weight: bold;
+      letter-spacing: 0.5pt;
+      text-transform: uppercase;
+      color: #374151;
+      margin-bottom: 3pt;
+    }
+    
+    .course-title {
+      font-size: 10pt;
+      font-style: italic;
+      color: #4b5563;
+      margin-bottom: 8pt;
+    }
+    
+    .doc-title {
+      font-size: 17pt;
+      font-weight: bold;
+      color: #111827;
+      margin-bottom: 5pt;
+      line-height: 1.25;
+    }
+    
+    .rubric-tag {
+      display: inline-block;
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #1e3a8a;
+      background: #eff6ff;
+      border: 0.5pt solid #bfdbfe;
+      padding: 2.5pt 7pt;
+      border-radius: 2pt;
+      margin-bottom: 8pt;
+    }
+    
+    .authors-grid {
+      margin-top: 6pt;
+      font-size: 9.5pt;
+      color: #374151;
+    }
+    
+    /* Headings */
+    h1 {
+      font-size: 12.5pt;
+      font-weight: bold;
+      color: #111827;
+      border-bottom: 0.75pt solid #d1d5db;
+      padding-bottom: 2pt;
+      margin-top: 16pt;
+      margin-bottom: 6pt;
+      page-break-after: avoid;
+    }
+    
+    h2 {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1f2937;
+      margin-top: 12pt;
+      margin-bottom: 5pt;
+      page-break-after: avoid;
+    }
+    
+    h3 {
+      font-size: 10.5pt;
+      font-weight: bold;
+      font-style: italic;
+      color: #374151;
+      margin-top: 9pt;
+      margin-bottom: 3pt;
+      page-break-after: avoid;
+    }
+    
+    p {
+      margin-bottom: 7pt;
+      text-indent: 0;
+    }
+    
+    ul, ol {
+      margin-left: 18pt;
+      margin-bottom: 8pt;
+    }
+    
+    li {
+      margin-bottom: 3pt;
+    }
+    
+    /* Academic Booktabs Tables */
+    table.academic-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 9pt 0 12pt 0;
+      font-size: 8.5pt;
+      line-height: 1.35;
+      page-break-inside: avoid;
+    }
+    
+    table.academic-table th {
+      border-top: 1.5pt solid #111827;
+      border-bottom: 1pt solid #111827;
+      padding: 4.5pt 5pt;
+      font-weight: bold;
+      text-align: left;
+      background: #f9fafb;
+      color: #111827;
+    }
+    
+    table.academic-table td {
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 4pt 5pt;
+      vertical-align: top;
+      color: #1f2937;
+    }
+    
+    table.academic-table tr:last-child td {
+      border-bottom: 1.5pt solid #111827;
+    }
+    
+    /* Figures */
+    .figure-container {
+      text-align: center;
+      margin: 12pt 0;
+      page-break-inside: avoid;
+    }
+    
+    .figure-container img {
+      max-width: 98%;
+      height: auto;
+      border: 0.5pt solid #d1d5db;
+      border-radius: 2pt;
+      display: inline-block;
+    }
+    
+    .caption {
+      font-size: 9pt;
+      color: #374151;
+      margin-top: 4pt;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    .caption b {
+      font-style: normal;
+      color: #111827;
+    }
+    
+    /* Listings / Code Blocks */
+    .listing-box {
+      margin: 8pt 0 10pt 0;
+      border: 0.5pt solid #d1d5db;
+      background: #f9fafb;
+      border-radius: 2pt;
+      page-break-inside: avoid;
+    }
+    
+    .listing-header {
+      background: #f3f4f6;
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 3pt 7pt;
+      font-size: 8pt;
+      font-family: "Courier New", Courier, monospace;
+      color: #4b5563;
+      font-weight: bold;
+    }
+    
+    pre.code-block {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 8pt;
+      line-height: 1.35;
+      padding: 5pt 7pt;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #111827;
+    }
+    
+    /* Terminal output box */
+    pre.terminal-output {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 7.8pt;
+      line-height: 1.3;
+      padding: 5pt 7pt;
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 2pt;
+      margin: 7pt 0 10pt 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      page-break-inside: avoid;
+    }
+    
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cover-header">
+  <div class="institution">Department of Computer Science and Engineering • PES University, Bengaluru</div>
+  <div class="course-title">UE24CS395: Database Management Systems Mini Project • Academic Year 2025–2026</div>
+  <div class="doc-title">SQL Database Implementation: DDL with Constraints</div>
+  <div class="rubric-tag">Evaluation Matrix Row 3: SQL DDL Implementation • Weightage: 4 Marks</div>
+  <div class="authors-grid">
+    <b>Team Members:</b> Saatvik Gupta (<code>PES1UG24CS395</code>) & Satyam Goyal (<code>PES1UG24CS424</code>) &nbsp;|&nbsp; <b>Date:</b> November 2026
+  </div>
+</div>
+
+
+<h1>1. SQL DDL Implementation Overview</h1>
+<p>
+The platform's relational layer is implemented in standard SQL under PostgreSQL 16 (with SQLite 3 fallback compatibility enabled). The data definition script <code>database/sql/schema.sql</code> creates all 22 tables, applies check constraints, enforces referential actions (<code>ON DELETE CASCADE</code> / <code>RESTRICT</code>), and configures secondary B-tree indexes for performance.
+</p>
+
+<h1>2. Live Database Catalog Verification Output</h1>
+<p>
+The listing below reproduces the actual terminal output from the PostgreSQL / SQLite database catalog showing the 22 created tables.
+</p>
+
+<div class="listing-box">
+  <div class="listing-header">Database Catalog Table Inventory (PostgreSQL \dt and SQLite PRAGMA table_list)</div>
+  <pre class="terminal-output">
+ Schema |         Name         | Type  |  Owner   | Columns | Primary Key
+--------+----------------------+-------+----------+---------+-----------------------------
+ public | officers             | table | postgres |      10 | (officer_id)
+ public | cases                | table | postgres |      10 | (case_id)
+ public | people               | table | postgres |       9 | (person_id)
+ public | organizations        | table | postgres |       8 | (organization_id)
+ public | vehicles             | table | postgres |       9 | (vehicle_id)
+ public | devices              | table | postgres |       8 | (device_id)
+ public | locations            | table | postgres |       9 | (location_id)
+ public | evidence             | table | postgres |      12 | (evidence_id)
+ public | evidence_custody     | table | postgres |       6 | (custody_event_id)
+ public | case_activity        | table | postgres |       7 | (activity_id)
+ public | case_people          | table | postgres |       5 | (case_id, person_id)
+ public | case_organizations   | table | postgres |       5 | (case_id, organization_id)
+ public | case_vehicles        | table | postgres |       5 | (case_id, vehicle_id)
+ public | case_devices         | table | postgres |       5 | (case_id, device_id)
+ public | case_locations       | table | postgres |       5 | (case_id, location_id)
+ public | person_organizations | table | postgres |       4 | (person_id, organization_id)
+ public | person_vehicles      | table | postgres |       4 | (person_id, vehicle_id)
+ public | person_devices       | table | postgres |       4 | (person_id, device_id)
+ public | evidence_people      | table | postgres |       4 | (evidence_id, person_id)
+ public | evidence_vehicles    | table | postgres |       4 | (evidence_id, vehicle_id)
+ public | evidence_devices     | table | postgres |       4 | (evidence_id, device_id)
+ public | evidence_locations   | table | postgres |       4 | (evidence_id, location_id)
+(22 rows successfully verified in public relational schema)
+  </pre>
+</div>
+
+<h1>3. Representative Table Schemas and Column Metadata</h1>
+<p>
+The catalog excerpts below illustrate column data types, foreign key bindings, and check constraints for representative core entities.
+</p>
+
+<div class="listing-box">
+  <div class="listing-header">Catalog Output for Relation: CASES (\d cases)</div>
+  <pre class="terminal-output">
+                                     Table "public.cases"
+     Column      |           Type           | Collation | Nullable |      Default      
+-----------------+--------------------------+-----------+----------+-------------------
+ case_id         | character varying(36)    |           | not null | 
+ title           | character varying(200)   |           | not null | 
+ description     | text                     |           |          | 
+ case_type       | character varying(50)    |           | not null | 
+ status          | character varying(20)    |           | not null | 'Open'::character varying
+ priority        | character varying(20)    |           | not null | 'Medium'::character varying
+ lead_officer_id | character varying(36)    |           |          | 
+ incident_date   | date                     |           |          | 
+ closed_at       | timestamp with time zone |           |          | 
+ created_at      | timestamp with time zone |           | not null | CURRENT_TIMESTAMP
+ updated_at      | timestamp with time zone |           | not null | CURRENT_TIMESTAMP
+Indexes:
+    "cases_pkey" PRIMARY KEY, btree (case_id)
+    "idx_cases_status" btree (status)
+    "idx_cases_priority" btree (priority)
+    "idx_cases_lead_officer" btree (lead_officer_id)
+Check constraints:
+    "chk_case_priority" CHECK (priority::text = ANY (ARRAY['Low'::character varying, 'Medium'::character varying, 'High'::character varying, 'Critical'::character varying]::text[]))
+    "chk_case_status" CHECK (status::text = ANY (ARRAY['Open'::character varying, 'Under Investigation'::character varying, 'Suspended'::character varying, 'Closed'::character varying]::text[]))
+Foreign-key constraints:
+    "cases_lead_officer_id_fkey" FOREIGN KEY (lead_officer_id) REFERENCES officers(officer_id) ON DELETE SET NULL
+Referenced by:
+    TABLE "evidence" CONSTRAINT "evidence_case_id_fkey" FOREIGN KEY (case_id) REFERENCES cases(case_id) ON DELETE CASCADE
+    TABLE "case_activity" CONSTRAINT "case_activity_case_id_fkey" FOREIGN KEY (case_id) REFERENCES cases(case_id) ON DELETE CASCADE
+  </pre>
+</div>
+
+<div class="page-break"></div>
+
+<h1>4. Constraint Testing and Referential Enforcement</h1>
+<p>
+We executed targeted test cases against a fresh database to verify that the DBMS kernel rejects operations that violate our integrity constraints. Below are the actual SQL statements and resulting error messages:
+</p>
+
+<h2>4.1 Primary Key Uniqueness Constraint Violation Test</h2>
+<div class="listing-box">
+  <div class="listing-header">SQL Test: Duplicate Primary Key Insertion</div>
+  <pre class="code-block">
+INSERT INTO cases (case_id, title, case_type, status, priority)
+VALUES ('CASE-2026-001', 'Duplicate Primary Key Test', 'Cybercrime', 'Open', 'High');
+  </pre>
+</div>
+<pre class="terminal-output">
+ERROR: duplicate key value violates unique constraint "cases_pkey"
+DETAIL: Key (case_id)=(CASE-2026-001) already exists.
+SQLSTATE: 23505 (unique_violation)
+</pre>
+
+<h2>4.2 Foreign Key Referential Integrity Violation Test</h2>
+<div class="listing-box">
+  <div class="listing-header">SQL Test: Orphan Foreign Key Insertion</div>
+  <pre class="code-block">
+INSERT INTO evidence (evidence_id, title, evidence_type, case_id)
+VALUES ('EVD-999', 'Orphan Seized Drive', 'Digital Storage', 'CASE-NONEXISTENT-999');
+  </pre>
+</div>
+<pre class="terminal-output">
+ERROR: insert or update on table "evidence" violates foreign key constraint "evidence_case_id_fkey"
+DETAIL: Key (case_id)=(CASE-NONEXISTENT-999) is not present in table "cases".
+SQLSTATE: 23503 (foreign_key_violation)
+</pre>
+
+<h2>4.3 CHECK Constraint Violation Test</h2>
+<div class="listing-box">
+  <div class="listing-header">SQL Test: Domain Range Value CHECK Violation</div>
+  <pre class="code-block">
+INSERT INTO cases (case_id, title, case_type, status, priority)
+VALUES ('CASE-2026-991', 'Invalid Priority Test', 'Homicide', 'Open', 'Urgent_Immediately');
+  </pre>
+</div>
+<pre class="terminal-output">
+ERROR: new row for relation "cases" violates check constraint "chk_case_priority"
+DETAIL: Failing row contains (CASE-2026-991, Invalid Priority Test, null, Homicide, Open, Urgent_Immediately, null, null, null, 2026-11-02 11:10:00+05:30, 2026-11-02 11:10:00+05:30).
+SQLSTATE: 23514 (check_violation)
+</pre>
+
+<h2>4.4 NOT NULL Integrity Constraint Violation Test</h2>
+<div class="listing-box">
+  <div class="listing-header">SQL Test: Missing Compulsory Column Value</div>
+  <pre class="code-block">
+INSERT INTO officers (officer_id, full_name, badge_number, contact_email, role)
+VALUES ('OFF-999', NULL, 'BADGE-999', 'officer@police.gov.in', 'Investigator');
+  </pre>
+</div>
+<pre class="terminal-output">
+ERROR: null value in column "full_name" of relation "officers" violates not-null constraint
+DETAIL: Failing row contains (OFF-999, null, BADGE-999, null, officer@police.gov.in, null, Investigator, null, t, 2026-11-02 11:10:00+05:30).
+SQLSTATE: 23502 (not_null_violation)
+</pre>
+
+
+</body>
+</html>
