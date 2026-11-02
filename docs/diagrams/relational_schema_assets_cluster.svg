@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1450 920" width="1450" height="920">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrow-cascade" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M 0 1 L 8 4.5 L 0 8 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#f8fafc"/>
+  <rect x="0" y="0" width="1450" height="70" fill="#0f172a"/>
+  <text x="40" y="32" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="bold">
+    Relational Schema Detail: People, Organizations &amp; Assets Cluster
+  </text>
+  <text x="40" y="54" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+    Direct affiliations between individuals, corporate syndicates, vehicles, and hardware devices (6 FK Arrows)
+  </text>
+
+  <g id="foreign-key-arrows">
+    <g class="fk-arrow" data-source-table="person_organizations" data-source-col="person_id" data-target-table="people" data-target-col="person_id" data-on-delete="CASCADE">  <path d="M 580 193.0 C 500 193.0, 440 193.0, 360 193.0" fill="none" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#arrow-cascade)"/></g>
+    <g class="fk-arrow" data-source-table="person_vehicles" data-source-col="person_id" data-target-table="people" data-target-col="person_id" data-on-delete="CASCADE">  <path d="M 580 373.0 C 500 373.0, 440 193.0, 360 193.0" fill="none" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#arrow-cascade)"/></g>
+    <g class="fk-arrow" data-source-table="person_devices" data-source-col="person_id" data-target-table="people" data-target-col="person_id" data-on-delete="CASCADE">  <path d="M 580 553.0 C 500 553.0, 440 193.0, 360 193.0" fill="none" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#arrow-cascade)"/></g>
+    <g class="fk-arrow" data-source-table="person_organizations" data-source-col="organization_id" data-target-table="organizations" data-target-col="organization_id" data-on-delete="CASCADE">  <path d="M 580 215.0 C 480 215.0, 460 523.0, 360 523.0" fill="none" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#arrow-cascade)"/></g>
+    <g class="fk-arrow" data-source-table="person_vehicles" data-source-col="vehicle_id" data-target-table="vehicles" data-target-col="vehicle_id" data-on-delete="CASCADE">  <path d="M 840 395.0 C 920 395.0, 970 193.0, 1050 193.0" fill="none" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#arrow-cascade)"/></g>
+    <g class="fk-arrow" data-source-table="person_devices" data-source-col="device_id" data-target-table="devices" data-target-col="device_id" data-on-delete="CASCADE">  <path d="M 840 575.0 C 920 575.0, 970 523.0, 1050 523.0" fill="none" stroke="#2563eb" stroke-width="1.8"  marker-end="url(#arrow-cascade)"/></g>
+  </g>
+  <g id="table-boxes">
+    <g class="table-box" data-table-name="people" >
+  <rect x="100" y="150" width="260" height="230" rx="4" ry="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.8" filter="url(#shadow)"/>
+  <path d="M 100 154 Q 100 150 104 150 L 356 150 Q 360 150 360 154 L 360 182 L 100 182 Z" fill="#1e3a8a"/>
+  <text x="110" y="171" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold">people</text>
+  <text x="350" y="171" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600" text-anchor="end" opacity="0.85">ENTITY</text>
+  <rect x="100" y="182" width="260" height="22" fill="#ffffff"/>
+  <line x1="100" y1="182" x2="360" y2="182" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="108" y="186" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="117" y="197" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <text x="134" y="197" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="normal" text-decoration="underline">person_id</text>
+  <text x="352" y="197" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="100" y="204" width="260" height="22" fill="#f8fafc"/>
+  <line x1="100" y1="204" x2="360" y2="204" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="219" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >full_name</text>
+  <text x="352" y="219" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(150)</text>
+  <rect x="100" y="226" width="260" height="22" fill="#ffffff"/>
+  <line x1="100" y1="226" x2="360" y2="226" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="241" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >date_of_birth</text>
+  <text x="352" y="241" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="100" y="248" width="260" height="22" fill="#f8fafc"/>
+  <line x1="100" y1="248" x2="360" y2="248" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="263" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >contact_details</text>
+  <text x="352" y="263" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(200)</text>
+  <rect x="100" y="270" width="260" height="22" fill="#ffffff"/>
+  <line x1="100" y1="270" x2="360" y2="270" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="285" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >address</text>
+  <text x="352" y="285" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TEXT</text>
+  <rect x="100" y="292" width="260" height="22" fill="#f8fafc"/>
+  <line x1="100" y1="292" x2="360" y2="292" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="307" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >category</text>
+  <text x="352" y="307" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="100" y="314" width="260" height="22" fill="#ffffff"/>
+  <line x1="100" y1="314" x2="360" y2="314" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="329" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >description</text>
+  <text x="352" y="329" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TEXT</text>
+  <rect x="100" y="336" width="260" height="22" fill="#f8fafc"/>
+  <line x1="100" y1="336" x2="360" y2="336" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="351" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >created_at</text>
+  <text x="352" y="351" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+  <rect x="100" y="358" width="260" height="22" fill="#ffffff"/>
+  <line x1="100" y1="358" x2="360" y2="358" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="373" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >updated_at</text>
+  <text x="352" y="373" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+</g>
+    <g class="table-box" data-table-name="organizations" >
+  <rect x="100" y="480" width="260" height="208" rx="4" ry="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.8" filter="url(#shadow)"/>
+  <path d="M 100 484 Q 100 480 104 480 L 356 480 Q 360 480 360 484 L 360 512 L 100 512 Z" fill="#1e3a8a"/>
+  <text x="110" y="501" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold">organizations</text>
+  <text x="350" y="501" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600" text-anchor="end" opacity="0.85">ENTITY</text>
+  <rect x="100" y="512" width="260" height="22" fill="#ffffff"/>
+  <line x1="100" y1="512" x2="360" y2="512" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="108" y="516" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="117" y="527" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <text x="134" y="527" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="normal" text-decoration="underline">organization_id</text>
+  <text x="352" y="527" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="100" y="534" width="260" height="22" fill="#f8fafc"/>
+  <line x1="100" y1="534" x2="360" y2="534" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="549" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >name</text>
+  <text x="352" y="549" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(200)</text>
+  <rect x="100" y="556" width="260" height="22" fill="#ffffff"/>
+  <line x1="100" y1="556" x2="360" y2="556" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="571" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >organization_type</text>
+  <text x="352" y="571" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="100" y="578" width="260" height="22" fill="#f8fafc"/>
+  <line x1="100" y1="578" x2="360" y2="578" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="593" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >address</text>
+  <text x="352" y="593" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TEXT</text>
+  <rect x="100" y="600" width="260" height="22" fill="#ffffff"/>
+  <line x1="100" y1="600" x2="360" y2="600" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="615" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >contact_details</text>
+  <text x="352" y="615" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(200)</text>
+  <rect x="100" y="622" width="260" height="22" fill="#f8fafc"/>
+  <line x1="100" y1="622" x2="360" y2="622" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="637" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >description</text>
+  <text x="352" y="637" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TEXT</text>
+  <rect x="100" y="644" width="260" height="22" fill="#ffffff"/>
+  <line x1="100" y1="644" x2="360" y2="644" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="659" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >created_at</text>
+  <text x="352" y="659" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+  <rect x="100" y="666" width="260" height="22" fill="#f8fafc"/>
+  <line x1="100" y1="666" x2="360" y2="666" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="112" y="681" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >updated_at</text>
+  <text x="352" y="681" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+</g>
+    <g class="table-box" data-table-name="vehicles" >
+  <rect x="1050" y="150" width="260" height="230" rx="4" ry="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.8" filter="url(#shadow)"/>
+  <path d="M 1050 154 Q 1050 150 1054 150 L 1306 150 Q 1310 150 1310 154 L 1310 182 L 1050 182 Z" fill="#1e3a8a"/>
+  <text x="1060" y="171" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold">vehicles</text>
+  <text x="1300" y="171" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600" text-anchor="end" opacity="0.85">ENTITY</text>
+  <rect x="1050" y="182" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="182" x2="1310" y2="182" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="1058" y="186" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="1067" y="197" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <text x="1084" y="197" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="normal" text-decoration="underline">vehicle_id</text>
+  <text x="1302" y="197" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="1050" y="204" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="204" x2="1310" y2="204" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="1058" y="208" width="18" height="14" rx="2" fill="#7c3aed"/>
+  <text x="1067" y="219" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">UQ</text>
+  <text x="1084" y="219" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >registration_number</text>
+  <text x="1302" y="219" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="1050" y="226" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="226" x2="1310" y2="226" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="241" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >make</text>
+  <text x="1302" y="241" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="1050" y="248" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="248" x2="1310" y2="248" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="263" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >model</text>
+  <text x="1302" y="263" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="1050" y="270" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="270" x2="1310" y2="270" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="285" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >color</text>
+  <text x="1302" y="285" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="1050" y="292" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="292" x2="1310" y2="292" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="307" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >vehicle_type</text>
+  <text x="1302" y="307" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="1050" y="314" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="314" x2="1310" y2="314" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="329" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >description</text>
+  <text x="1302" y="329" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TEXT</text>
+  <rect x="1050" y="336" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="336" x2="1310" y2="336" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="351" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >created_at</text>
+  <text x="1302" y="351" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+  <rect x="1050" y="358" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="358" x2="1310" y2="358" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="373" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >updated_at</text>
+  <text x="1302" y="373" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+</g>
+    <g class="table-box" data-table-name="devices" >
+  <rect x="1050" y="480" width="260" height="208" rx="4" ry="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.8" filter="url(#shadow)"/>
+  <path d="M 1050 484 Q 1050 480 1054 480 L 1306 480 Q 1310 480 1310 484 L 1310 512 L 1050 512 Z" fill="#1e3a8a"/>
+  <text x="1060" y="501" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold">devices</text>
+  <text x="1300" y="501" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600" text-anchor="end" opacity="0.85">ENTITY</text>
+  <rect x="1050" y="512" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="512" x2="1310" y2="512" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="1058" y="516" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="1067" y="527" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <text x="1084" y="527" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="normal" text-decoration="underline">device_id</text>
+  <text x="1302" y="527" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="1050" y="534" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="534" x2="1310" y2="534" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="549" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >device_type</text>
+  <text x="1302" y="549" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="1050" y="556" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="556" x2="1310" y2="556" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="571" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >manufacturer</text>
+  <text x="1302" y="571" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="1050" y="578" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="578" x2="1310" y2="578" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="593" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >model</text>
+  <text x="1302" y="593" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="1050" y="600" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="600" x2="1310" y2="600" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="1058" y="604" width="18" height="14" rx="2" fill="#7c3aed"/>
+  <text x="1067" y="615" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">UQ</text>
+  <text x="1084" y="615" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >serial_number</text>
+  <text x="1302" y="615" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="1050" y="622" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="622" x2="1310" y2="622" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="637" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >description</text>
+  <text x="1302" y="637" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TEXT</text>
+  <rect x="1050" y="644" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="644" x2="1310" y2="644" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="659" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >created_at</text>
+  <text x="1302" y="659" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+  <rect x="1050" y="666" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="666" x2="1310" y2="666" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="681" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >updated_at</text>
+  <text x="1302" y="681" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+</g>
+    <g class="table-box" data-table-name="locations" >
+  <rect x="1050" y="710" width="260" height="230" rx="4" ry="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="1.8" filter="url(#shadow)"/>
+  <path d="M 1050 714 Q 1050 710 1054 710 L 1306 710 Q 1310 710 1310 714 L 1310 742 L 1050 742 Z" fill="#1e3a8a"/>
+  <text x="1060" y="731" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold">locations</text>
+  <text x="1300" y="731" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600" text-anchor="end" opacity="0.85">ENTITY</text>
+  <rect x="1050" y="742" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="742" x2="1310" y2="742" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="1058" y="746" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="1067" y="757" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <text x="1084" y="757" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="normal" text-decoration="underline">location_id</text>
+  <text x="1302" y="757" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="1050" y="764" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="764" x2="1310" y2="764" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="779" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >name</text>
+  <text x="1302" y="779" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(200)</text>
+  <rect x="1050" y="786" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="786" x2="1310" y2="786" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="801" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >address</text>
+  <text x="1302" y="801" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TEXT</text>
+  <rect x="1050" y="808" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="808" x2="1310" y2="808" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="823" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >location_type</text>
+  <text x="1302" y="823" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="1050" y="830" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="830" x2="1310" y2="830" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="845" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >latitude</text>
+  <text x="1302" y="845" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">FLOAT</text>
+  <rect x="1050" y="852" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="852" x2="1310" y2="852" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="867" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >longitude</text>
+  <text x="1302" y="867" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">FLOAT</text>
+  <rect x="1050" y="874" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="874" x2="1310" y2="874" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="889" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >description</text>
+  <text x="1302" y="889" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TEXT</text>
+  <rect x="1050" y="896" width="260" height="22" fill="#f8fafc"/>
+  <line x1="1050" y1="896" x2="1310" y2="896" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="911" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >created_at</text>
+  <text x="1302" y="911" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+  <rect x="1050" y="918" width="260" height="22" fill="#ffffff"/>
+  <line x1="1050" y1="918" x2="1310" y2="918" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1062" y="933" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >updated_at</text>
+  <text x="1302" y="933" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+</g>
+    <g class="table-box" data-table-name="person_organizations" >
+  <rect x="580" y="150" width="260" height="120" rx="4" ry="4" fill="#ffffff" stroke="#065f46" stroke-width="1.8" filter="url(#shadow)"/>
+  <path d="M 580 154 Q 580 150 584 150 L 836 150 Q 840 150 840 154 L 840 182 L 580 182 Z" fill="#065f46"/>
+  <text x="590" y="171" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold">person_organizations</text>
+  <text x="830" y="171" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600" text-anchor="end" opacity="0.85">JUNCTION</text>
+  <rect x="580" y="182" width="260" height="22" fill="#ffffff"/>
+  <line x1="580" y1="182" x2="840" y2="182" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="588" y="186" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="597" y="197" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <rect x="610" y="186" width="18" height="14" rx="2" fill="#1d4ed8"/>
+  <text x="619" y="197" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">FK</text>
+  <text x="636" y="197" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="italic" text-decoration="underline">person_id</text>
+  <text x="832" y="197" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="580" y="204" width="260" height="22" fill="#f8fafc"/>
+  <line x1="580" y1="204" x2="840" y2="204" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="588" y="208" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="597" y="219" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <rect x="610" y="208" width="18" height="14" rx="2" fill="#1d4ed8"/>
+  <text x="619" y="219" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">FK</text>
+  <text x="636" y="219" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="italic" text-decoration="underline">organization_id</text>
+  <text x="832" y="219" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="580" y="226" width="260" height="22" fill="#ffffff"/>
+  <line x1="580" y1="226" x2="840" y2="226" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="592" y="241" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >role</text>
+  <text x="832" y="241" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="580" y="248" width="260" height="22" fill="#f8fafc"/>
+  <line x1="580" y1="248" x2="840" y2="248" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="592" y="263" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >added_at</text>
+  <text x="832" y="263" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+</g>
+    <g class="table-box" data-table-name="person_vehicles" >
+  <rect x="580" y="330" width="260" height="120" rx="4" ry="4" fill="#ffffff" stroke="#065f46" stroke-width="1.8" filter="url(#shadow)"/>
+  <path d="M 580 334 Q 580 330 584 330 L 836 330 Q 840 330 840 334 L 840 362 L 580 362 Z" fill="#065f46"/>
+  <text x="590" y="351" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold">person_vehicles</text>
+  <text x="830" y="351" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600" text-anchor="end" opacity="0.85">JUNCTION</text>
+  <rect x="580" y="362" width="260" height="22" fill="#ffffff"/>
+  <line x1="580" y1="362" x2="840" y2="362" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="588" y="366" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="597" y="377" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <rect x="610" y="366" width="18" height="14" rx="2" fill="#1d4ed8"/>
+  <text x="619" y="377" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">FK</text>
+  <text x="636" y="377" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="italic" text-decoration="underline">person_id</text>
+  <text x="832" y="377" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="580" y="384" width="260" height="22" fill="#f8fafc"/>
+  <line x1="580" y1="384" x2="840" y2="384" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="588" y="388" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="597" y="399" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <rect x="610" y="388" width="18" height="14" rx="2" fill="#1d4ed8"/>
+  <text x="619" y="399" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">FK</text>
+  <text x="636" y="399" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="italic" text-decoration="underline">vehicle_id</text>
+  <text x="832" y="399" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="580" y="406" width="260" height="22" fill="#ffffff"/>
+  <line x1="580" y1="406" x2="840" y2="406" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="592" y="421" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >relationship_type</text>
+  <text x="832" y="421" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="580" y="428" width="260" height="22" fill="#f8fafc"/>
+  <line x1="580" y1="428" x2="840" y2="428" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="592" y="443" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >added_at</text>
+  <text x="832" y="443" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+</g>
+    <g class="table-box" data-table-name="person_devices" >
+  <rect x="580" y="510" width="260" height="120" rx="4" ry="4" fill="#ffffff" stroke="#065f46" stroke-width="1.8" filter="url(#shadow)"/>
+  <path d="M 580 514 Q 580 510 584 510 L 836 510 Q 840 510 840 514 L 840 542 L 580 542 Z" fill="#065f46"/>
+  <text x="590" y="531" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold">person_devices</text>
+  <text x="830" y="531" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600" text-anchor="end" opacity="0.85">JUNCTION</text>
+  <rect x="580" y="542" width="260" height="22" fill="#ffffff"/>
+  <line x1="580" y1="542" x2="840" y2="542" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="588" y="546" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="597" y="557" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <rect x="610" y="546" width="18" height="14" rx="2" fill="#1d4ed8"/>
+  <text x="619" y="557" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">FK</text>
+  <text x="636" y="557" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="italic" text-decoration="underline">person_id</text>
+  <text x="832" y="557" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="580" y="564" width="260" height="22" fill="#f8fafc"/>
+  <line x1="580" y1="564" x2="840" y2="564" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="588" y="568" width="18" height="14" rx="2" fill="#b91c1c"/>
+  <text x="597" y="579" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PK</text>
+  <rect x="610" y="568" width="18" height="14" rx="2" fill="#1d4ed8"/>
+  <text x="619" y="579" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">FK</text>
+  <text x="636" y="579" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" font-style="italic" text-decoration="underline">device_id</text>
+  <text x="832" y="579" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(50)</text>
+  <rect x="580" y="586" width="260" height="22" fill="#ffffff"/>
+  <line x1="580" y1="586" x2="840" y2="586" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="592" y="601" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >relationship_type</text>
+  <text x="832" y="601" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">VARCHAR(100)</text>
+  <rect x="580" y="608" width="260" height="22" fill="#f8fafc"/>
+  <line x1="580" y1="608" x2="840" y2="608" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="592" y="623" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="normal" font-style="normal" >added_at</text>
+  <text x="832" y="623" fill="#475569" font-family="Segoe UI, Consolas, monospace" font-size="9.5" text-anchor="end">TIMESTAMPTZ</text>
+</g>
+  </g>
+</svg>

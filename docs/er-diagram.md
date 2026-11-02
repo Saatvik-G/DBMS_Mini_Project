@@ -19,6 +19,11 @@
 
 *Figure 2: Complete Crow's-Foot Physical Schema covering all 22 tables with typed Primary Keys (PK), Foreign Keys (FK), nullability, and 1:N cardinality forks.*
 
+### 3. Relational Schema Diagram (Port-to-Port Attribute Foreign Key Mappings)
+![Complete Relational Schema Diagram](diagrams/relational_schema_full.png)
+
+*Figure 3: Complete 22-Table Relational Schema Diagram extracted directly from `schema.json`. Every foreign key arrow originates at the exact source foreign key attribute row port and terminates with an arrowhead at the referenced target primary key attribute row port (31 foreign key connector arrows total, color-coded by ON DELETE behavior).*
+
 ---
 
 ## 1. Complete System Entity-Relationship Diagram (Mermaid ER)
