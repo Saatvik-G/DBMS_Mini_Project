@@ -1,31 +1,69 @@
 // ============================================================================
-// INTELLIGENCE FUSION PLATFORM — MONGODB RUD OPERATIONS & AGGREGATIONS
-// Target: MongoDB Shell (mongosh)
+// INTELLIGENCE FUSION PLATFORM — MONGODB RUD OPERATIONS & VECTOR AGGREGATIONS
+// Target: MongoDB Shell (mongosh) / Node.js MongoDB Driver
 // Authors: Saatvik Gupta (PES1UG24CS395) & Satyam Goyal (PES1UG24CS424)
-// Subject: Database Management Systems (DBMS Mini Project)
+// Subject: Database Management Systems (DBMS Mini Project - UE24CS395)
 // ============================================================================
 
 db = db.getSiblingDB("intelligence_fusion");
 
 // ============================================================================
-// 1. READ OPERATIONS (R)
+// 1. CREATE OPERATION (C) — With 64-Dimensional Semantic Embedding
+// ============================================================================
+print("--- 1. Insert New Intelligence Document with 64-Dim Vector ---");
+const newDoc = {
+  document_type: "Digital forensics report",
+  title: "Cryptocurrency Hardware Ledger Forensic Analysis (Model T)",
+  content: "Physical extraction of cold-storage hardware ledger recovered during raid at Residency Road. Pin-bypass firmware analysis recovered 12 seed words linking to illicit tumbling pools.",
+  summary: "Forensic cold-wallet seed extraction revealing automated crypto tumbler routing.",
+  source_type: "Lab Extraction",
+  source_name: "CID Cyber Forensics Cell Lab 4",
+  created_at: new Date(),
+  ingested_at: new Date(),
+  case_id: "CASE-2026-002",
+  related_entity_ids: [
+    { entity_type: "device", entity_id: "DEV-001" },
+    { entity_type: "officer", entity_id: "OFF-001" }
+  ],
+  tags: ["cold wallet", "crypto tumbler", "ledger", "seed words", "firmware bypass"],
+  metadata: { firmware_version: "2.4.1", extraction_tool: "Cellebrite UFED 7.6" },
+  document_status: "Verified",
+  // 64-dimensional normalized embedding vector (sample)
+  embedding: [
+    0.021, -0.145, 0.089, -0.034, 0.112, 0.005, -0.078, 0.201,
+    -0.045, 0.012, 0.156, -0.098, 0.034, -0.123, 0.067, 0.043,
+    0.012, -0.087, 0.045, 0.198, -0.023, 0.076, -0.111, 0.054,
+    -0.065, 0.134, -0.021, 0.089, -0.045, 0.012, 0.078, -0.154,
+    0.032, -0.098, 0.045, 0.121, -0.067, 0.043, -0.089, 0.167,
+    -0.012, 0.054, -0.123, 0.045, 0.078, -0.034, 0.112, -0.087,
+    0.054, -0.021, 0.098, -0.067, 0.034, -0.145, 0.021, 0.089,
+    -0.045, 0.123, -0.078, 0.034, 0.056, -0.012, 0.089, -0.045
+  ]
+};
+
+const insertRes = db.investigation_documents.insertOne(newDoc);
+print("Insert status: " + insertRes.acknowledged + " | Inserted ID: " + insertRes.insertedId);
+
+
+// ============================================================================
+// 2. READ OPERATIONS (R)
 // ============================================================================
 
-// 1.1 Full-Text Search with Relevance Score Projection & Sorting
-print("--- 1.1 Full-Text Search for 'crypto transaction offshore' ---");
+// 2.1 Full-Text Search with Relevance Score Projection & Sorting
+print("\n--- 2.1 Full-Text Search for 'crypto tumbler wallet' ---");
 const searchResults = db.investigation_documents.find(
-  { $text: { $search: "crypto transaction offshore" } },
-  { score: { $meta: "textScore" }, title: 1, doc_type: 1, classification: 1, tags: 1 }
-).sort({ score: { $meta: "textScore" } }).limit(5);
+  { $text: { $search: "crypto tumbler wallet" } },
+  { score: { $meta: "textScore" }, title: 1, document_type: 1, case_id: 1, tags: 1 }
+).sort({ score: { $meta: "textScore" } }).limit(3);
 
 printjson(searchResults.toArray());
 
-// 1.2 Aggregation Pipeline: Document Count and Distribution by Category per Case
-print("--- 1.2 Aggregation: Document Category Distribution ---");
+// 2.2 Aggregation Pipeline: Distribution by Document Type with Linked Cases
+print("\n--- 2.2 Aggregation: Intelligence Documents by Type & Case Breadth ---");
 const categoryDistribution = db.investigation_documents.aggregate([
   {
     $group: {
-      _id: "$doc_type",
+      _id: "$document_type",
       total_documents: { $sum: 1 },
       distinct_cases: { $addToSet: "$case_id" },
       avg_tags_count: { $avg: { $size: { $ifNull: ["$tags", []] } } }
@@ -44,89 +82,48 @@ const categoryDistribution = db.investigation_documents.aggregate([
 
 printjson(categoryDistribution.toArray());
 
-// 1.3 Polymorphic Query: Fetch forensic evidence linked specifically to PERSON #1
-print("--- 1.3 Documents Linked to Person #1 ---");
-const personDocuments = db.investigation_documents.find({
+// 2.3 Polymorphic Query: Documents referencing Officer OFF-001 or Device DEV-001
+print("\n--- 2.3 Polymorphic Reference Lookup: Officer OFF-001 or Device DEV-001 ---");
+const entityDocs = db.investigation_documents.find({
   $or: [
-    { entity_type: "PERSON", entity_id: 1 },
-    { tags: { $in: ["suspect", "vikram_singh"] } }
+    { "related_entity_ids.entity_id": "OFF-001" },
+    { "related_entity_ids.entity_id": "DEV-001" },
+    { case_id: "CASE-2026-001" }
   ]
-}, { title: 1, doc_type: 1, classification: 1, created_at: 1 });
+}, { title: 1, document_type: 1, case_id: 1, source_name: 1 }).limit(3);
 
-printjson(personDocuments.toArray());
+printjson(entityDocs.toArray());
 
 
 // ============================================================================
-// 2. UPDATE OPERATIONS (U)
+// 3. UPDATE OPERATIONS (U)
 // ============================================================================
 
-// 2.1 Update Document Metadata and Append Security Tags
-print("--- 2.1 Updating Document Tags and Classification ---");
+// 3.1 Update Document Metadata and Append Security Tags
+print("\n--- 3.1 Updating Document Security Classification and Corroboration ---");
 const updateResult = db.investigation_documents.updateOne(
-  { case_id: 1, doc_type: "WITNESS_STATEMENT" },
+  { title: "Cryptocurrency Hardware Ledger Forensic Analysis (Model T)" },
   {
     $set: {
-      classification: "TOP_SECRET",
+      document_status: "Verified",
       "metadata.corroborated": true,
-      updated_at: new Date()
+      "metadata.audit_officer": "OFF-001"
     },
     $addToSet: {
-      tags: "viva_verified_exhibit"
+      tags: "court-admissible"
     }
   }
 );
-printjson(updateResult);
-
-// 2.2 Bulk Increment of Review Count inside Dynamic Metadata
-db.investigation_documents.updateMany(
-  { case_id: 1 },
-  {
-    $inc: { "metadata.review_access_count": 1 },
-    $currentDate: { updated_at: true }
-  }
-);
+print("Matched: " + updateResult.matchedCount + " | Modified: " + updateResult.modifiedCount);
 
 
 // ============================================================================
-// 3. DELETE OPERATIONS (D)
+// 4. DELETE OPERATIONS (D)
 // ============================================================================
 
-// 3.1 Targeted Document Removal by Object ID or Case ID filter
-print("--- 3.1 Removing Archival Draft Document ---");
+// 4.1 Delete the demonstration exhibit document
+print("\n--- 4.1 Deleting Demonstration Document ---");
 const deleteResult = db.investigation_documents.deleteOne({
-  title: /TEST_DRAFT_DO_NOT_FILE/i
+  title: "Cryptocurrency Hardware Ledger Forensic Analysis (Model T)"
 });
-printjson(deleteResult);
-
-
-// ============================================================================
-// 4. VECTOR SEARCH AGGREGATION PIPELINE (ATLAS COMPLIANT)
-// ============================================================================
-
-/*
-  In MongoDB Atlas with an active Vector Search index:
-  
-  db.investigation_documents.aggregate([
-    {
-      $vectorSearch: {
-        index: "vector_index_intelligence",
-        path: "vector_embedding",
-        queryVector: [0.021, -0.043, 0.089, ...], // 384-dimensional dense vector
-        numCandidates: 50,
-        limit: 5,
-        filter: {
-          classification: { $in: ["CONFIDENTIAL", "SECRET"] }
-        }
-      }
-    },
-    {
-      $project: {
-        _id: 1,
-        title: 1,
-        doc_type: 1,
-        content_text: 1,
-        score: { $meta: "vectorSearchScore" }
-      }
-    }
-  ]);
-*/
+print("Deleted Count: " + deleteResult.deletedCount);

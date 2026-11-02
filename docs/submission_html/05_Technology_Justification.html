@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Technology Justification & Architecture Synthesis — UE24CS395 Deliverable</title>
+  <style>
+    
+      @page {
+        size: A4 portrait;
+        margin: 16mm 16mm 16mm 16mm;
+      }
+    
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: "Times New Roman", Times, "Liberation Serif", serif;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      color: #111827;
+      background: #ffffff;
+      text-align: justify;
+    }
+    
+    /* Cover / Header section */
+    .cover-header {
+      text-align: center;
+      border-bottom: 1.5pt solid #111827;
+      padding-bottom: 12pt;
+      margin-bottom: 16pt;
+    }
+    
+    .institution {
+      font-size: 9.5pt;
+      font-weight: bold;
+      letter-spacing: 0.5pt;
+      text-transform: uppercase;
+      color: #374151;
+      margin-bottom: 3pt;
+    }
+    
+    .course-title {
+      font-size: 10pt;
+      font-style: italic;
+      color: #4b5563;
+      margin-bottom: 8pt;
+    }
+    
+    .doc-title {
+      font-size: 17pt;
+      font-weight: bold;
+      color: #111827;
+      margin-bottom: 5pt;
+      line-height: 1.25;
+    }
+    
+    .rubric-tag {
+      display: inline-block;
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #1e3a8a;
+      background: #eff6ff;
+      border: 0.5pt solid #bfdbfe;
+      padding: 2.5pt 7pt;
+      border-radius: 2pt;
+      margin-bottom: 8pt;
+    }
+    
+    .authors-grid {
+      margin-top: 6pt;
+      font-size: 9.5pt;
+      color: #374151;
+    }
+    
+    /* Headings */
+    h1 {
+      font-size: 12.5pt;
+      font-weight: bold;
+      color: #111827;
+      border-bottom: 0.75pt solid #d1d5db;
+      padding-bottom: 2pt;
+      margin-top: 16pt;
+      margin-bottom: 6pt;
+      page-break-after: avoid;
+    }
+    
+    h2 {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1f2937;
+      margin-top: 12pt;
+      margin-bottom: 5pt;
+      page-break-after: avoid;
+    }
+    
+    h3 {
+      font-size: 10.5pt;
+      font-weight: bold;
+      font-style: italic;
+      color: #374151;
+      margin-top: 9pt;
+      margin-bottom: 3pt;
+      page-break-after: avoid;
+    }
+    
+    p {
+      margin-bottom: 7pt;
+      text-indent: 0;
+    }
+    
+    ul, ol {
+      margin-left: 18pt;
+      margin-bottom: 8pt;
+    }
+    
+    li {
+      margin-bottom: 3pt;
+    }
+    
+    /* Academic Booktabs Tables */
+    table.academic-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 9pt 0 12pt 0;
+      font-size: 8.5pt;
+      line-height: 1.35;
+      page-break-inside: avoid;
+    }
+    
+    table.academic-table th {
+      border-top: 1.5pt solid #111827;
+      border-bottom: 1pt solid #111827;
+      padding: 4.5pt 5pt;
+      font-weight: bold;
+      text-align: left;
+      background: #f9fafb;
+      color: #111827;
+    }
+    
+    table.academic-table td {
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 4pt 5pt;
+      vertical-align: top;
+      color: #1f2937;
+    }
+    
+    table.academic-table tr:last-child td {
+      border-bottom: 1.5pt solid #111827;
+    }
+    
+    /* Figures */
+    .figure-container {
+      text-align: center;
+      margin: 12pt 0;
+      page-break-inside: avoid;
+    }
+    
+    .figure-container img {
+      max-width: 98%;
+      height: auto;
+      border: 0.5pt solid #d1d5db;
+      border-radius: 2pt;
+      display: inline-block;
+    }
+    
+    .caption {
+      font-size: 9pt;
+      color: #374151;
+      margin-top: 4pt;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    .caption b {
+      font-style: normal;
+      color: #111827;
+    }
+    
+    /* Listings / Code Blocks */
+    .listing-box {
+      margin: 8pt 0 10pt 0;
+      border: 0.5pt solid #d1d5db;
+      background: #f9fafb;
+      border-radius: 2pt;
+      page-break-inside: avoid;
+    }
+    
+    .listing-header {
+      background: #f3f4f6;
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 3pt 7pt;
+      font-size: 8pt;
+      font-family: "Courier New", Courier, monospace;
+      color: #4b5563;
+      font-weight: bold;
+    }
+    
+    pre.code-block {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 8pt;
+      line-height: 1.35;
+      padding: 5pt 7pt;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #111827;
+    }
+    
+    /* Terminal output box */
+    pre.terminal-output {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 7.8pt;
+      line-height: 1.3;
+      padding: 5pt 7pt;
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 2pt;
+      margin: 7pt 0 10pt 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      page-break-inside: avoid;
+    }
+    
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cover-header">
+  <div class="institution">Department of Computer Science and Engineering • PES University, Bengaluru</div>
+  <div class="course-title">UE24CS395: Database Management Systems Mini Project • Academic Year 2025–2026</div>
+  <div class="doc-title">Technology Justification & Architecture Synthesis</div>
+  <div class="rubric-tag">Evaluation Matrix Row 5: Technology Justification • Weightage: 1 Mark</div>
+  <div class="authors-grid">
+    <b>Team Members:</b> Saatvik Gupta (<code>PES1UG24CS395</code>) & Satyam Goyal (<code>PES1UG24CS424</code>) &nbsp;|&nbsp; <b>Date:</b> November 2026
+  </div>
+</div>
+
+
+<h1>1. Problem Statement & Architecture Rationale</h1>
+<p>
+Modern criminal intelligence platforms handle two distinct categories of data: (1) highly structured, legally accountable operational data (such as chain-of-custody transfer records, case assignments, warrants, and suspect associations), and (2) polymorphic, semi-structured forensic data (including witness transcripts, CCTV telemetry, phone extraction dumps, and financial transaction streams).
+</p>
+<p>
+Attempting to store all data within a single database paradigm leads to clear architectural compromises. A relational-only approach produces sparse tables with excessive null fields, schema migration friction, and difficulty storing nested telemetry. Conversely, a document-only approach lacks native ACID transactional guarantees, foreign key cascade enforcement, and kernel-level role-based privileges required for evidentiary integrity in court proceedings. We resolved this challenge by implementing a <b>polyglot persistence architecture</b>:
+</p>
+
+<table class="academic-table">
+  <thead>
+    <tr>
+      <th style="width: 25%;">Tier / Technology</th>
+      <th style="width: 35%;">Core Responsibilities</th>
+      <th style="width: 40%;">Primary Justification & Selected Trade-Offs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Relational Tier</b><br/>PostgreSQL 16<br/><i>(SQLite Fallback)</i></td>
+      <td>22 normalized tables: officers, cases, people, evidence, chain-of-custody logs, M:N association bridges.</td>
+      <td><b>ACID Transactions & Foreign Key Enforcement:</b> Guarantees non-repudiation and prevents orphaned exhibits. Stored procedures and triggers automate audit logging. We include an automated SQLite fallback for offline viva evaluation.</td>
+    </tr>
+    <tr>
+      <td><b>Document & Vector Tier</b><br/>MongoDB 7.0</td>
+      <td>Polymorphic <code>investigation_documents</code>, CCTV logs, forensic phone dumps, 64-dim semantic embeddings.</td>
+      <td><b>Dynamic Schemas & Vector Retrieval:</b> Handles varying document payloads without DDL migrations. Built-in full-text indexing and dense vector arrays enable semantic query retrieval.</td>
+    </tr>
+    <tr>
+      <td><b>Application API Tier</b><br/>FastAPI (Python 3.13)</td>
+      <td>Asynchronous REST endpoints, JWT authentication, dual-tier RBAC, search federation.</td>
+      <td><b>High Throughput & Strict Typing:</b> Python's <code>asyncio</code> allows parallel dispatch across PostgreSQL and MongoDB. Pydantic v2 validates requests before execution.</td>
+    </tr>
+    <tr>
+      <td><b>User Interface Tier</b><br/>Next.js 15 + React 19</td>
+      <td>Case management views, interactive relationship graph, semantic search dashboard.</td>
+      <td><b>Modular Component Architecture:</b> Client-side routing and reactive UI state management styled with a Tailwind v4 graphite palette.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1>2. Architectural Trade-Off Analysis</h1>
+<p>
+Operating a polyglot persistence architecture introduces specific trade-offs that we addressed through explicit architectural decisions:
+</p>
+<ul>
+  <li><b>Eventual Consistency across Stores:</b> Relational tables store authoritative foreign keys, while MongoDB documents store cross-store reference strings (<code>case_id</code>). We do not perform distributed 2-phase commits across PostgreSQL and MongoDB; instead, the application-layer API validates entity existence before persisting documents, providing high write availability.</li>
+  <li><b>Unified Search Latency:</b> Rather than running sequential queries, FastAPI dispatches search requests to PostgreSQL and MongoDB in parallel using <code>asyncio.gather</code>, merging and ranking results before returning a single JSON response.</li>
+  <li><b>Database Engine Portability:</b> To prevent evaluator lock-in, our database layer uses SQLAlchemy 2.0 with automated dialect detection. If a live PostgreSQL server is unreachable, the system automatically falls back to a local SQLite database with identical tables and constraints.</li>
+</ul>
+
+
+</body>
+</html>

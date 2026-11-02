@@ -1,174 +1,242 @@
 -- ============================================================================
 -- INTELLIGENCE FUSION PLATFORM — DML OPERATIONS & TRANSACTION SCRIPTS
--- Target DBMS: PostgreSQL 14+ / 15+
+-- Target DBMS: PostgreSQL 14+ / 15+ & SQLite 3 (PRAGMA foreign_keys=ON)
 -- Authors: Saatvik Gupta (PES1UG24CS395) & Satyam Goyal (PES1UG24CS424)
--- Subject: Database Management Systems (DBMS Mini Project)
+-- Subject: Database Management Systems (DBMS Mini Project - UE24CS395)
+-- Schema Alignment: 22 Tables (10 Core Entities + 12 Associative Junctions)
 -- ============================================================================
 
 -- ============================================================================
--- 1. DATA INSERTION (CRUD: CREATE)
--- Demonstrating primary entity insertion and relational junction associations
+-- 1. DATA INSERTION (CREATE)
 -- ============================================================================
 
--- 1.1 Insert a New High-Priority Narcotics Case
+-- 1.1 Insert a New Investigation Case
 INSERT INTO cases (
-    case_number, title, description, category, status, priority, classification, lead_officer_id, incident_date
+    case_id, title, description, case_type, status, priority, lead_officer_id, incident_date
 ) VALUES (
-    'CAS-2026-NARC-099',
-    'Operation Deep Blue Sea: Arabian Sea Smuggling Route',
-    'Interception of encrypted satellite comms coordinating illicit maritime logistics via Kochi and Mangaluru ports.',
-    'NARCOTICS',
-    'OPEN',
-    'CRITICAL',
-    'TOP_SECRET',
-    1,
-    '2026-10-15 04:30:00+05:30'
+    'CASE-2026-901',
+    'Operation Cobalt Wire: Arabian Sea Telecom Intercept',
+    'Surveillance intercept regarding unlogged high-bandwidth data bursts routed through offshore transponders.',
+    'Electronic Surveillance',
+    'Open',
+    'Critical',
+    'OFF-001',
+    '2026-10-18 14:30:00+05:30'
 );
+-- EXPECTED OUTPUT:
+-- INSERT 0 1
 
 -- 1.2 Insert a Person of Interest
 INSERT INTO people (
-    first_name, last_name, alias, national_id, passport_number, date_of_birth, gender, nationality, phone, risk_level, notes
+    person_id, full_name, category, contact_phone, contact_email, address, notes
 ) VALUES (
-    'Farhan',
-    'Qureshi',
-    'The Skipper',
-    'IND-9912-3849',
-    'Z8829103',
-    '1985-06-14',
-    'MALE',
-    'Indian',
+    'PER-901',
+    'Farhan Qureshi',
+    'Subject',
     '+91-98450-99881',
-    'EXTREME',
-    'Identified as primary maritime logistics coordinator operating between Muscat and western Indian coastline.'
+    'farhan.q@secure-mail.ch',
+    'Dockside Warehouse 4B, Mangaluru Port',
+    'Identified as primary telecommunications technician handling satellite decoders.'
 );
+-- EXPECTED OUTPUT:
+-- INSERT 0 1
 
--- 1.3 Associate the Person with the Case (Junction Table Insert)
+-- 1.3 Link Person to Case via Many-to-Many Junction Table
 INSERT INTO case_people (
-    case_id, person_id, role, notes
+    case_id, person_id, role_in_case, notes
 ) VALUES (
-    (SELECT id FROM cases WHERE case_number = 'CAS-2026-NARC-099'),
-    (SELECT id FROM people WHERE national_id = 'IND-9912-3849'),
-    'SUSPECT',
-    'Primary vessel captain and radio communicator.'
+    'CASE-2026-901',
+    'PER-901',
+    'Chief Systems Operator',
+    'Flagged during port facility access log sweep.'
 );
+-- EXPECTED OUTPUT:
+-- INSERT 0 1
 
--- 1.4 Register Seized Physical Evidence
+-- 1.4 Register Seized Physical Exhibit
 INSERT INTO evidence (
-    case_id, tracking_number, description, evidence_type, collected_by_officer_id, storage_location, status, chain_of_custody_hash
+    evidence_id, case_id, title, description, evidence_type, storage_reference, collected_by_officer_id
 ) VALUES (
-    (SELECT id FROM cases WHERE case_number = 'CAS-2026-NARC-099'),
-    'EVD-2026-099-SAT',
-    'Iridium Extreme 9575 Satellite Phone with preprogrammed oceanic waypoints',
-    'DIGITAL_DEVICE',
-    1,
-    'Locker 4B, Cyber Forensics Division, Bengaluru',
-    'IN_CUSTODY',
-    'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+    'EVD-901',
+    'CASE-2026-901',
+    'Iridium Extreme 9575 Satellite Handset',
+    'Ruggedized satellite phone with dual-SIM configuration and custom firmware payload.',
+    'Digital Hardware',
+    'Secure Vault Locker B-14',
+    'OFF-001'
 );
+-- EXPECTED OUTPUT:
+-- INSERT 0 1
+
+-- 1.5 Initial Chain of Custody Event
+INSERT INTO evidence_custody (
+    evidence_id, officer_id, event_type, notes
+) VALUES (
+    'EVD-901',
+    'OFF-001',
+    'Seizure & Evidence Vault Check-in',
+    'Recovered from dockside shipping container 12 during joint enforcement action.'
+);
+-- EXPECTED OUTPUT:
+-- INSERT 0 1
+
 
 -- ============================================================================
--- 2. DATA RETRIEVAL (CRUD: READ)
--- Comprehensive multi-table relational JOINs with filtering
+-- 2. DATA QUERYING (READ)
 -- ============================================================================
 
--- 2.1 Retrieve complete 360-degree case summary with lead officer and suspect counts
+-- 2.1 Read Case Dossier with Lead Officer and Associated Suspects
 SELECT 
-    c.id AS case_id,
-    c.case_number,
-    c.title,
-    c.status,
+    c.case_id,
+    c.title AS case_title,
+    c.status AS case_status,
     c.priority,
-    CONCAT(o.first_name, ' ', o.last_name, ' (', o.rank, ')') AS lead_investigator,
-    COUNT(DISTINCT cp.person_id) AS total_suspects_linked,
-    COUNT(DISTINCT e.id) AS total_evidence_items,
-    c.opened_date
+    o.full_name AS lead_investigator,
+    o.badge_number,
+    p.person_id,
+    p.full_name AS suspect_name,
+    cp.role_in_case
 FROM cases c
-LEFT JOIN officers o ON c.lead_officer_id = o.id
-LEFT JOIN case_people cp ON c.id = cp.case_id
-LEFT JOIN evidence e ON c.id = e.case_id
-WHERE c.status IN ('OPEN', 'UNDER_INVESTIGATION')
-GROUP BY c.id, c.case_number, c.title, c.status, c.priority, o.first_name, o.last_name, o.rank, c.opened_date
-ORDER BY c.priority DESC, c.opened_date DESC;
+JOIN officers o ON c.lead_officer_id = o.officer_id
+JOIN case_people cp ON c.case_id = cp.case_id
+JOIN people p ON cp.person_id = p.person_id
+WHERE c.case_id = 'CASE-2026-901';
+
+-- EXPECTED OUTPUT:
+--    case_id    |                   case_title                    | case_status | priority |  lead_investigator  | badge_number | person_id |  suspect_name  |      role_in_case       
+-----------------+-------------------------------------------------+-------------+----------+---------------------+--------------+-----------+----------------+-------------------------
+-- CASE-2026-901 | Operation Cobalt Wire: Arabian Sea Telecom...   | Open        | Critical | Rajesh Sharma       | CID-001      | PER-901   | Farhan Qureshi | Chief Systems Operator
+
+-- 2.2 Verify Evidence Chain of Custody
+SELECT 
+    ec.custody_event_id,
+    ec.evidence_id,
+    e.title AS exhibit_title,
+    ec.event_type,
+    o.full_name AS custodian_officer,
+    ec.event_timestamp,
+    ec.notes
+FROM evidence_custody ec
+JOIN evidence e ON ec.evidence_id = e.evidence_id
+JOIN officers o ON ec.officer_id = o.officer_id
+WHERE ec.evidence_id = 'EVD-901'
+ORDER BY ec.event_timestamp ASC;
+
+-- EXPECTED OUTPUT:
+--  custody_event_id | evidence_id |             exhibit_title             |            event_type            | custodian_officer |       event_timestamp       |                 notes                  
+-- ------------------+-------------+---------------------------------------+----------------------------------+-------------------+-----------------------------+----------------------------------------
+--                 1 | EVD-901     | Iridium Extreme 9575 Satellite Handset | Seizure & Evidence Vault Check-in | Rajesh Sharma     | 2026-10-18 14:35:10.123+05  | Recovered from dockside shipping...
+
 
 -- ============================================================================
--- 3. DATA MODIFICATION (CRUD: UPDATE)
--- Demonstrating status updates and activity logging
+-- 3. DATA MODIFICATION (UPDATE)
 -- ============================================================================
 
--- 3.1 Elevate Case Priority and Status
+-- 3.1 Upgrade Case Priority and Modify Investigation Status
 UPDATE cases
 SET 
-    status = 'UNDER_INVESTIGATION',
-    priority = 'CRITICAL',
+    status = 'Under Investigation',
+    priority = 'Critical',
     updated_at = CURRENT_TIMESTAMP
-WHERE case_number = 'CAS-2026-NARC-099';
+WHERE case_id = 'CASE-2026-901';
+-- EXPECTED OUTPUT:
+-- UPDATE 1
 
--- 3.2 Update Person Risk Level Based on Recent Intelligence
-UPDATE people
+-- 3.2 Update Evidence Custodial Location
+UPDATE evidence
 SET 
-    risk_level = 'EXTREME',
-    notes = CONCAT(COALESCE(notes, ''), ' [UPDATED: Confirmed weapon possession during raid].'),
+    storage_reference = 'Cyber Forensics Lab Station 2',
     updated_at = CURRENT_TIMESTAMP
-WHERE national_id = 'IND-9912-3849';
+WHERE evidence_id = 'EVD-901';
+-- EXPECTED OUTPUT:
+-- UPDATE 1
+
+-- 3.3 Log Subsequent Custody Transfer
+INSERT INTO evidence_custody (
+    evidence_id, officer_id, event_type, notes
+) VALUES (
+    'EVD-901',
+    'OFF-002',
+    'Transferred to Forensic Specialist',
+    'Released to Lead Inspector Ananya Roy for JTAG chip-off memory acquisition.'
+);
+-- EXPECTED OUTPUT:
+-- INSERT 0 1
+
 
 -- ============================================================================
--- 4. DATA DELETION (CRUD: DELETE)
--- Demonstrating CASCADE cleanup and explicit reference integrity
+-- 4. DATA REMOVAL & CASCADE BEHAVIOR (DELETE)
 -- ============================================================================
 
--- 4.1 Delete a non-essential test entity (cascades to junction tables safely)
-DELETE FROM case_locations
-WHERE case_id = (SELECT id FROM cases WHERE case_number = 'CAS-2026-NARC-099')
-  AND location_id = 999; -- safe nonexistent guard
+-- 4.1 Delete Association from Bridge Table (Decouple suspect without deleting person)
+DELETE FROM case_people
+WHERE case_id = 'CASE-2026-901' AND person_id = 'PER-901';
+-- EXPECTED OUTPUT:
+-- DELETE 1
+
+-- Verify person entity remains intact in primary registry:
+SELECT person_id, full_name, category FROM people WHERE person_id = 'PER-901';
+-- EXPECTED OUTPUT:
+--  person_id |  full_name     | category 
+-- -----------+----------------+----------
+--  PER-901   | Farhan Qureshi | Subject
+
 
 -- ============================================================================
--- 5. TRANSACTION INTEGRITY, SAVEPOINTS & ROLLBACK DEMONSTRATION
--- Scenario: Transferring Evidence with Chain of Custody Verification
--- If custody hash validation or destination verification fails, entire transfer is rolled back.
+-- 5. ACID TRANSACTION WITH SAVEPOINT & CONDITIONAL ROLLBACK
 -- ============================================================================
 
 BEGIN;
 
--- Step 1: Set a Savepoint before attempting evidence custody reassignment
-SAVEPOINT pre_custody_transfer;
-
--- Step 2: Update evidence status to ANALYZING
-UPDATE evidence
-SET 
-    status = 'ANALYZING',
-    storage_location = 'Forensic Lab 3, Cyber Investigation Unit'
-WHERE tracking_number = 'EVD-2026-099-SAT';
-
--- Step 3: Insert Custody Audit Event
-INSERT INTO evidence_custody (
-    evidence_id,
-    transferred_from_officer_id,
-    transferred_to_officer_id,
-    reason,
-    source_location,
-    destination_location,
-    verification_hash
+-- Step A: Register new evidence item
+INSERT INTO evidence (
+    evidence_id, case_id, title, description, evidence_type, storage_reference, collected_by_officer_id
 ) VALUES (
-    (SELECT id FROM evidence WHERE tracking_number = 'EVD-2026-099-SAT'),
-    1,
-    2,
-    'Forensic chip-off extraction and satellite call log retrieval',
-    'Locker 4B, Cyber Forensics Division, Bengaluru',
-    'Forensic Lab 3, Cyber Investigation Unit',
-    'a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e'
+    'EVD-902',
+    'CASE-2026-901',
+    'Encrypted MicroSD Card (SanDisk 512GB)',
+    'Recovered from inside battery compartment of satellite phone.',
+    'Digital Storage',
+    'Vault Tray 9',
+    'OFF-001'
 );
 
--- Demonstration: Conditional rollback check (simulating failure scenario)
--- If the transfer reason or integrity check is deemed invalid, rollback to savepoint:
--- ROLLBACK TO SAVEPOINT pre_custody_transfer;
+-- Step B: Establish Savepoint before risky operation
+SAVEPOINT after_evidence_created;
 
--- If successful, commit transaction permanently:
+-- Step C: Attempt erroneous assignment to non-existent officer
+-- (Simulated failure: assigning to invalid officer identifier)
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM officers WHERE officer_id = 'OFF-INVALID') THEN
+        RAISE NOTICE 'Officer validation failed! Rolling back to savepoint...';
+    END IF;
+END
+$$;
+
+-- Rollback to safe intermediate state:
+ROLLBACK TO SAVEPOINT after_evidence_created;
+
+-- Step D: Correct assignment with verified officer
+INSERT INTO evidence_custody (
+    evidence_id, officer_id, event_type, notes
+) VALUES (
+    'EVD-902',
+    'OFF-001',
+    'Initial Vault Deposition',
+    'MicroSD card bagged in anti-static Faraday pouch after savepoint recovery.'
+);
+
+-- Step E: Commit transaction atomically
 COMMIT;
 
--- Verify successful transaction execution
-SELECT e.tracking_number, e.status, e.storage_location, ec.transfer_date, ec.destination_location
+-- Verify both records committed successfully:
+SELECT e.evidence_id, e.title, ec.event_type, ec.officer_id
 FROM evidence e
-JOIN evidence_custody ec ON e.id = ec.evidence_id
-WHERE e.tracking_number = 'EVD-2026-099-SAT'
-ORDER BY ec.transfer_date DESC
-LIMIT 1;
+JOIN evidence_custody ec ON e.evidence_id = ec.evidence_id
+WHERE e.evidence_id = 'EVD-902';
+
+-- EXPECTED OUTPUT:
+--  evidence_id |                 title                  |        event_type        | officer_id 
+-- -------------+----------------------------------------+--------------------------+------------
+--  EVD-902     | Encrypted MicroSD Card (SanDisk 512GB) | Initial Vault Deposition | OFF-001

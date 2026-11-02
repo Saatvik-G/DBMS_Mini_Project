@@ -7,6 +7,20 @@
 
 ---
 
+## Visual Diagram Deliverables (Academic Publication Suite)
+
+### 1. Conceptual ER Diagram (Chen Notation Overview)
+![Conceptual ER Model (Chen Notation)](diagrams/chen_overview.png)
+
+*Figure 1: Complete Chen Notation Conceptual Model displaying all 10 entities (8 strong, 2 weak), 12 M:N associative relationships, identifying relationships with total participation (double lines), and primary key/cardinality specifications.*
+
+### 2. Physical Relational Schema (Crow's-Foot Notation Overview)
+![Physical Relational Schema (Crow's-Foot Notation)](diagrams/crowsfoot_full_schema.png)
+
+*Figure 2: Complete Crow's-Foot Physical Schema covering all 22 tables with typed Primary Keys (PK), Foreign Keys (FK), nullability, and 1:N cardinality forks.*
+
+---
+
 ## 1. Complete System Entity-Relationship Diagram (Mermaid ER)
 
 ```mermaid

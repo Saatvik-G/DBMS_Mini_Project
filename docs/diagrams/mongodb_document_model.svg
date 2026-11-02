@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" width="1200" height="850">
+<style>
+  text { font-family: "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .title { font-size: 18px; font-weight: 700; fill: #0f172a; }
+  .subtitle { font-size: 12px; font-weight: 500; fill: #475569; }
+  .legend { font-size: 11px; fill: #334155; }
+  .mono { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; }
+</style>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b" />
+  </marker>
+  <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
+  </marker>
+  <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706" />
+  </marker>
+
+</defs>
+<rect width="100%" height="100%" fill="#ffffff" />
+<text x="600" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#0f172a">Intelligence Fusion Platform — MongoDB Document Architecture & Polyglot Links</text>
+<text x="600" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="normal" text-anchor="middle" fill="#475569">Collection: investigation_documents with Polymorphic Payloads and Cross-Database SQL References</text>
+<rect x="380" y="100" width="420" height="560" rx="4" ry="4" fill="#f8fafc" stroke="#0f172a" stroke-width="2" />
+<rect x="380" y="100" width="420" height="34" rx="4" ry="4" fill="#15803d" stroke="#15803d" stroke-width="1.5" />
+<text x="590.0" y="122" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#ffffff">COLLECTION: investigation_documents (BSON)</text>
+<text x="396" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">_id</text>
+<text x="555" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">ObjectId</text>
+<text x="784" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Primary key (auto-generated BSON identif</text>
+<line x1="390" y1="166" x2="790" y2="166" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="193" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="start" fill="#2563eb">case_id</text>
+<text x="555" y="193" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">String / null</text>
+<text x="784" y="193" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Foreign reference -> PostgreSQL cases.ca</text>
+<line x1="390" y1="199" x2="790" y2="199" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="226" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">document_type</text>
+<text x="555" y="226" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">String</text>
+<text x="784" y="226" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Discriminator: 'witness_statement', 'cct</text>
+<line x1="390" y1="232" x2="790" y2="232" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="259" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">title</text>
+<text x="555" y="259" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">String (3..250)</text>
+<text x="784" y="259" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Descriptive intelligence heading</text>
+<line x1="390" y1="265" x2="790" y2="265" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="292" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">content</text>
+<text x="555" y="292" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">String</text>
+<text x="784" y="292" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Full-text textual narrative, statement, </text>
+<line x1="390" y1="298" x2="790" y2="298" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="325" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">summary</text>
+<text x="555" y="325" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">String / null</text>
+<text x="784" y="325" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Executive summary of intelligence item</text>
+<line x1="390" y1="331" x2="790" y2="331" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="358" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">source_type</text>
+<text x="555" y="358" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">String / null</text>
+<text x="784" y="358" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">'Field Interview', 'OSINT', 'Technical I</text>
+<line x1="390" y1="364" x2="790" y2="364" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="391" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">source_name</text>
+<text x="555" y="391" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">String / null</text>
+<text x="784" y="391" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Reporting device, agent station, or inte</text>
+<line x1="390" y1="397" x2="790" y2="397" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="424" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="start" fill="#2563eb">related_entity_ids</text>
+<text x="555" y="424" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">Array<Object></text>
+<text x="784" y="424" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">[ { entity_type: 'person', entity_id: '.</text>
+<line x1="390" y1="430" x2="790" y2="430" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="457" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">tags</text>
+<text x="555" y="457" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">Array<String></text>
+<text x="784" y="457" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Keywords for inverted index text search</text>
+<line x1="390" y1="463" x2="790" y2="463" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="490" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">metadata</text>
+<text x="555" y="490" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">Object (Polymorphic)</text>
+<text x="784" y="490" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Dynamic schema payload keyed by document</text>
+<line x1="390" y1="496" x2="790" y2="496" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="523" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">document_status</text>
+<text x="555" y="523" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">String / null</text>
+<text x="784" y="523" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">'Verified', 'Pending', 'Classified'</text>
+<line x1="390" y1="529" x2="790" y2="529" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="556" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">embedding</text>
+<text x="555" y="556" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">Array<Double>[64]</text>
+<text x="784" y="556" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">64-dimensional dense semantic vector for</text>
+<line x1="390" y1="562" x2="790" y2="562" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="589" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">created_at</text>
+<text x="555" y="589" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">Date / ISODate</text>
+<text x="784" y="589" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Original recording timestamp</text>
+<line x1="390" y1="595" x2="790" y2="595" stroke="#e2e8f0" stroke-width="0.8" />
+<text x="396" y="622" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" text-anchor="start" fill="#1e293b">ingested_at</text>
+<text x="555" y="622" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#64748b">Date / ISODate</text>
+<text x="784" y="622" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="end" fill="#94a3b8">Platform database ingestion timestamp</text>
+<line x1="390" y1="628" x2="790" y2="628" stroke="#e2e8f0" stroke-width="0.8" />
+<rect x="40" y="140" width="260" height="480" rx="4" ry="4" fill="#ffffff" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="4,4" />
+<text x="170.0" y="166" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1e40af">POSTGRESQL RELATIONAL TARGETS</text>
+<text x="170.0" y="182" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="middle" fill="#64748b">(Polyglot Reference Endpoints)</text>
+<rect x="60" y="210" width="220" height="50" rx="3" ry="3" fill="#f8fafc" stroke="#93c5fd" stroke-width="1.2" />
+<text x="170.0" y="230" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1e3a8a">CASES</text>
+<text x="170.0" y="246" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#475569">PK: case_id</text>
+<rect x="60" y="290" width="220" height="50" rx="3" ry="3" fill="#f8fafc" stroke="#93c5fd" stroke-width="1.2" />
+<text x="170.0" y="310" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1e3a8a">PEOPLE</text>
+<text x="170.0" y="326" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#475569">PK: person_id</text>
+<rect x="60" y="370" width="220" height="50" rx="3" ry="3" fill="#f8fafc" stroke="#93c5fd" stroke-width="1.2" />
+<text x="170.0" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1e3a8a">VEHICLES</text>
+<text x="170.0" y="406" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#475569">PK: vehicle_id</text>
+<rect x="60" y="450" width="220" height="50" rx="3" ry="3" fill="#f8fafc" stroke="#93c5fd" stroke-width="1.2" />
+<text x="170.0" y="470" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1e3a8a">DEVICES</text>
+<text x="170.0" y="486" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#475569">PK: device_id</text>
+<rect x="60" y="530" width="220" height="50" rx="3" ry="3" fill="#f8fafc" stroke="#93c5fd" stroke-width="1.2" />
+<text x="170.0" y="550" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1e3a8a">LOCATIONS</text>
+<text x="170.0" y="566" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#475569">PK: location_id</text>
+<polyline points="390,190 290,235" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#arrow-blue)" />
+<polyline points="390,420 290,315" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-blue)" />
+<polyline points="390,420 290,395" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-blue)" />
+<polyline points="390,420 290,475" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-blue)" />
+<polyline points="390,420 290,555" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-blue)" />
+<rect x="880" y="100" width="280" height="560" rx="4" ry="4" fill="#ffffff" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4,4" />
+<text x="1020.0" y="126" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#b45309">POLYMORPHIC METADATA VARIANTS</text>
+<text x="1020.0" y="142" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="middle" fill="#64748b">(Dynamic Schemas per document_type)</text>
+<rect x="895" y="165" width="250" height="75" rx="3" ry="3" fill="#fffbeb" stroke="#fde68a" stroke-width="1.2" />
+<text x="905" y="183" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="start" fill="#92400e">Witness Statement</text>
+<text x="905" y="203" font-family="monospace" font-size="8.5" font-weight="normal" text-anchor="start" fill="#78350f">{ interviewer_badge, recording_device,</text>
+<text x="905" y="219" font-family="monospace" font-size="8.5" font-weight="normal" text-anchor="start" fill="#78350f"> sworn_oath: true, signature_hash }</text>
+<rect x="895" y="260" width="250" height="75" rx="3" ry="3" fill="#fffbeb" stroke="#fde68a" stroke-width="1.2" />
+<text x="905" y="278" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="start" fill="#92400e">CCTV Footage Telemetry</text>
+<text x="905" y="298" font-family="monospace" font-size="8.5" font-weight="normal" text-anchor="start" fill="#78350f">{ camera_id, fps: 30, resolution: '4K'</text>
+<text x="905" y="314" font-family="monospace" font-size="8.5" font-weight="normal" text-anchor="start" fill="#78350f">, frame_timestamps: [...], codec }</text>
+<rect x="895" y="355" width="250" height="75" rx="3" ry="3" fill="#fffbeb" stroke="#fde68a" stroke-width="1.2" />
+<text x="905" y="373" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="start" fill="#92400e">Phone Extraction Dump</text>
+<text x="905" y="393" font-family="monospace" font-size="8.5" font-weight="normal" text-anchor="start" fill="#78350f">{ extraction_tool: 'Cellebrite', os_ve</text>
+<text x="905" y="409" font-family="monospace" font-size="8.5" font-weight="normal" text-anchor="start" fill="#78350f">rsion, contacts_count, call_logs }</text>
+<rect x="895" y="450" width="250" height="75" rx="3" ry="3" fill="#fffbeb" stroke="#fde68a" stroke-width="1.2" />
+<text x="905" y="468" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="start" fill="#92400e">Forensic Chat Intercept</text>
+<text x="905" y="488" font-family="monospace" font-size="8.5" font-weight="normal" text-anchor="start" fill="#78350f">{ platform: 'Signal', thread_id, encry</text>
+<text x="905" y="504" font-family="monospace" font-size="8.5" font-weight="normal" text-anchor="start" fill="#78350f">ption_verified: true, participants }</text>
+<rect x="895" y="545" width="250" height="75" rx="3" ry="3" fill="#fffbeb" stroke="#fde68a" stroke-width="1.2" />
+<text x="905" y="563" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="start" fill="#92400e">Financial OSINT Audit</text>
+<text x="905" y="583" font-family="monospace" font-size="8.5" font-weight="normal" text-anchor="start" fill="#78350f">{ bank_entity, routing_code, total_tra</text>
+<text x="905" y="599" font-family="monospace" font-size="8.5" font-weight="normal" text-anchor="start" fill="#78350f">nsacted, anomaly_flag: true }</text>
+<polyline points="790,490 895,390" fill="none" stroke="#d97706" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#arrow-amber)" />
+<rect x="40" y="690" width="1120" height="120" rx="4" ry="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+<text x="60" y="714" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="start" fill="#0f172a">MONGODB INDEXING ARCHITECTURE & VECTOR RETRIEVAL:</text>
+<text x="60" y="736" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#334155">1. Compound Index: { case_id: 1, created_at: -1 } — Rapid filtering of case-specific dossier records.</text>
+<text x="60" y="756" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#334155">2. Multikey Index: { related_entity_ids.entity_id: 1 } — Instant entity lookup across person/vehicle/device IDs.</text>
+<text x="60" y="776" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="normal" text-anchor="start" fill="#334155">3. Full-Text Search Index: { title: 'text', content: 'text', tags: 'text' } — Weighted keyword matching across intelligence dumps.</text>
+<text x="60" y="796" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600" text-anchor="start" fill="#2563eb">4. Vector Search Engine: 64-dimensional dense semantic embeddings evaluated via cosine similarity dot product.</text>
+</svg>

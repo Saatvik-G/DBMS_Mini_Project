@@ -27,4 +27,7 @@ frontend/*.tsbuildinfo
 .DS_Store
 Thumbs.db
 .mongo_data/
+.chrome*
+.edge*
+docs/submission/inspection/
 

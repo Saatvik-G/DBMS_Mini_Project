@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Entity-Relationship Modeling & Conceptual Design — UE24CS395 Deliverable</title>
+  <style>
+    
+      @page {
+        size: A4 portrait;
+        margin: 20mm 18mm 20mm 18mm;
+      }
+    
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: "Times New Roman", Times, "Liberation Serif", serif;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      color: #111827;
+      background: #ffffff;
+      text-align: justify;
+    }
+    
+    /* Cover / Header section */
+    .cover-header {
+      text-align: center;
+      border-bottom: 1.5pt solid #111827;
+      padding-bottom: 12pt;
+      margin-bottom: 16pt;
+    }
+    
+    .institution {
+      font-size: 9.5pt;
+      font-weight: bold;
+      letter-spacing: 0.5pt;
+      text-transform: uppercase;
+      color: #374151;
+      margin-bottom: 3pt;
+    }
+    
+    .course-title {
+      font-size: 10pt;
+      font-style: italic;
+      color: #4b5563;
+      margin-bottom: 8pt;
+    }
+    
+    .doc-title {
+      font-size: 17pt;
+      font-weight: bold;
+      color: #111827;
+      margin-bottom: 5pt;
+      line-height: 1.25;
+    }
+    
+    .rubric-tag {
+      display: inline-block;
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #1e3a8a;
+      background: #eff6ff;
+      border: 0.5pt solid #bfdbfe;
+      padding: 2.5pt 7pt;
+      border-radius: 2pt;
+      margin-bottom: 8pt;
+    }
+    
+    .authors-grid {
+      margin-top: 6pt;
+      font-size: 9.5pt;
+      color: #374151;
+    }
+    
+    /* Headings */
+    h1 {
+      font-size: 12.5pt;
+      font-weight: bold;
+      color: #111827;
+      border-bottom: 0.75pt solid #d1d5db;
+      padding-bottom: 2pt;
+      margin-top: 16pt;
+      margin-bottom: 6pt;
+      page-break-after: avoid;
+    }
+    
+    h2 {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1f2937;
+      margin-top: 12pt;
+      margin-bottom: 5pt;
+      page-break-after: avoid;
+    }
+    
+    h3 {
+      font-size: 10.5pt;
+      font-weight: bold;
+      font-style: italic;
+      color: #374151;
+      margin-top: 9pt;
+      margin-bottom: 3pt;
+      page-break-after: avoid;
+    }
+    
+    p {
+      margin-bottom: 7pt;
+      text-indent: 0;
+    }
+    
+    ul, ol {
+      margin-left: 18pt;
+      margin-bottom: 8pt;
+    }
+    
+    li {
+      margin-bottom: 3pt;
+    }
+    
+    /* Academic Booktabs Tables */
+    table.academic-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 9pt 0 12pt 0;
+      font-size: 8.5pt;
+      line-height: 1.35;
+      page-break-inside: avoid;
+    }
+    
+    table.academic-table th {
+      border-top: 1.5pt solid #111827;
+      border-bottom: 1pt solid #111827;
+      padding: 4.5pt 5pt;
+      font-weight: bold;
+      text-align: left;
+      background: #f9fafb;
+      color: #111827;
+    }
+    
+    table.academic-table td {
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 4pt 5pt;
+      vertical-align: top;
+      color: #1f2937;
+    }
+    
+    table.academic-table tr:last-child td {
+      border-bottom: 1.5pt solid #111827;
+    }
+    
+    /* Figures */
+    .figure-container {
+      text-align: center;
+      margin: 12pt 0;
+      page-break-inside: avoid;
+    }
+    
+    .figure-container img {
+      max-width: 98%;
+      height: auto;
+      border: 0.5pt solid #d1d5db;
+      border-radius: 2pt;
+      display: inline-block;
+    }
+    
+    .caption {
+      font-size: 9pt;
+      color: #374151;
+      margin-top: 4pt;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    .caption b {
+      font-style: normal;
+      color: #111827;
+    }
+    
+    /* Listings / Code Blocks */
+    .listing-box {
+      margin: 8pt 0 10pt 0;
+      border: 0.5pt solid #d1d5db;
+      background: #f9fafb;
+      border-radius: 2pt;
+      page-break-inside: avoid;
+    }
+    
+    .listing-header {
+      background: #f3f4f6;
+      border-bottom: 0.5pt solid #e5e7eb;
+      padding: 3pt 7pt;
+      font-size: 8pt;
+      font-family: "Courier New", Courier, monospace;
+      color: #4b5563;
+      font-weight: bold;
+    }
+    
+    pre.code-block {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 8pt;
+      line-height: 1.35;
+      padding: 5pt 7pt;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #111827;
+    }
+    
+    /* Terminal output box */
+    pre.terminal-output {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 7.8pt;
+      line-height: 1.3;
+      padding: 5pt 7pt;
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 2pt;
+      margin: 7pt 0 10pt 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      page-break-inside: avoid;
+    }
+    
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cover-header">
+  <div class="institution">Department of Computer Science and Engineering • PES University, Bengaluru</div>
+  <div class="course-title">UE24CS395: Database Management Systems Mini Project • Academic Year 2025–2026</div>
+  <div class="doc-title">Entity-Relationship Modeling & Conceptual Design</div>
+  <div class="rubric-tag">Evaluation Matrix Row 1: ER Diagram • Weightage: 2 Marks</div>
+  <div class="authors-grid">
+    <b>Team Members:</b> Saatvik Gupta (<code>PES1UG24CS395</code>) & Satyam Goyal (<code>PES1UG24CS424</code>) &nbsp;|&nbsp; <b>Date:</b> November 2026
+  </div>
+</div>
+
+
+<h1>1. Executive Summary & Domain Scope</h1>
+<p>
+The Intelligence Fusion Platform is an operational case-management and intelligence integration system designed for multi-agency law enforcement coordination. The relational model models cases, assigned investigative personnel, implicated subjects, commercial organizations, motor vehicles, digital devices, geospatial coordinates, physical exhibits, and custody transfers.
+</p>
+<p>
+The schema consists of <b>22 normalized tables</b>: 10 primary entity/audit relations and 12 associative junction tables. To maintain strict visual clarity without clutter, we present our entity-relationship design in both <b>Chen notation</b> (conceptual modeling) and <b>Crow's-Foot notation</b> (physical implementation), organized as an overarching system overview and modular domain clusters.
+</p>
+
+<h1>2. Conceptual ER Modeling Notation & Semantics</h1>
+<p>
+In our Chen notation diagrams, we adhere to formal academic database design semantics:
+</p>
+<table class="academic-table">
+  <thead>
+    <tr>
+      <th style="width: 25%;">Notation Element</th>
+      <th style="width: 25%;">Visual Representation</th>
+      <th style="width: 50%;">Applied Semantics in Project Schema</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Strong Entity</b></td>
+      <td>Single Rectangle</td>
+      <td>Independent domain relations: <code>officers</code>, <code>cases</code>, <code>people</code>, <code>organizations</code>, <code>vehicles</code>, <code>devices</code>, <code>locations</code>, <code>evidence</code>.</td>
+    </tr>
+    <tr>
+      <td><b>Weak Entity</b></td>
+      <td>Double Rectangle</td>
+      <td>Existence-dependent audit logs: <code>evidence_custody</code> (depends on <code>evidence</code>) and <code>case_activity</code> (depends on <code>cases</code>).</td>
+    </tr>
+    <tr>
+      <td><b>Relationship</b></td>
+      <td>Single Diamond</td>
+      <td>Binary associations connecting participating entities with labeled cardinalities (1:1, 1:N, M:N).</td>
+    </tr>
+    <tr>
+      <td><b>Identifying Relationship</b></td>
+      <td>Double Diamond</td>
+      <td>Binds weak entities to owner parents with double connecting lines signifying total participation.</td>
+    </tr>
+    <tr>
+      <td><b>Attributes & Keys</b></td>
+      <td>Ellipses</td>
+      <td>Underlined text indicates Primary Keys; dashed underlining indicates partial discriminators.</td>
+    </tr>
+    <tr>
+      <td><b>Relationship Attributes</b></td>
+      <td>Ellipses on Diamonds</td>
+      <td>Attributes stored on M:N associative junction bridges (e.g. <code>role_in_case</code>, <code>association_type</code>, <code>added_at</code>).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1>3. Complete Conceptual ER Model (Chen Notation Overview)</h1>
+<p>
+Figure 1 illustrates the complete conceptual architecture across all 10 entities and their 17 primary relationships (including the 12 many-to-many junction bridges modeled as relationship diamonds).
+</p>
+<div class="figure-container">
+  <img src="../diagrams/chen_overview.png" alt="Chen Overview Diagram" />
+  <div class="caption"><b>Figure 1:</b> Complete Conceptual ER Diagram (Chen Notation Overview). Depicts all 10 entity relations, identifying custody/audit relationships, and 12 M:N associative links.</div>
+</div>
+
+<div class="page-break"></div>
+
+<h1>4. Chen Notation Domain Clusters</h1>
+<p>
+To ensure every attribute oval, key constraint, and relationship parameter is readable at 100% scale on A4 paper, we divide the conceptual model into four focused domain clusters:
+</p>
+
+<h2>4.1 Case Management & Automated Audit Cluster</h2>
+<p>
+Figure 2 models core case provisioning and immutable audit trail capture. Weak entity <code>case_activity</code> exhibits total participation in the identifying relationship <code>logs_activity</code> owned by <code>cases</code>.
+</p>
+<div class="figure-container">
+  <img src="../diagrams/chen_case_management.png" alt="Chen Case Management Cluster" />
+  <div class="caption"><b>Figure 2:</b> Case Management Cluster (Chen Notation). Demonstrating <code>CASES</code>, weak entity <code>CASE_ACTIVITY</code>, and lead investigator assignment from <code>OFFICERS</code>.</div>
+</div>
+
+<h2>4.2 People, Organizations & Physical Assets Cluster</h2>
+<p>
+Figure 3 captures implicated actors, criminal organizations, vehicles, mobile hardware, and physical incident coordinates. Associations between entities carry specific attributes (e.g., <code>role</code> in organization, <code>relationship_type</code> for vehicles and devices).
+</p>
+<div class="figure-container">
+  <img src="../diagrams/chen_entities_assets.png" alt="Chen Entities Assets Cluster" />
+  <div class="caption"><b>Figure 3:</b> People, Organizations & Physical Assets Cluster (Chen Notation). Models multi-party associations and asset ownership links.</div>
+</div>
+
+<div class="page-break"></div>
+
+<h2>4.3 Evidence & Chain of Custody Cluster</h2>
+<p>
+Figure 4 details physical and digital exhibits seized during investigations. Weak entity <code>evidence_custody</code> enforces an unbroken, tamper-evident transfer record via identifying relationship <code>custody_chain</code> with parent <code>evidence</code>.
+</p>
+<div class="figure-container">
+  <img src="../diagrams/chen_evidence_custody.png" alt="Chen Evidence Custody Cluster" />
+  <div class="caption"><b>Figure 4:</b> Evidence & Chain of Custody Cluster (Chen Notation). Captures physical exhibits, SHA-256 integrity verification hashes, and custody event transitions.</div>
+</div>
+
+<h2>4.4 Officers & Audit Accountability Cluster</h2>
+<p>
+Figure 5 illustrates accountability linkages where law enforcement officers act as case leads, evidence collecting agents, custody transfer recipients, and system activity performers.
+</p>
+<div class="figure-container">
+  <img src="../diagrams/chen_officers_audit.png" alt="Chen Officers Audit Cluster" />
+  <div class="caption"><b>Figure 5:</b> Officers & Accountability Cluster (Chen Notation). Illustrates role-based operational oversight.</div>
+</div>
+
+<div class="page-break"></div>
+
+<h1>5. Complete Physical Relational Schema (Crow's-Foot Notation)</h1>
+<p>
+Figure 6 presents the physical relational implementation of the database in Crow's-Foot notation, comprising all 22 tables. Primary keys (PK) and foreign keys (FK) are typed, and cardinalities represent exact database engine enforcement.
+</p>
+<div class="figure-container">
+  <img src="../diagrams/crowsfoot_full_schema.png" alt="Crows Foot Full Schema" />
+  <div class="caption"><b>Figure 6:</b> Complete Physical Relational Schema (Crow's-Foot Notation). Depicting all 22 tables, column data types, foreign key constraints, and 1:N cardinality forks.</div>
+</div>
+
+<h1>6. Key Database Design Choices</h1>
+<p>
+We implemented three critical architectural decisions during data modeling:
+</p>
+<ol>
+  <li><b>Explicit Associative Junction Tables (12 Bridges):</b> Rather than collapsing many-to-many relationships or storing comma-separated foreign keys in text fields (violating 1NF), we created 12 dedicated junction relations. Each carries its own composite primary key and audit metadata (<code>added_at</code>, <code>role_in_case</code>, <code>notes</code>).</li>
+  <li><b>Weak Entities for Immutable Audit Logs:</b> Both <code>case_activity</code> and <code>evidence_custody</code> cannot exist without a valid parent case or evidence item. Their life cycle is bound to the parent entity via foreign key constraints with <code>ON DELETE CASCADE</code> or <code>RESTRICT</code>.</li>
+  <li><b>Standardized Surrogate Key Scheme:</b> Primary keys utilize structured alphanumeric strings (e.g. <code>CASE-2026-001</code>, <code>PER-001</code>, <code>EVD-001</code>, <code>OFF-001</code>) backed by <code>VARCHAR(36)</code>. This supports human auditing, physical barcode labeling, and direct migration between PostgreSQL and SQLite.</li>
+</ol>
+
+
+</body>
+</html>

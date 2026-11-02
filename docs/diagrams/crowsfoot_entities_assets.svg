@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1150 780" width="1150" height="780">
+<style>
+  text { font-family: "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .title { font-size: 18px; font-weight: 700; fill: #0f172a; }
+  .subtitle { font-size: 12px; font-weight: 500; fill: #475569; }
+  .legend { font-size: 11px; fill: #334155; }
+  .mono { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; }
+</style>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b" />
+  </marker>
+  <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
+  </marker>
+  <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706" />
+  </marker>
+
+</defs>
+<rect width="100%" height="100%" fill="#ffffff" />
+<text x="575" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#0f172a">Crow's-Foot Detail: People, Organizations & Physical Assets</text>
+<text x="575" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="normal" text-anchor="middle" fill="#475569">Full relational schema for non-case entities and cross-entity association junction tables</text>
+<rect x="450" y="90" width="240" height="198" rx="2" ry="2" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+<rect x="450" y="90" width="240" height="24" rx="2" ry="2" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="570.0" y="106" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#ffffff">PEOPLE</text>
+<text x="458" y="129" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#b45309">PK</text>
+<text x="482" y="129" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#0f172a">person_id</text>
+<text x="682" y="129" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<line x1="450" y1="135" x2="690" y2="135" stroke="#cbd5e1" stroke-width="1" />
+<text x="482" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">full_name</text>
+<text x="682" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(100)</text>
+<text x="482" y="164" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">date_of_birth</text>
+<text x="682" y="164" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">DATE</text>
+<text x="482" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">national_id</text>
+<text x="682" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="482" y="196" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">category</text>
+<text x="682" y="196" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="482" y="212" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">contact_details</text>
+<text x="682" y="212" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(150)</text>
+<text x="482" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">address</text>
+<text x="682" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">TEXT</text>
+<text x="482" y="244" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">notes</text>
+<text x="682" y="244" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">TEXT</text>
+<text x="482" y="260" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">status</text>
+<text x="682" y="260" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(20)</text>
+<text x="482" y="276" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">created_at</text>
+<text x="682" y="276" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">TIMESTAMPTZ</text>
+<rect x="50" y="90" width="250" height="150" rx="2" ry="2" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+<rect x="50" y="90" width="250" height="24" rx="2" ry="2" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="175.0" y="106" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#ffffff">ORGANIZATIONS</text>
+<text x="58" y="129" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#b45309">PK</text>
+<text x="82" y="129" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#0f172a">organization_id</text>
+<text x="292" y="129" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<line x1="50" y1="135" x2="300" y2="135" stroke="#cbd5e1" stroke-width="1" />
+<text x="82" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">name</text>
+<text x="292" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(150)</text>
+<text x="82" y="164" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">organization_type</text>
+<text x="292" y="164" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="82" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">registration_number</text>
+<text x="292" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="82" y="196" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">address</text>
+<text x="292" y="196" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">TEXT</text>
+<text x="82" y="212" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">contact_details</text>
+<text x="292" y="212" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(150)</text>
+<text x="82" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">status</text>
+<text x="292" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(20)</text>
+<rect x="850" y="90" width="240" height="150" rx="2" ry="2" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+<rect x="850" y="90" width="240" height="24" rx="2" ry="2" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="970.0" y="106" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#ffffff">VEHICLES</text>
+<text x="858" y="129" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#b45309">PK</text>
+<text x="882" y="129" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#0f172a">vehicle_id</text>
+<text x="1082" y="129" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<line x1="850" y1="135" x2="1090" y2="135" stroke="#cbd5e1" stroke-width="1" />
+<text x="882" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">registration_number</text>
+<text x="1082" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(20)</text>
+<text x="882" y="164" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">make</text>
+<text x="1082" y="164" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="882" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">model</text>
+<text x="1082" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="882" y="196" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">color</text>
+<text x="1082" y="196" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(30)</text>
+<text x="882" y="212" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">vehicle_type</text>
+<text x="1082" y="212" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(30)</text>
+<text x="882" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">vin</text>
+<text x="1082" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<rect x="850" y="440" width="240" height="150" rx="2" ry="2" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+<rect x="850" y="440" width="240" height="24" rx="2" ry="2" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="970.0" y="456" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#ffffff">DEVICES</text>
+<text x="858" y="479" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#b45309">PK</text>
+<text x="882" y="479" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#0f172a">device_id</text>
+<text x="1082" y="479" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<line x1="850" y1="485" x2="1090" y2="485" stroke="#cbd5e1" stroke-width="1" />
+<text x="882" y="498" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">device_type</text>
+<text x="1082" y="498" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="882" y="514" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">manufacturer</text>
+<text x="1082" y="514" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="882" y="530" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">model</text>
+<text x="1082" y="530" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="882" y="546" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">serial_number</text>
+<text x="1082" y="546" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(100)</text>
+<text x="882" y="562" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">imei</text>
+<text x="1082" y="562" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="882" y="578" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">status</text>
+<text x="1082" y="578" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(20)</text>
+<rect x="50" y="440" width="250" height="150" rx="2" ry="2" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+<rect x="50" y="440" width="250" height="24" rx="2" ry="2" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="175.0" y="456" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#ffffff">LOCATIONS</text>
+<text x="58" y="479" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#b45309">PK</text>
+<text x="82" y="479" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#0f172a">location_id</text>
+<text x="292" y="479" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<line x1="50" y1="485" x2="300" y2="485" stroke="#cbd5e1" stroke-width="1" />
+<text x="82" y="498" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">name</text>
+<text x="292" y="498" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(100)</text>
+<text x="82" y="514" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">address</text>
+<text x="292" y="514" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">TEXT</text>
+<text x="82" y="530" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">location_type</text>
+<text x="292" y="530" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="82" y="546" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">latitude</text>
+<text x="292" y="546" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">NUMERIC(10,8)</text>
+<text x="82" y="562" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">longitude</text>
+<text x="292" y="562" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">NUMERIC(11,8)</text>
+<text x="82" y="578" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">status</text>
+<text x="292" y="578" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(20)</text>
+<rect x="450" y="390" width="240" height="138" rx="2" ry="2" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+<rect x="450" y="390" width="240" height="24" rx="2" ry="2" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="570.0" y="406" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#ffffff">PERSON_ORGANIZATIONS</text>
+<text x="458" y="429" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#b45309">PK</text>
+<text x="482" y="429" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#0f172a">person_id</text>
+<text x="682" y="429" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<text x="458" y="445" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#b45309">PK</text>
+<text x="482" y="445" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#0f172a">organization_id</text>
+<text x="682" y="445" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<line x1="450" y1="451" x2="690" y2="451" stroke="#cbd5e1" stroke-width="1" />
+<text x="458" y="464" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#2563eb">FK</text>
+<text x="482" y="464" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="500" text-anchor="start" fill="#0f172a">person_id</text>
+<text x="682" y="464" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<text x="458" y="480" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#2563eb">FK</text>
+<text x="482" y="480" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="500" text-anchor="start" fill="#0f172a">organization_id</text>
+<text x="682" y="480" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<line x1="450" y1="486" x2="690" y2="486" stroke="#cbd5e1" stroke-width="1" />
+<text x="482" y="499" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">role</text>
+<text x="682" y="499" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="482" y="515" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">added_at</text>
+<text x="682" y="515" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">TIMESTAMPTZ</text>
+<rect x="450" y="560" width="240" height="138" rx="2" ry="2" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+<rect x="450" y="560" width="240" height="24" rx="2" ry="2" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="570.0" y="576" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#ffffff">PERSON_VEHICLES</text>
+<text x="458" y="599" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#b45309">PK</text>
+<text x="482" y="599" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#0f172a">person_id</text>
+<text x="682" y="599" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<text x="458" y="615" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#b45309">PK</text>
+<text x="482" y="615" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="start" fill="#0f172a">vehicle_id</text>
+<text x="682" y="615" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<line x1="450" y1="621" x2="690" y2="621" stroke="#cbd5e1" stroke-width="1" />
+<text x="458" y="634" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#2563eb">FK</text>
+<text x="482" y="634" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="500" text-anchor="start" fill="#0f172a">person_id</text>
+<text x="682" y="634" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<text x="458" y="650" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="start" fill="#2563eb">FK</text>
+<text x="482" y="650" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="500" text-anchor="start" fill="#0f172a">vehicle_id</text>
+<text x="682" y="650" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#64748b">VARCHAR(36)</text>
+<line x1="450" y1="656" x2="690" y2="656" stroke="#cbd5e1" stroke-width="1" />
+<text x="482" y="669" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">relationship_type</text>
+<text x="682" y="669" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">VARCHAR(50)</text>
+<text x="482" y="685" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="normal" text-anchor="start" fill="#334155">added_at</text>
+<text x="682" y="685" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="end" fill="#94a3b8">TIMESTAMPTZ</text>
+<line x1="450" y1="189.0" x2="690" y2="459.0" stroke="#475569" stroke-width="1.3" />
+<line x1="450.2491364395612" y1="196.80627510625158" x2="457.7232296263978" y2="190.16263671795235" stroke="#475569" stroke-width="1.3" />
+<line x1="454.2353194725407" y1="201.29073101835354" x2="461.70941265937734" y2="194.64709263005432" stroke="#475569" stroke-width="1.3" />
+<line x1="690" y1="459.0" x2="686.5120898461429" y2="446.04490514281656" stroke="#475569" stroke-width="1.3" />
+<line x1="690" y1="459.0" x2="677.5431780219391" y2="454.0172712087756" stroke="#475569" stroke-width="1.3" />
+<line x1="684.4359528497995" y1="445.21445034427916" x2="676.9618596629629" y2="451.8580887325784" stroke="#475569" stroke-width="1.3" />
+<line x1="300" y1="165.0" x2="450" y2="459.0" stroke="#475569" stroke-width="1.3" />
+<line x1="298.2730127015861" y1="172.61692292668877" x2="307.18063139866837" y2="168.07221950981003" stroke="#475569" stroke-width="1.3" />
+<line x1="300.99983475171337" y1="177.96149414493817" x2="309.90745344879565" y2="173.41679072805942" stroke="#475569" stroke-width="1.3" />
+<line x1="450" y1="459.0" x2="449.89092711799486" y2="445.584035513374" stroke="#475569" stroke-width="1.3" />
+<line x1="450" y1="459.0" x2="439.2017846814961" y2="451.0376796136284" stroke="#475569" stroke-width="1.3" />
+<line x1="448.09122456491093" y1="444.25698211564537" x2="439.18360586782865" y2="448.8016855325241" stroke="#475569" stroke-width="1.3" />
+<line x1="570.0" y1="288" x2="570.0" y2="560" stroke="#475569" stroke-width="1.3" />
+<line x1="565.0" y1="294.0" x2="575.0" y2="294.0" stroke="#475569" stroke-width="1.3" />
+<line x1="565.0" y1="300.0" x2="575.0" y2="300.0" stroke="#475569" stroke-width="1.3" />
+<line x1="570.0" y1="560" x2="576.0" y2="548.0" stroke="#475569" stroke-width="1.3" />
+<line x1="570.0" y1="560" x2="564.0" y2="548.0" stroke="#475569" stroke-width="1.3" />
+<line x1="575.0" y1="546.0" x2="565.0" y2="546.0" stroke="#475569" stroke-width="1.3" />
+<line x1="850" y1="165.0" x2="690" y2="629.0" stroke="#475569" stroke-width="1.3" />
+<line x1="843.3171909919522" y1="169.0422844731606" x2="852.7709208082149" y2="172.30219130635467" stroke="#475569" stroke-width="1.3" />
+<line x1="841.3612468920358" y1="174.71452236291825" x2="850.8149767082984" y2="177.9744291961123" stroke="#475569" stroke-width="1.3" />
+<line x1="690" y1="629.0" x2="699.5841260895905" y2="619.6114683204012" stroke="#475569" stroke-width="1.3" />
+<line x1="690" y1="629.0" x2="688.2396503100753" y2="615.6995801205683" stroke="#475569" stroke-width="1.3" />
+<line x1="699.290734474603" y1="617.3947316738291" x2="689.8370046583403" y2="614.1348248406351" stroke="#475569" stroke-width="1.3" />
+<rect x="50" y="720" width="1050" height="36" rx="3" ry="3" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+<text x="575" y="742" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="normal" text-anchor="middle" fill="#334155">Figure B.3: People, Organizations & Physical Assets Cluster (Crow's-Foot Notation).</text>
+</svg>

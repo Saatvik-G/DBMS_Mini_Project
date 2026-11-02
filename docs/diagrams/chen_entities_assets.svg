@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1150 800" width="1150" height="800">
+<style>
+  text { font-family: "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .title { font-size: 18px; font-weight: 700; fill: #0f172a; }
+  .subtitle { font-size: 12px; font-weight: 500; fill: #475569; }
+  .legend { font-size: 11px; fill: #334155; }
+  .mono { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; }
+</style>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b" />
+  </marker>
+  <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
+  </marker>
+  <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706" />
+  </marker>
+
+</defs>
+<rect width="100%" height="100%" fill="#ffffff" />
+<text x="575" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#0f172a">Chen ER Detail: People, Organizations & Physical Assets Cluster</text>
+<text x="575" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="normal" text-anchor="middle" fill="#475569">Strong entities PEOPLE, ORGANIZATIONS, VEHICLES, DEVICES, LOCATIONS with association diamonds</text>
+<rect x="480" y="280" width="140" height="54" rx="3" ry="3" fill="#f8fafc" stroke="#0f172a" stroke-width="2" />
+<text x="550.0" y="312.0" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" text-anchor="middle" fill="#0f172a">PEOPLE</text>
+<line x1="550.0" y1="307.0" x2="340" y2="220" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="340" cy="220" rx="46" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="340" y="224" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#0f172a" text-decoration="underline">person_id</text>
+<line x1="550.0" y1="307.0" x2="430" y2="180" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="430" cy="180" rx="46" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="430" y="184" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#0f172a">full_name</text>
+<line x1="550.0" y1="307.0" x2="530" y2="170" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="530" cy="170" rx="46" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="530" y="174" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#0f172a">date_of_birth</text>
+<line x1="550.0" y1="307.0" x2="630" y2="180" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="630" cy="180" rx="46" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="630" y="184" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#0f172a">national_id</text>
+<line x1="550.0" y1="307.0" x2="680" y2="230" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="680" cy="230" rx="46" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="680" y="234" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#0f172a">category</text>
+<line x1="550.0" y1="307.0" x2="670" y2="360" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="670" cy="360" rx="46" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="670" y="364" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#0f172a">contact_details</text>
+<line x1="550.0" y1="307.0" x2="580" y2="390" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="580" cy="390" rx="46" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="580" y="394" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#0f172a">address</text>
+<line x1="550.0" y1="307.0" x2="460" y2="390" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="460" cy="390" rx="46" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="460" y="394" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#0f172a">status</text>
+<line x1="550.0" y1="307.0" x2="360" y2="360" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="360" cy="360" rx="46" ry="17" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="360" y="364" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#0f172a">notes</text>
+<rect x="120" y="120" width="160" height="52" rx="3" ry="3" fill="#f8fafc" stroke="#0f172a" stroke-width="2" />
+<text x="200.0" y="151.0" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#0f172a">ORGANIZATIONS</text>
+<line x1="200.0" y1="146.0" x2="70" y2="40" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="70" cy="40" rx="48" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="70" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="600" text-anchor="middle" fill="#0f172a" text-decoration="underline">organization_id</text>
+<line x1="200.0" y1="146.0" x2="170" y2="35" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="170" cy="35" rx="48" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="170" y="39" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">name</text>
+<line x1="200.0" y1="146.0" x2="280" y2="40" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="280" cy="40" rx="48" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="280" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">organization_type</text>
+<line x1="200.0" y1="146.0" x2="60" y2="220" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="60" cy="220" rx="48" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="60" y="224" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">registration_number</text>
+<line x1="200.0" y1="146.0" x2="150" y2="225" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="150" cy="225" rx="48" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="150" y="229" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">address</text>
+<line x1="200.0" y1="146.0" x2="250" y2="220" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="250" cy="220" rx="48" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="250" y="224" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">contact_details</text>
+<line x1="280" y1="146.0" x2="330" y2="190" stroke="#334155" stroke-width="1.5" />
+<line x1="330" y1="190" x2="480" y2="307.0" stroke="#334155" stroke-width="1.5" />
+<polygon points="330,168 375,190 330,212 285,190" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+<text x="330" y="194" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#0f172a">member_of</text>
+<line x1="330" y1="168" x2="330" y2="145" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="330" cy="135" rx="34" ry="15" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="330" y="138" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="normal" text-anchor="middle" fill="#0f172a">role</text>
+<text x="260" y="165" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">M</text>
+<text x="420" y="240" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">N</text>
+<rect x="860" y="120" width="140" height="52" rx="3" ry="3" fill="#f8fafc" stroke="#0f172a" stroke-width="2" />
+<text x="930.0" y="151.0" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#0f172a">VEHICLES</text>
+<line x1="930.0" y1="146.0" x2="840" y2="45" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="840" cy="45" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="840" y="49" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="600" text-anchor="middle" fill="#0f172a" text-decoration="underline">vehicle_id</text>
+<line x1="930.0" y1="146.0" x2="950" y2="40" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="950" cy="40" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="950" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">registration_number</text>
+<line x1="930.0" y1="146.0" x2="1060" y2="60" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="1060" cy="60" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="1060" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">make</text>
+<line x1="930.0" y1="146.0" x2="1070" y2="120" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="1070" cy="120" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="1070" y="124" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">model</text>
+<line x1="930.0" y1="146.0" x2="1070" y2="180" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="1070" cy="180" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="1070" y="184" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">color</text>
+<line x1="930.0" y1="146.0" x2="1030" y2="230" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="1030" cy="230" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="1030" y="234" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">vehicle_type</text>
+<line x1="620" y1="307.0" x2="740" y2="190" stroke="#334155" stroke-width="1.5" />
+<line x1="740" y1="190" x2="860" y2="146.0" stroke="#334155" stroke-width="1.5" />
+<polygon points="740,168 785,190 740,212 695,190" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+<text x="740" y="194" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#0f172a">operates</text>
+<line x1="740" y1="168" x2="740" y2="145" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="740" cy="135" rx="48" ry="15" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="740" y="138" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">rel_type</text>
+<text x="670" y="235" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">M</text>
+<text x="820" y="165" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">N</text>
+<rect x="860" y="500" width="140" height="52" rx="3" ry="3" fill="#f8fafc" stroke="#0f172a" stroke-width="2" />
+<text x="930.0" y="531.0" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#0f172a">DEVICES</text>
+<line x1="930.0" y1="526.0" x2="820" y2="600" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="820" cy="600" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="820" y="604" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="600" text-anchor="middle" fill="#0f172a" text-decoration="underline">device_id</text>
+<line x1="930.0" y1="526.0" x2="920" y2="620" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="920" cy="620" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="920" y="624" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">device_type</text>
+<line x1="930.0" y1="526.0" x2="1030" y2="610" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="1030" cy="610" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="1030" y="614" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">manufacturer</text>
+<line x1="930.0" y1="526.0" x2="1070" y2="550" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="1070" cy="550" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="1070" y="554" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">model</text>
+<line x1="930.0" y1="526.0" x2="1070" y2="480" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="1070" cy="480" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="1070" y="484" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">serial_number</text>
+<line x1="930.0" y1="526.0" x2="1020" y2="430" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="1020" cy="430" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="1020" y="434" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">imei</text>
+<line x1="620" y1="307.0" x2="740" y2="440" stroke="#334155" stroke-width="1.5" />
+<line x1="740" y1="440" x2="860" y2="526.0" stroke="#334155" stroke-width="1.5" />
+<polygon points="740,418 785,440 740,462 695,440" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+<text x="740" y="444" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#0f172a">uses_device</text>
+<text x="670" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">M</text>
+<text x="820" y="485" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#0f172a">N</text>
+<rect x="120" y="500" width="150" height="52" rx="3" ry="3" fill="#f8fafc" stroke="#0f172a" stroke-width="2" />
+<text x="195.0" y="531.0" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#0f172a">LOCATIONS</text>
+<line x1="195.0" y1="526.0" x2="80" y2="610" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="80" cy="610" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="80" y="614" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="600" text-anchor="middle" fill="#0f172a" text-decoration="underline">location_id</text>
+<line x1="195.0" y1="526.0" x2="180" y2="630" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="180" cy="630" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="180" y="634" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">name</text>
+<line x1="195.0" y1="526.0" x2="280" y2="620" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="280" cy="620" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="280" y="624" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">address</text>
+<line x1="195.0" y1="526.0" x2="50" y2="440" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="50" cy="440" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="50" y="444" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">latitude</text>
+<line x1="195.0" y1="526.0" x2="50" y2="500" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="50" cy="500" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="50" y="504" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">longitude</text>
+<line x1="195.0" y1="526.0" x2="70" y2="560" stroke="#64748b" stroke-width="1.2" />
+<ellipse cx="70" cy="560" rx="46" ry="16" fill="#ffffff" stroke="#334155" stroke-width="1.4" />
+<text x="70" y="564" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="normal" text-anchor="middle" fill="#0f172a">location_type</text>
+<rect x="50" y="740" width="1050" height="36" rx="3" ry="3" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" />
+<text x="575" y="762" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="normal" text-anchor="middle" fill="#334155">Figure A.2: People, Organizations & Physical Assets Cluster (Chen Notation). Association attributes shown on diamonds.</text>
+</svg>
